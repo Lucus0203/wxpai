@@ -63,6 +63,7 @@ $(document).ready(function(){
             <div class="listBox">
                 <input id="total" type="hidden" value="<?php echo $total ?>" autocomplete="off" />
                 <input id="current_num" type="hidden" value="<?php echo $current_num ?>" autocomplete="off" />
+                <?php if(count($courses)<=0){ ?><p class="titp">暂未报名课程</p><?php } ?>
                 <?php foreach ($courses as $c){?>
                     <div class="listCont">
 
