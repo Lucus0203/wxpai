@@ -47,8 +47,7 @@
                         <?php echo nl2br($course['outline']) ?>
                 </dd>
         </dl>
-    <?php if(empty($apply)&&$course['isapply_open']==1&&(strtotime($course['apply_start']) < time())&&(strtotime($course['apply_end']) > time())&&($course['apply_num']==0||$course['apply_count']<$course['apply_num'])){ ?>
-<a href="<?php echo site_url('course/apply/'.$course['id']) ?>" class="blueBtnH40" >我要报名</a>
-    <?php } ?>
-
 </div>
+<?php if(empty($apply)&&$course['isapply_open']==1&&(strtotime($course['apply_start']) < time())&&(strtotime($course['apply_end']) > time())&&($course['apply_num']==0||$course['apply_count']<$course['apply_num'])){ ?>
+    <div class="bottomFix"><a href="<?php echo site_url('course/apply/'.$course['id']) ?>" class="blueBtnH40" >我要报名</a></div>
+<?php } ?>

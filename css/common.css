@@ -753,7 +753,7 @@ textarea:after {
 
 .starsList a.starOn{ color: #00bbd3;}
 
-.white{
-	color:#fff;
-	font-weight: normal;
-}
+.white{ color:#fff;font-weight: normal;  }
+
+.bottomFix{ position: fixed; bottom: 0; width:  100%;}
+.bottomFix a{margin:0;}
