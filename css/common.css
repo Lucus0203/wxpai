@@ -756,4 +756,4 @@ textarea:after {
 .white{ color:#fff;font-weight: normal;  }
 
 .bottomFix{ position: fixed; bottom: 0; width:  100%;}
-.bottomFix a{margin:0;}
+.bottomFix a{margin:0;border-radius: 0px;}
