@@ -21,7 +21,8 @@
 			<!--head-->
 			<header class="clearfix" id="gHeader">
 				<div class="mLogo">
-					<a href=""><img alt="" src="<?php echo base_url();?>images/logo_login.png"></a>
+<!--					<a href=""><img alt="" src="--><?php //echo base_url();?><!--images/logo_login.png"></a>-->
+					<h1 class="white"><?php echo !empty($company_name)?$company_name:'培训派' ?></h1>
 				</div>
 			</header>
 			<div class="mConts">
@@ -35,7 +36,7 @@
                                     <input name="password" type="password" class="ipt" placeholder="登录密码" /></div>
 				<input type="submit" value="登录" class="blueBtnH40">
                             </form>
-                            <p class="f18 aCenter gray9 mb20">还不是培训派注册会员？</p>
+                            <p class="f18 aCenter gray9 mb20">还不是注册学员？</p>
                             <a href="<?php echo site_url('login/register1') ?>" class="borBlueBtnH40">立即注册</a>
 			</div>
 

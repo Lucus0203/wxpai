@@ -43,7 +43,7 @@
 </script>
 <!--head-->
 <header class="clearfix" id="gHeader">
-        <div class="header"><a href="<?php echo $homeUrl ?>"><i class="iright">◇</i></a>我的资料<a href="javascript:void(0);"><i class="ilevel">=</i></a></div>
+        <div class="header">我的资料<a href="javascript:void(0);"><i class="ilevel">=</i></a></div>
         <?php $this->load->view ( 'rightbar' ); ?>
 </header>
 <div class="mConts">

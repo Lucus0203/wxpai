@@ -144,7 +144,7 @@
                                 <input type="hidden" name="act" value="act" />
 				<div class="iptBox">
                                     <input name="company_code" value="<?php echo $user['company_code'] ?>" type="text" class="ipt" placeholder="公司编号" />
-					<p class="gray9  aLeft">公司编号，是您公司在培训派的注册编号，可以从您的培训经理处获得</p>
+					<p class="gray9  aLeft">公司编号，是您的公司编号，可以从您的培训经理处获得</p>
 				</div>
 				<div class="iptBox">
                                     <input id="mobile" name="mobile" value="<?php echo $user['mobile'] ?>" type="text" class="ipt" placeholder="手机号码" />

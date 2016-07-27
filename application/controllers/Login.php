@@ -14,44 +14,54 @@ class Login extends CI_Controller
     }
 
 
-    public function index()
+    public function index($code)
     {
-        $wxinfo = $this->session->userdata('wxinfo');
-        if ((strpos($_SERVER['HTTP_USER_AGENT'], 'MicroMessenger') !== false) && empty($wxinfo)) {
-            redirect('login/getwechatcode');
-        } else {
-            $userinfo = $this->student_model->get_row("unionid = '" . $wxinfo['unionid'] . "' and unionid<>'' and isdel=2 ");
-            if (!empty($userinfo)) {
-                $this->session->set_userdata('loginInfo', $userinfo);
-                redirect('course', 'index');//微信登录
-            }
-            $act = $this->input->post('act');
-            $error_msg = '';
-            if (!empty($act)) {
-                $mobile = $this->input->post('mobile');
-                $pass = $this->input->post('password');
-                $userinfo = $this->student_model->get_row(array('mobile' => $mobile,'isdel'=>2));
-                $userinfo = empty($userinfo['id']) ? $this->student_model->get_row(array('user_name' => $mobile,'isdel'=>2)) : $userinfo;
-                if (!empty($userinfo['id'])) {
-                    $pwd = $userinfo ['user_pass'];
-                    if ($pwd == md5($pass)) {
-                        if (empty($userinfo['unionid'])) {
-                            $user['openid'] = $wxinfo['openid'];
-                            $user['unionid'] = $wxinfo['unionid'];
-                            $user['headimgurl'] = $wxinfo['headimgurl'];
-                            $this->student_model->update($user, $userinfo['id']);
-                        }
-                        $this->session->set_userdata('loginInfo', $userinfo);
+        $wxinfo = array();
+//        $wxinfo = $this->session->userdata('wxinfo');
+//        if ((strpos($_SERVER['HTTP_USER_AGENT'], 'MicroMessenger') !== false) && empty($wxinfo)) {
+//            redirect('login/getwechatcode');
+//        } else {
+//            $userinfo = $this->student_model->get_row("unionid = '" . $wxinfo['unionid'] . "' and unionid<>'' and isdel=2 ");
+//            if (!empty($userinfo)) {
+//                $this->session->set_userdata('loginInfo', $userinfo);
+//                redirect('course', 'index');//微信登录
+//            }
+        $act = $this->input->post('act');
+        $error_msg = '';
+        if (!empty($act)) {
+            $mobile = $this->input->post('mobile');
+            $pass = $this->input->post('password');
+            $userinfo = $this->student_model->get_row(array('mobile' => $mobile, 'isdel' => 2));
+            $userinfo = empty($userinfo['id']) ? $this->student_model->get_row(array('user_name' => $mobile, 'isdel' => 2)) : $userinfo;
+            if (!empty($userinfo['id'])) {
+                $pwd = $userinfo ['user_pass'];
+                if ($pwd == md5($pass)) {
+                    if (empty($userinfo['unionid'])) {
+                        $user['openid'] = $wxinfo['openid'];
+                        $user['unionid'] = $wxinfo['unionid'];
+                        $user['headimgurl'] = $wxinfo['headimgurl'];
+                        $this->student_model->update($user, $userinfo['id']);
+                    }
+                    $this->session->set_userdata('loginInfo', $userinfo);
+                    $urictrol=$this->input->get('urictrol');
+                    $uriact=$this->input->get('uriact');
+                    $uriobjid=$this->input->get('uriobjid');
+                    if(!empty($uriobjid)){
+                        $url=site_url($urictrol.'/'.$uriact.'/'.$uriobjid);
+                        redirect($url);
+                    }else{
                         redirect('course', 'index');
-                    } else {
-                        $error_msg = "密码错误";
                     }
                 } else {
-                    $error_msg = "账号未注册";
+                    $error_msg = "密码错误";
                 }
+            } else {
+                $error_msg = "账号未注册";
             }
-            $this->load->view('login/login', array('error_msg' => $error_msg));
         }
+        $company = $this->company_model->get_row(array('code' => $code));
+        $this->load->view('login/login', array('error_msg' => $error_msg, 'company_name' => $company['name']));
+        //}
 
     }
 
@@ -67,14 +77,14 @@ class Login extends CI_Controller
                 'mobile_code' => $this->input->post('mobile_code'));
             $res['user'] = $user;
             $company = $this->company_model->get_row(array('code' => $user['company_code']));
-            $userinfo = $this->student_model->get_row(array('mobile' => $user['mobile'],'isdel'=>2));
+            $userinfo = $this->student_model->get_row(array('mobile' => $user['mobile'], 'isdel' => 2));
             if (empty($company)) {
                 $res['msg'] = '公司编码错误';
             } elseif ($userinfo['register_flag'] == 2) {
                 $res['msg'] = '手机号已注册';
             } elseif (!empty($userinfo) && $userinfo['mobile_code'] == $user['mobile_code']) {
                 $code = rand(1000, 9999);//换个验证码
-                $user['user_pass']=md5($user['user_pass']);
+                $user['user_pass'] = md5($user['user_pass']);
                 $this->student_model->update($user, $userinfo['id']);
                 $userinfo = $this->student_model->get_row(array('id' => $userinfo['id']));
                 $this->session->set_userdata('loginInfo', $userinfo);
@@ -129,7 +139,7 @@ class Login extends CI_Controller
     {
         $mobile = $this->input->post('mobile');
         $code = 8888;//rand(1000, 9999);
-        $userinfo = $this->student_model->get_row(array('mobile' => $mobile,'isdel'=>2));
+        $userinfo = $this->student_model->get_row(array('mobile' => $mobile, 'isdel' => 2));
         if ($userinfo['register_flag'] == 2) {
             echo '此手机号已注册';
             return false;
@@ -184,7 +194,7 @@ class Login extends CI_Controller
         $this->load->database();
         $this->db->query('update ' . $this->db->dbprefix('student') . ' set unionid = NULL where id=' . $logininfo['id']);
         $this->session->sess_destroy();
-        redirect(site_url("login/index"));
+        redirect(site_url("login/index/".$logininfo['company_code']));
     }
 
 }

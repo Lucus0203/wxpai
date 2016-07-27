@@ -17,7 +17,7 @@
                         <?php if((strtotime($course['time_start']) < time())&&(strtotime($course['time_end']) > time())){ ?>
                             <?php if($apply['status']==3){?><span class="orangeH25">待审核</span>
                             <?php }elseif($apply['status']==2){ ?><span class="redH25">报名被拒</span>
-                            <?php }else{ ?><span class="orangeH25">进行中</span><?php } ?>
+                            <?php }else{ ?><span class="greenH25">进行中</span><?php } ?>
                             
                         <?php }elseif(strtotime($course['time_end']) < time()){ ?><span class="grayH25">已结束</span>
                         <?php }elseif($course['isapply_open']==1&&(strtotime($course['apply_start']) < time())&&(strtotime($course['apply_end']) > time())){ ?>

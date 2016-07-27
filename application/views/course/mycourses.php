@@ -23,7 +23,7 @@ $(document).ready(function(){
                                     str+='<span class="greenH25">报名中</span>';
                                 }
                             }else if(item.status==3){
-                                str+='<span class="orangeH25">进行中</span>';
+                                str+='<span class="greenH25">进行中</span>';
                             }else if(item.status==4){
                                 str+='<span class="grayH25">已结束</span>';
                             }else{
@@ -79,7 +79,7 @@ $(document).ready(function(){
                     <?php }elseif($c['status']==3){ ?>
                         <?php if($c['apply_status']==3){ ?><span class="orangeH25">待审核</span>
                         <?php }elseif($c['apply_status']==2){ ?><span class="redH25">报名被拒</span>
-                        <?php }else{ ?><span class="orangeH25">进行中</span><?php } ?>
+                        <?php }else{ ?><span class="greenH25">进行中</span><?php } ?>
                     <?php }elseif($c['status']==4){ ?>
                         <span class="grayH25">已结束</span>
                     <?php }else{ ?>
