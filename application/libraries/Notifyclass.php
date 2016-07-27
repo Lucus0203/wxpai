@@ -36,7 +36,7 @@ class Notifyclass
         $student = $this->CI->student_model->get_row(array('id' => $studentid));
         $company = $this->CI->company_model->get_row(array('code' => $student['company_code']));
         //短信通知
-        if (!empty($student['mobile'])) {
+        if (!empty($student['mobile'])&&$course['notice_type_msg']==1) {
             $this->CI->load->library('chuanlansms');
             $msg = "
 你已成功报名参加《{$course['title']}》课程。该课程将于" . date('m月d日', strtotime($course['time_start'])) . "在" . $course['address'] . "举行，请提前安排好工作或出差行程。
@@ -48,7 +48,7 @@ class Notifyclass
         }
 
         //mail
-        if (!empty($student['email'])) {
+        if (!empty($student['email'])&&$course['notice_type_email']==1) {
 
             $tomail = $student['email'];
             $subject = "《{$course['title']}》报名成功";
@@ -68,7 +68,7 @@ class Notifyclass
 
         }
         //微信通知
-        if (!empty($student['openid'])) {
+        if (!empty($student['openid'])&&$course['notice_type_wx']==1) {
             $wxdata = array(
                 'first' => array(
                     'value' => '您好,' . $student['name'] . '
