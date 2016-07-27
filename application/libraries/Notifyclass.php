@@ -33,6 +33,9 @@ class Notifyclass
     public function applysuccess($courseid, $studentid)
     {
         $course = $this->CI->course_model->get_row(array('id' => $courseid));
+        if($course['isnotice_open']!=1){//自动通知关闭
+            return false;
+        }
         $student = $this->CI->student_model->get_row(array('id' => $studentid));
         $company = $this->CI->company_model->get_row(array('code' => $student['company_code']));
         //短信通知
