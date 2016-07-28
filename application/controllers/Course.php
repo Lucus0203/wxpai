@@ -226,7 +226,7 @@ class Course extends CI_Controller
         $course = $this->course_model->get_row(array('id' => $id));
         $teacher = $this->teacher_model->get_row(array('id' => $course['teacher_id']));
         $signindata = $this->signinlist_model->get_row(array('course_id' => $id, 'student_id' => $logininfo['id']));
-        $signPackage=$wechat->getSignPackage();
+        $signPackage=$this->wechat->getSignPackage();
         $this->load->view('header');
         $this->load->view('course/scan_qrcode', array('course' => $course, 'teacher' => $teacher, 'signindata' => $signindata,'signPackage'=>$signPackage));
         $this->load->view('footer');
