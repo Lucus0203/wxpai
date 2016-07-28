@@ -213,6 +213,8 @@ class Course extends CI_Controller
     }
     public function applyinfoscan($id)
     {
+        error_reporting(-1);
+        ini_set('display_errors', 1);
         $wechat=$this->load->library('wechat');
         $logininfo = $this->_logininfo;
         $data = array('course_id' => $id, 'student_id' => $logininfo['id']);
