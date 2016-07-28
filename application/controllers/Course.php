@@ -207,26 +207,15 @@ class Course extends CI_Controller
         $course = $this->course_model->get_row(array('id' => $id));
         $teacher = $this->teacher_model->get_row(array('id' => $course['teacher_id']));
         $signindata = $this->signinlist_model->get_row(array('course_id' => $id, 'student_id' => $logininfo['id']));
-        $this->load->view('header');
-        $this->load->view('course/applyinfo', array('course' => $course, 'teacher' => $teacher, 'signindata' => $signindata));
-        $this->load->view('footer');
-    }
-    public function applyinfoscan($id)
-    {
-        $wechat=$this->load->library('wechat');
-        $logininfo = $this->_logininfo;
-        $data = array('course_id' => $id, 'student_id' => $logininfo['id']);
-        $a = $this->db->get_where('course_apply_list', $data)->row_array();
-        if (empty($a) || $a['status'] == 2 || $a['status'] == 3) {
-            redirect(site_url('course/info/' . $id));
-            return;
+        //微信jssdk
+        if ( strpos($_SERVER['HTTP_USER_AGENT'], 'MicroMessenger') !== false ) {
+            $this->load->library('wechat');
+            $signPackage = $this->wechat->getSignPackage();
+        }else{
+            $signPackage = array();
         }
-        $course = $this->course_model->get_row(array('id' => $id));
-        $teacher = $this->teacher_model->get_row(array('id' => $course['teacher_id']));
-        $signindata = $this->signinlist_model->get_row(array('course_id' => $id, 'student_id' => $logininfo['id']));
-        $signPackage=$this->wechat->getSignPackage();
         $this->load->view('header');
-        $this->load->view('course/scan_qrcode', array('course' => $course, 'teacher' => $teacher, 'signindata' => $signindata,'signPackage'=>$signPackage));
+        $this->load->view('course/applyinfo', array('course' => $course, 'teacher' => $teacher, 'signindata' => $signindata,'signPackage'=>$signPackage));
         $this->load->view('footer');
     }
 
