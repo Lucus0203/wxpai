@@ -43,8 +43,13 @@ class Wechat
     function setJsticket()
     {
         $ticketurl = "https://api.weixin.qq.com/cgi-bin/ticket/getticket?type=jsapi&access_token=" . $this->_access_token;
-        echo $ticketurl;
         $data = $this->returnWeChatJsonData($ticketurl);
+        if($data->errcode > 0){
+            $this->setToken();
+            $ticketurl = "https://api.weixin.qq.com/cgi-bin/ticket/getticket?type=jsapi&access_token=" . $this->_access_token;
+            $data = $this->returnWeChatJsonData($ticketurl);
+        }
+
         $this->_jsapi_ticket = $data->ticket;
         file_put_contents($this->_jsapi_ticket_file, $data->ticket);
     }
