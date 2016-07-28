@@ -46,7 +46,7 @@
 
 </div>
 
-<?php if(!empty($siginInBtnflag)){ ?>
+<?php if(!empty($siginInBtnflag)&&strpos($_SERVER['HTTP_USER_AGENT'], 'MicroMessenger') !== false){ ?>
     <div class="bottomFix"><a href="javascript:void(0)" id="siginInBtn" class="blueBtnH40" >我要签到</a></div>
 <?php } ?>
 <script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
@@ -68,10 +68,5 @@
                 }
             });
         });
-    });
-    wx.error(function(res){
-        for(var i in res){
-            alert(i);
-        }
     });
 </script>
