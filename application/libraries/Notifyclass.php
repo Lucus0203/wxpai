@@ -107,7 +107,7 @@ class Notifyclass
                     'color' => "#173177"
                 )
             );
-            $res = $this->CI->wechat->templateSend($student['openid'], 'yFfIfh1EPvvpyeNplv5n6xBEyn5Em4r5ZYAHoLFnM9E', $this->CI->config->item('base_url') . 'course/info/' . $course['id'] . '.html', $wxdata);
+            $res = $this->CI->wechat->templateSend($student['openid'], 'yFfIfh1EPvvpyeNplv5n6xBEyn5Em4r5ZYAHoLFnM9E', $this->CI->config->item('base_url') . 'course/survey/' . $course['id'] . '.html', $wxdata);
         }
 
     }
