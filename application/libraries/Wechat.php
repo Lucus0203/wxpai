@@ -12,7 +12,7 @@ class Wechat
 
     function __construct()
     {
-        $this->_token_file = str_replace('html/pai', 'html/wxpai', dirname(__FILE__)) . '/access_token.wx';
+        $this->_token_file = str_replace('html/wxpai','html/pai', dirname(__FILE__)) . '/access_token.wx';
         $ctime = filectime($this->_token_file);
         $this->_access_token = file_get_contents($this->_token_file);
         if (empty($this->_access_token) || (time() - $ctime) >= 7200) {
