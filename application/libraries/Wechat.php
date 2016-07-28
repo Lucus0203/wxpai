@@ -46,8 +46,7 @@ class Wechat
         $data = $this->returnWeChatJsonData($ticketurl);
         if($data->errcode > 0){
             $this->setToken();
-            $ticketurl = "https://api.weixin.qq.com/cgi-bin/ticket/getticket?type=jsapi&access_token=" . $this->_access_token;
-            $data = $this->returnWeChatJsonData($ticketurl);
+            $this->setJsticket();
         }
 
         $this->_jsapi_ticket = $data->ticket;
