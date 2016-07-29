@@ -36,10 +36,12 @@ $(document).ready(function(){
                             }else if(item.apply_status==1){
                                 str+='<span class="greenH25">报名成功</span>';
                             }
-                                    
-                        str+='</p><p>课程讲师：<span class="blue">'+item.teacher+'</span> </p>'+
-                                    '<p><span class="mr30">开课时间：'+item.time_start+'</span> </p>'+
-                                    '<p>开课地点：'+item.address+'</p></div></div>';
+                        str+='</p>';
+                        if($.trim(item.teacher)!=''){
+                            str+='<p>课程讲师：<span class="blue">'+item.teacher+'</span> </p>';
+                        }
+                        str+='<p><span class="mr30">开课时间：'+item.time_start+'</span> </p>'+
+                            '<p>开课地点：'+item.address+'</p></div></div>';
                         ++count;
                     });
                     $('.listBox').append(str);
@@ -86,7 +88,9 @@ $(document).ready(function(){
                         <span class="orangeH25">报名未开启</span>
                     <?php } ?>
                                     </p>
+                                <?php if(!empty($c['teacher'])){ ?>
                                     <p>课程讲师：<span class="blue"><?php echo $c['teacher'] ?></span> </p>
+                                <?php } ?>
                                     <p><span class="mr30">开课时间：<?php echo date("Y-m-d H:i",  strtotime($c['time_start'])) ?></span> </p>
                                     <p>开课地点：<?php echo $c['address'] ?></p>
                             </div>
