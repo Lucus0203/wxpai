@@ -63,17 +63,17 @@ class Notifyclass
             $tomail = $student['email'];
             $subject = "《{$course['title']}》报名成功";
             $message = "亲爱的{$student['name']}：
-你已成功报名参加《{$course['title']}》，该课程将于" . date('Y年m月d日H时', strtotime($course['time_start'])) . "在" . $course['address'] . "举行，请提前安排好工作或出差行程，准时参加培训。
+            你已成功报名参加《{$course['title']}》，该课程将于" . date('Y年m月d日H时', strtotime($course['time_start'])) . "在" . $course['address'] . "举行，请提前安排好工作或出差行程，准时参加培训。
 上课前请先完成课前调研表（" . site_url('course/survey/' . $course['id']) . "）和课前作业并提交给我们。
 预祝学习愉快，收获满满！
 
-                                                                                                ".$company['name'];
+".$company['name'];
             if($company['code']=='100276'){
                 $message.="
-                                                                                                人力资源部";
+人力资源部";
             }
             $message.="
-                                                                                                ". date("Y年m月d日");
+". date("Y年m月d日");
             $this->CI->email->from('service@trainingpie.com', '培训派');
             $this->CI->email->to($tomail);//
             $this->CI->email->subject($subject);
