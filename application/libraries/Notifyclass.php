@@ -65,9 +65,9 @@ class Notifyclass
             $tomail = $student['email'];
             $subject = "《{$course['title']}》报名成功";
             $message = "亲爱的{$student['name']}：
-<p style=\"text-indent:20px\">你已成功报名参加《{$course['title']}》，该课程将于{$t}在{$course['address']}举行，请提前安排好工作或出差行程，准时参加培训。</p>
-<p style=\"text-indent:20px\">上课前请先完成课前调研表（{$link}）和课前作业并提交给我们。</p>
-<p style=\"text-indent:20px\">预祝学习愉快，收获满满！</p>
+<p style='text-indent:20px'>你已成功报名参加《{$course['title']}》，该课程将于{$t}在{$course['address']}举行，请提前安排好工作或出差行程，准时参加培训。</p>
+<p style='text-indent:20px'>上课前请先完成课前调研表（<a href='{$link}' target='_blank'>{$link}</a>）和课前作业并提交给我们。</p>
+<p style='text-indent:20px'>预祝学习愉快，收获满满！</p>
 
 <p>".$company['name'].'</p>';
             if($company['code']=='100276'){
