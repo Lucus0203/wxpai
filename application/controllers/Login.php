@@ -29,38 +29,43 @@ class Login extends CI_Controller
         $act = $this->input->post('act');
         $error_msg = '';
         if (!empty($act)) {
+            $post_company_code = $this->input->post('company_code');
             $mobile = $this->input->post('mobile');
             $pass = $this->input->post('password');
-            $userinfo = $this->student_model->get_row(array('mobile' => $mobile, 'isdel' => 2));
-            $userinfo = empty($userinfo['id']) ? $this->student_model->get_row(array('user_name' => $mobile, 'isdel' => 2)) : $userinfo;
-            if (!empty($userinfo['id'])) {
-                $pwd = $userinfo ['user_pass'];
-                if ($pwd == md5($pass)) {
-                    if (empty($userinfo['unionid'])) {
-                        $user['openid'] = $wxinfo['openid'];
-                        $user['unionid'] = $wxinfo['unionid'];
-                        $user['headimgurl'] = $wxinfo['headimgurl'];
-                        $this->student_model->update($user, $userinfo['id']);
-                    }
-                    $this->session->set_userdata('loginInfo', $userinfo);
-                    $urictrol=$this->input->get('urictrol');
-                    $uriact=$this->input->get('uriact');
-                    $uriobjid=$this->input->get('uriobjid');
-                    if(!empty($uriobjid)){
-                        $url=site_url($urictrol.'/'.$uriact.'/'.$uriobjid);
-                        redirect($url);
-                    }else{
-                        redirect('course', 'index');
+            if(empty($post_company_code)){
+                $error_msg = "请输入公司编号";
+            }else {
+                $userinfo = $this->student_model->get_row(array('mobile' => $mobile, 'company_code' => $post_company_code, 'isdel' => 2));
+                $userinfo = empty($userinfo['id']) ? $this->student_model->get_row(array('user_name' => $mobile, 'company_code' => $post_company_code, 'isdel' => 2)) : $userinfo;
+                if (!empty($userinfo['id'])) {
+                    $pwd = $userinfo ['user_pass'];
+                    if ($pwd == md5($pass)) {
+                        if (empty($userinfo['unionid'])) {
+                            $user['openid'] = $wxinfo['openid'];
+                            $user['unionid'] = $wxinfo['unionid'];
+                            $user['headimgurl'] = $wxinfo['headimgurl'];
+                            $this->student_model->update($user, $userinfo['id']);
+                        }
+                        $this->session->set_userdata('loginInfo', $userinfo);
+                        $urictrol = $this->input->get('urictrol');
+                        $uriact = $this->input->get('uriact');
+                        $uriobjid = $this->input->get('uriobjid');
+                        if (!empty($uriobjid)) {
+                            $url = site_url($urictrol . '/' . $uriact . '/' . $uriobjid);
+                            redirect($url);
+                        } else {
+                            redirect('course', 'index');
+                        }
+                    } else {
+                        $error_msg = "密码错误";
                     }
                 } else {
-                    $error_msg = "密码错误";
+                    $error_msg = "账号未注册";
                 }
-            } else {
-                $error_msg = "账号未注册";
             }
         }
         $company = $this->company_model->get_row(array('code' => $code));
-        $this->load->view('login/login', array('error_msg' => $error_msg, 'company_name' => $company['name']));
+        $this->load->view('login/login', compact('error_msg','company'));
         //}
 
     }

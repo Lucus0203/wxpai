@@ -21,8 +21,7 @@
 			<!--head-->
 			<header class="clearfix" id="gHeader">
 				<div class="mLogo">
-<!--					<a href=""><img alt="" src="--><?php //echo base_url();?><!--images/logo_login.png"></a>-->
-					<h1 class="white"><?php echo !empty($company_name)?$company_name:'培训派' ?></h1>
+					<h1 class="white"><?php echo !empty($company)?$company['name']:'<img src="'.base_url().'images/logo_login.png">' ?></h1>
 				</div>
 			</header>
 			<div class="mConts">
@@ -30,6 +29,8 @@
                                 <input type="hidden" name="act" value="act" />
 				<div class="titp">学员用户登录</div>
                                 <p class="red"><?php echo $error_msg ?></p>
+				<div class="iptBox" <?php if(!empty($company)){ ?>style="display: none;" <?php } ?>>
+									<input name="company_code" type="text" class="ipt" placeholder="公司编号" value="<?php echo $company['code'] ?>" /></div>
 				<div class="iptBox">
                                     <input name="mobile" type="mobile" class="ipt" placeholder="手机号码" /></div>
 				<div class="iptBox">
