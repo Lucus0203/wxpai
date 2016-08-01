@@ -34,6 +34,10 @@ class Login extends CI_Controller
             $pass = $this->input->post('password');
             if(empty($post_company_code)){
                 $error_msg = "请输入公司编号";
+            }elseif(empty($mobile)){
+                $error_msg = "请输入手机号";
+            }elseif(empty($pass)){
+                $error_msg = "请输入密码";
             }else {
                 $userinfo = $this->student_model->get_row(array('mobile' => $mobile, 'company_code' => $post_company_code, 'isdel' => 2));
                 $userinfo = empty($userinfo['id']) ? $this->student_model->get_row(array('user_name' => $mobile, 'company_code' => $post_company_code, 'isdel' => 2)) : $userinfo;
@@ -45,6 +49,9 @@ class Login extends CI_Controller
                             $user['unionid'] = $wxinfo['unionid'];
                             $user['headimgurl'] = $wxinfo['headimgurl'];
                             $this->student_model->update($user, $userinfo['id']);
+                        }
+                        if($userinfo['register_flag']==1){
+                            $this->student_model->update(array('register_flag'=>2,'status'=>2), $userinfo['id']);
                         }
                         $this->session->set_userdata('loginInfo', $userinfo);
                         $urictrol = $this->input->get('urictrol');
@@ -71,17 +78,18 @@ class Login extends CI_Controller
     }
 
     //注册1
-    public function register1()
+    public function register1($company_code)
     {
         $res = array();
         $act = $this->input->post('act');
+        $res['company']=$this->company_model->get_row(array('code' => $company_code));
         if (!empty($act)) {
             $user = array('mobile' => $this->input->post('mobile'),
                 'user_pass' => $this->input->post('user_pass'),
                 'company_code' => $this->input->post('company_code'),
                 'mobile_code' => $this->input->post('mobile_code'));
             $res['user'] = $user;
-            $company = $this->company_model->get_row(array('code' => $user['company_code']));
+            $res['company']=$company = $this->company_model->get_row(array('code' => $user['company_code']));
             $userinfo = $this->student_model->get_row(array('mobile' => $user['mobile'], 'isdel' => 2));
             if (empty($company)) {
                 $res['msg'] = '公司编码错误';
@@ -90,6 +98,7 @@ class Login extends CI_Controller
             } elseif (!empty($userinfo) && $userinfo['mobile_code'] == $user['mobile_code']) {
                 $code = rand(1000, 9999);//换个验证码
                 $user['user_pass'] = md5($user['user_pass']);
+                $user['register_flag']=2;
                 $this->student_model->update($user, $userinfo['id']);
                 $userinfo = $this->student_model->get_row(array('id' => $userinfo['id']));
                 $this->session->set_userdata('loginInfo', $userinfo);
@@ -118,7 +127,8 @@ class Login extends CI_Controller
                 'job_name' => $this->input->post('job_name'),
                 'department_id' => $this->input->post('department_id'),
                 'email' => $this->input->post('email'),
-                'register_flag' => 2);
+                'register_flag' => 2,
+                'status' => 2);
             //完善微信信息
             $wxinfo = $this->session->userdata('wxinfo');
             $user['openid'] = $wxinfo['openid'];

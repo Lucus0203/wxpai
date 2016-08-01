@@ -136,14 +136,14 @@
 		<article id="container">
 			<!--head-->
 			<header class="clearfix" id="gHeader">
-				<div class="header"><a href="<?php echo site_url('login/index') ?>"><i class="iright">◇</i></a>学员注册</div>
+				<div class="header"><a href="<?php echo site_url('login/index/'.$company['code']) ?>"><i class="iright">◇</i></a>学员注册</div>
 			</header>
 			<div class="mConts">
                             <p class="red"><?php echo $msg ?></p>
                             <form id="signupForm" action="" method="post" >
                                 <input type="hidden" name="act" value="act" />
 				<div class="iptBox">
-                                    <input name="company_code" value="<?php echo $user['company_code'] ?>" type="text" class="ipt" placeholder="公司编号" />
+                                    <input name="company_code" value="<?php echo $company['code'] ?>" type="text" class="ipt" placeholder="公司编号" />
 					<p class="gray9  aLeft">公司编号，是您的公司编号，可以从您的培训经理处获得</p>
 				</div>
 				<div class="iptBox">

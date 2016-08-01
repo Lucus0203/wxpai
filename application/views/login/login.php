@@ -38,7 +38,7 @@
 				<input type="submit" value="登录" class="blueBtnH40">
                             </form>
                             <p class="f18 aCenter gray9 mb20">还不是注册学员？</p>
-                            <a href="<?php echo site_url('login/register1') ?>" class="borBlueBtnH40">立即注册</a>
+                            <a href="<?php echo site_url('login/register1/'.$company['code']) ?>" class="borBlueBtnH40">立即注册</a>
 			</div>
 
 		</article>
