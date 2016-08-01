@@ -98,7 +98,6 @@ class Login extends CI_Controller
             } elseif (!empty($userinfo) && $userinfo['mobile_code'] == $user['mobile_code']) {
                 $code = rand(1000, 9999);//换个验证码
                 $user['user_pass'] = md5($user['user_pass']);
-                $user['register_flag']=2;
                 $this->student_model->update($user, $userinfo['id']);
                 $userinfo = $this->student_model->get_row(array('id' => $userinfo['id']));
                 $this->session->set_userdata('loginInfo', $userinfo);
