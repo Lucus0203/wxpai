@@ -50,8 +50,10 @@ class Login extends CI_Controller
                             $user['headimgurl'] = $wxinfo['headimgurl'];
                             $this->student_model->update($user, $userinfo['id']);
                         }
-                        if($userinfo['register_flag']==1){
-                            $this->student_model->update(array('register_flag'=>2,'status'=>2), $userinfo['id']);
+                        if($userinfo['register_flag']==1){//激活
+                            $user['register_flag'] = '2';
+                            $user['status'] = '2';
+                            $this->student_model->update($user, $userinfo['id']);
                         }
                         $this->session->set_userdata('loginInfo', $userinfo);
                         $urictrol = $this->input->get('urictrol');
