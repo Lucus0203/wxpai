@@ -167,6 +167,7 @@ class Login extends CI_Controller
         }
         $this->load->library('chuanlansms');
         $this->chuanlansms->sendSMS($mobile, '您的验证码是:'.$code.',5分钟有效,请勿将验证码泄露给他人');
+        echo 1;
     }
 
     public function setwxinfo()
