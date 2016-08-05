@@ -143,7 +143,7 @@ class Login extends CI_Controller
     public function getcode()
     {
         $mobile = $this->input->post('mobile');
-        $code = 8888;//rand(1000, 9999);
+        $code = rand(1000, 9999);
         $userinfo = $this->student_model->get_row(array('mobile' => $mobile, 'isdel' => 2));
         if ($userinfo['register_flag'] == 2) {
             echo '此手机号已注册';
@@ -154,8 +154,8 @@ class Login extends CI_Controller
         } else {
             $this->student_model->create(array('mobile' => $mobile, 'mobile_code' => $code, 'created' => date("Y-m-d H:i:s")));
         }
-        echo '1';
-        //$this->sms->sendMsg('验证码:'.$code,$mobile);
+        $this->load->library('chuanlansms');
+        $this->chuanlansms->sendSMS($mobile, '您的验证码是:'.$code.',5分钟有效,请勿将验证码泄露给他人');
     }
 
     public function setwxinfo()
