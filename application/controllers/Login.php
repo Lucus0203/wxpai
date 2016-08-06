@@ -34,6 +34,10 @@ class Login extends CI_Controller
             $pass = $this->input->post('password');
             if(empty($post_company_code)){
                 $error_msg = "请输入公司编号";
+            }elseif(empty($mobile)){
+                $error_msg = "请输入手机号";
+            }elseif(empty($pass)){
+                $error_msg = "请输入密码";
             }else {
                 $userinfo = $this->student_model->get_row(array('mobile' => $mobile, 'company_code' => $post_company_code, 'isdel' => 2));
                 $userinfo = empty($userinfo['id']) ? $this->student_model->get_row(array('user_name' => $mobile, 'company_code' => $post_company_code, 'isdel' => 2)) : $userinfo;
@@ -44,6 +48,11 @@ class Login extends CI_Controller
                             $user['openid'] = $wxinfo['openid'];
                             $user['unionid'] = $wxinfo['unionid'];
                             $user['headimgurl'] = $wxinfo['headimgurl'];
+                            $this->student_model->update($user, $userinfo['id']);
+                        }
+                        if($userinfo['status']==1){//激活
+                            $user['register_flag'] = '2';
+                            $user['status'] = '2';
                             $this->student_model->update($user, $userinfo['id']);
                         }
                         $this->session->set_userdata('loginInfo', $userinfo);
@@ -71,17 +80,18 @@ class Login extends CI_Controller
     }
 
     //注册1
-    public function register1()
+    public function register1($company_code)
     {
         $res = array();
         $act = $this->input->post('act');
+        $res['company']=$this->company_model->get_row(array('code' => $company_code));
         if (!empty($act)) {
             $user = array('mobile' => $this->input->post('mobile'),
                 'user_pass' => $this->input->post('user_pass'),
                 'company_code' => $this->input->post('company_code'),
                 'mobile_code' => $this->input->post('mobile_code'));
             $res['user'] = $user;
-            $company = $this->company_model->get_row(array('code' => $user['company_code']));
+            $res['company']=$company = $this->company_model->get_row(array('code' => $user['company_code']));
             $userinfo = $this->student_model->get_row(array('mobile' => $user['mobile'], 'isdel' => 2));
             if (empty($company)) {
                 $res['msg'] = '公司编码错误';
@@ -118,7 +128,8 @@ class Login extends CI_Controller
                 'job_name' => $this->input->post('job_name'),
                 'department_id' => $this->input->post('department_id'),
                 'email' => $this->input->post('email'),
-                'register_flag' => 2);
+                'register_flag' => 2,
+                'status' => 2);
             //完善微信信息
             $wxinfo = $this->session->userdata('wxinfo');
             $user['openid'] = $wxinfo['openid'];
@@ -154,8 +165,9 @@ class Login extends CI_Controller
         } else {
             $this->student_model->create(array('mobile' => $mobile, 'mobile_code' => $code, 'created' => date("Y-m-d H:i:s")));
         }
-        $this->load->library('chuanlansms');
-        $this->chuanlansms->sendSMS($mobile, '您的验证码是:'.$code.',5分钟有效,请勿将验证码泄露给他人');
+        $this->load->library('zhidingsms');
+        $this->zhidingsms->sendSMS($mobile, '您本次的验证码是:'.$code);
+        echo 1;
     }
 
     public function setwxinfo()
