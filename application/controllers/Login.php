@@ -165,6 +165,7 @@ class Login extends CI_Controller
         } else {
             $this->student_model->create(array('mobile' => $mobile, 'mobile_code' => $code, 'created' => date("Y-m-d H:i:s")));
         }
+        
         $this->load->library('zhidingsms');
         $this->zhidingsms->sendTPSMS($mobile,'@1@='.$code,'ZD30018-0001');
         echo 1;
