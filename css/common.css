@@ -161,6 +161,10 @@ textarea:after {
 	padding: 15px !important;
 }
 
+.f50{ font-size: 50px !important;}
+.f24{ font-size: 24px !important;}
+
+
 .p20 {
 	padding: 20px !important;
 }
@@ -395,10 +399,10 @@ textarea:after {
 	color: #fff;
 	font: 500 30px/30px consolas;
 	left: 10px;
-	height: 40px;
+	height: 30px;
 	width: 12px;
 	overflow: hidden;
-	top: 4px;
+	top: 15px;
 	position: absolute;
 	display: inline-block;
 }
@@ -740,6 +744,9 @@ textarea:after {
 	padding: 8px 0 8px 30%;
 }
 
+.gray3{ color: #333 !important;}
+.iconV{ letter-spacing: 10px; font-family: "agency fb";}
+
 .fankui { text-align: left;}
 
 .fankui dt{ background-color:  #f4f4f4; color: #7d7d7d; font-size: 15px; line-height: 1.7; padding: 10px 20px;}
@@ -756,4 +763,28 @@ textarea:after {
 .white{ color:#fff;font-weight: normal;  }
 
 .bottomFix{ position: fixed; bottom: 0; width:  100%;}
-.bottomFix a{margin:0;border-radius: 0px;}
+.bottomFix a{margin:0;}
+
+.starBox{ margin-bottom:  40px;}
+.starBox .star { margin-bottom: -2px; margin-left: 5px;}
+.starBox li{ display: inline-block; margin-right: 5px;}
+.starBox li a{ background: url(../images/gray_start.png) no-repeat left top; text-align:  center; width: 32px; line-height: 1.2; height: 44px; padding-top: 5px; font-size: 16px; color: #fff; display: inline-block;}
+
+.starBox li.cur a{ background: url(../images/yellow_start.png) no-repeat left top;}
+.starBox .starTxt{ font-size:  16px; color: #3e3e3e; border:  1px solid #f0f0f0; padding: 10px;border-radius: 5px; background-color: #f8f8f8;}
+.pinggu{ padding: 20px; color:#666;}
+
+.pinggu p{ font-size:  18px; margin-bottom: 10px; text-align: left;}
+.pinggulist{ line-height:  1.2; text-align: left; margin: 0 auto; width: 200px; font-size: 18px; color:#666; }
+.pinggulist li{margin: 20px 0;}
+.pinggulist li span{ line-height: 30px;}
+.pinggulist li .star{ display: inline-block; font-size: 30px; font-family: arial; vertical-align:  middle;}
+
+.pinggulist li .star a{color: #e7e7e7; font-weight:  bold;}
+.pinggulist li .star a.starOn{ color: #ffce49;}
+.pinggulist li span.txt{ display: inline-block; width: 40%;}
+.pingguImg{ width: 80%; margin:  0 auto; height: 300px;}
+.fl{ float: left !important; }
+.txtIn{text-indent:2em !important;}
+.w360{width:360px !important;}
+.verAlignDot{vertical-align:  -12px; }
