@@ -30,6 +30,7 @@
             options: {
                 legend: {
                     //display:false
+                    labels:{padding:15}
                 },
                 scale: {
                     gridLines: {
@@ -38,10 +39,23 @@
                     ticks: {
                         beginAtZero: true
                     }
-                }
+                },
+                responsive: true
             }
         };
         window.myRadar = new Chart(document.getElementById("canvas"), config);
+        $(window).resize(function(){
+            if($(window).height()>$(window).width()){
+                $('#canvas-wrap').width('200%');
+            }else{
+                $('#canvas-wrap').width('100%');
+            }
+            var left=($('#canvas-wrap').width()-$('.pinggu').width())/2;
+            left=left<0?left:left*-1;
+            $('#canvas-wrap').css('margin-left',left+'px');
+            window.myRadar.resize();
+        });
+        $(window).resize();
     });
 </script>
 <header class="clearfix mb0" id="gHeader">
@@ -55,11 +69,11 @@
     <div class="pinggu">
         <p class="aCenter f24 mb20">恭喜你，评估完成</p>
         <p class="gray9 f16 aCenter">自我评估结果</p>
-        <div style="width:100%;">
+        <div id="canvas-wrap" style="width:100%;">
             <canvas id="canvas"></canvas>
         </div>
     </div>
-    <div class="bottomFix">
+    <div class="bottom">
 
         <a href="<?php echo site_url('ability/resultdetail/'.$abilityjob['id']) ?>" class="gray3 f18">查看详情<br><span class="iconV"><img src="<?php echo base_url() ?>images/icon2.png" alt=""></span></a>
 
