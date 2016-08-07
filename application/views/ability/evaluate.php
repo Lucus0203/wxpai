@@ -60,7 +60,7 @@
                             <?php } ?>
                         </ul>
                         <?php for($i=1;$i<=$a['level'];$i++){?>
-                            <p class="starTxt" <?php if($i>1){ ?>style="display: none;"<?php } ?> ><?php echo $a['level_info'.$i] ?></p>
+                            <p class="starTxt" <?php if($i>1){ ?>style="display: none;"<?php } ?> ><?php echo nl2br($a['level_info'.$i]) ?></p>
                         <?php } ?>
                     </div>
                 </dd>

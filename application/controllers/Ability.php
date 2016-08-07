@@ -70,6 +70,7 @@ class Ability extends CI_Controller {
         $company_code=$this->_logininfo['company_code'];
         $abilityjob_id = $this->input->post('abilityjob_id');
         $modids = $this->input->post('modid');
+        print_r($modids);exit();
         //如果未发布则跳转
         $this->ispublishJob($abilityjob_id);
         $query=$this->db->get_where('company_ability_job_student',array('company_code'=>$company_code,'ability_job_id'=>$abilityjob_id,'student_id'=>$this->_logininfo['id']));
