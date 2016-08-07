@@ -80,18 +80,27 @@ class Ability extends CI_Controller {
         }
         $totalPoint=0;
         foreach ($modids as $mid => $v){
-            $abilityObj=$this->ability_model->get_row(array('id'=>$mid));
-            unset($abilityObj['id']);
-            unset($abilityObj['code']);
-            unset($abilityObj['created']);
-            unset($abilityObj['updated']);
+            $abilityObj=array();
+            $m=$this->ability_model->get_row(array('id'=>$mid));
             $abilityObj['company_code']=$company_code;
             $abilityObj['ability_job_id']=$abilityjob_id;
             $abilityObj['student_id']=$this->_logininfo['id'];
             $abilityObj['point']=$v;
+            $abilityObj['type']=$m['type'];
+            $abilityObj['name']=$m['name'];
+            $abilityObj['info']=$m['info'];
+            $abilityObj['level']=$m['level'];
+            $abilityObj['level_info1']=$m['level_info1'];
+            $abilityObj['level_info2']=$m['level_info2'];
+            $abilityObj['level_info3']=$m['level_info3'];
+            $abilityObj['level_info4']=$m['level_info4'];
+            $abilityObj['level_info5']=$m['level_info5'];
+            $abilityObj['level_info6']=$m['level_info6'];
+            $abilityObj['level_info7']=$m['level_info7'];
+            $abilityObj['level_info8']=$m['level_info8'];
+            $abilityObj['level_info9']=$m['level_info9'];
+            $abilityObj['level_info10']=$m['level_info10'];
             $this->db->insert ( 'company_ability_job_student_assess', $abilityObj );
-            echo $this->db->last_query();
-            print_r($modids);exit();
             $totalPoint+=$v/$abilityObj['level'];
         }
         $totalPoint=count($modids)>0?$totalPoint/count($modids)*5:0;//总分5
