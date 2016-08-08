@@ -13,7 +13,7 @@ class Notifyclass
     {
 
         $this->CI =& get_instance();
-        $this->CI->load->library(array('wechat'));
+        $this->CI->load->library(array('wechat','zhidingsms'));
         $this->CI->load->helper(array('form', 'url'));
         $this->CI->load->model(array('user_model', 'company_model', 'course_model', 'teacher_model', 'homework_model', 'survey_model', 'ratings_model', 'student_model', 'department_model'));
 
@@ -40,11 +40,13 @@ class Notifyclass
         $company = $this->CI->company_model->get_row(array('code' => $student['company_code']));
         $t = date('Y年m月d日H时', strtotime($course['time_start']));
         $link = site_url('course/survey/' . $course['id']);
+        $link_short='course/survey/' . $course['id'].'.html';
+        $sign=$company['name'];
+        $sign.=($company['code']=='100276')?' 人力资源部':'';
 
         //短信通知
         if (!empty($student['mobile'])&&$course['notice_type_msg']==1) {
-            $this->CI->load->library('chuanlansms');
-            $msg = "亲爱的{$student['name']}：
+            /*$msg = "亲爱的{$student['name']}：
 你已成功报名参加《{$course['title']}》，该课程将于{$t}在" . $course['address'] . "举行，请提前安排好工作或出差行程，准时参加培训。
 上课前请先完成课前调研表（{$link}）和课前作业并提交给我们。
 预祝学习愉快，收获满满！
@@ -56,7 +58,9 @@ class Notifyclass
             }
             $msg.="
 ". date("Y年m月d日");
-            $this->CI->chuanlansms->sendSMS($student['mobile'], $msg);
+            $this->CI->zhidingsms->sendSMS($student['mobile'], $msg);*/
+            $content='@1@='.$student['name'].',@2@='.$course['title'].',@3@='.$t.',@4@='.$course['address'].',@5@='.$link_short.',@6@='.$sign.',@7@='.date("Y年m月d日");
+            $this->CI->zhidingsms->sendTPSMS($student['mobile'], $content,'ZD30018-0003');
         }
 
         //mail
