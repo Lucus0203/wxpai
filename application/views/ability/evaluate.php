@@ -48,7 +48,7 @@
         </dl>
         <dl class="kecDl">
             <?php foreach ($abilies as $k=>$a){ ?>
-                <dt><?php echo ($k+1).'、'.$a['name'] ?></dt>
+                <dt><?php echo ($k+1).'、'.$a['model_name'] ?><input type="hidden" name="modname[<?php echo $a['id']?>]" value="<?php echo $a['model_name']?>" /></dt>
                 <dd <?php if($a===end($abilies)){echo 'class="noborder"';}?> ><p class="txtIn"><?php echo $a['info'] ?></p>
                     <input type="hidden" name="modid[<?php echo $a['id']?>]" value="1" />
                     <div class="starBox">
@@ -60,7 +60,7 @@
                             <?php } ?>
                         </ul>
                         <?php for($i=1;$i<=$a['level'];$i++){?>
-                            <p class="starTxt" ><?php echo nl2br($a['level_info'.$i]) ?></p>
+                            <p class="starTxt" style="display: none;"><?php echo nl2br($a['level_info'.$i]) ?></p>
                         <?php } ?>
                     </div>
                 </dd>

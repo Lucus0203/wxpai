@@ -61,8 +61,9 @@ class Ability extends CI_Controller {
         //如果未发布则跳转
         $this->ispublishJob($abilityjob_id);
         $abilityjob=$this->abilityjob_model->get_row(array('id'=>$abilityjob_id));
-        $sql = "select ability.* from " . $this->db->dbprefix('ability_job_model') . " job_model "
+        $sql = "select ability.*,if(cajm.model_name!='',cajm.model_name,ability.name) as model_name from " . $this->db->dbprefix('ability_job_model') . " job_model "
             . "left join " . $this->db->dbprefix('ability_model') . " ability on ability.id = job_model.model_id "
+            . "left join " . $this->db->dbprefix('company_ability_job_model') . " cajm on cajm.model_id = job_model.model_id and cajm.job_id=$abilityjob_id and cajm.company_code='".$this->_logininfo['company_code']."' "
             . "where job_model.job_id = $abilityjob_id ";
         $query = $this->db->query($sql . " order by ability.type asc,job_model.id asc ");
         $res = $query->result_array();
@@ -79,6 +80,7 @@ class Ability extends CI_Controller {
         $company_code=$this->_logininfo['company_code'];
         $abilityjob_id = $this->input->post('abilityjob_id');
         $modids = $this->input->post('modid');
+        $modnames = $this->input->post('modname');
         //如果未发布则跳转
         $this->ispublishJob($abilityjob_id);
         $query=$this->db->get_where('company_ability_job_student',array('company_code'=>$company_code,'ability_job_id'=>$abilityjob_id,'student_id'=>$this->_logininfo['id']));
@@ -96,7 +98,7 @@ class Ability extends CI_Controller {
             $abilityObj['student_id']=$this->_logininfo['id'];
             $abilityObj['point']=$v;
             $abilityObj['type']=$m['type'];
-            $abilityObj['name']=$m['name'];
+            $abilityObj['name']=$modnames[$mid];
             $abilityObj['info']=$m['info'];
             $abilityObj['level']=$m['level'];
             $abilityObj['level_info1']=$m['level_info1'];
@@ -128,8 +130,20 @@ class Ability extends CI_Controller {
             $abilities[$a['type']]=$a;
         }
         $abilityjob=$this->abilityjob_model->get_row(array('id'=>$abilityjob_id));
+        //获取岗位评分标准
+        $sql = "select ability.type,if(cajm.level_standard!='',cajm.level_standard,job_model.level_standard) as level_standard from " . $this->db->dbprefix('ability_job_model') . " job_model "
+            . "left join " . $this->db->dbprefix('ability_model') . " ability on ability.id = job_model.model_id "
+            . "left join " . $this->db->dbprefix('company_ability_job_model') . " cajm on cajm.model_id = job_model.model_id and cajm.job_id=$abilityjob_id and cajm.company_code='".$this->_logininfo['company_code']."' "
+            . "where job_model.job_id = $abilityjob_id ";
+        $sql.=" order by ability.type asc,job_model.id asc";
+        $query = $this->db->query("select s.type,sum(level_standard) as point_standard from ($sql) s group by s.type ");
+        $res = $query->result_array();
+        $standard=array();
+        foreach ($res as $s){
+            $standard[$s['type']]=$s['point_standard'];
+        }
         $this->load->view ( 'header' );
-        $this->load->view ( 'ability/result',compact('abilities','abilityjob'));
+        $this->load->view ( 'ability/result',compact('abilities','abilityjob','standard'));
         $this->load->view ( 'footer' );
     }
 

@@ -14,9 +14,9 @@
             data: {
                 labels: [<?php if(array_key_exists(1,$abilities)){?>"专业/技能",<?php } ?> <?php if(array_key_exists(3,$abilities)){?>"领导力",<?php } ?><?php if(array_key_exists(5,$abilities)){?>"经验",<?php } ?><?php if(array_key_exists(4,$abilities)){?>"个性",<?php } ?><?php if(array_key_exists(2,$abilities)){?>"通用",<?php } ?>],
                 datasets: [{
-                    label:'<?php echo $abilityjob['name'] ?>',
-                    backgroundColor: "rgba(156,224,234,0.7)",
-                    pointBackgroundColor: "rgba(220,220,220,1)",
+                    label:'<?php echo $loginInfo['name'] ?>',
+                    backgroundColor: "rgba(255, 206, 73,0.5)",
+                    pointBackgroundColor: "rgba(217, 163, 73,1)",
                     data: [<?php if(array_key_exists(1,$abilities)){ echo $abilities[1]['point']/$abilities[1]['level']*5 ?>,<?php } ?>
                         <?php if(array_key_exists(3,$abilities)){ echo $abilities[3]['point']/$abilities[3]['level']*5 ?>,<?php } ?>
 
@@ -25,6 +25,18 @@
                         <?php if(array_key_exists(4,$abilities)){ echo $abilities[4]['point']/$abilities[4]['level']*5 ?>,<?php } ?>
 
                         <?php if(array_key_exists(2,$abilities)){ echo $abilities[2]['point']/$abilities[2]['level']*5 ?>,<?php } ?>]
+                },{
+                    label:'<?php echo $abilityjob['name'] ?>',
+                    backgroundColor: "rgba(156,224,234,0.5)",
+                    pointBackgroundColor: "rgba(220,220,220,1)",
+                    data: [<?php if(array_key_exists(1,$abilities)){ echo $standard[1]/$abilities[1]['level']*5 ?>,<?php } ?>
+                        <?php if(array_key_exists(3,$abilities)){ echo $standard[3]/$abilities[3]['level']*5 ?>,<?php } ?>
+
+                        <?php if(array_key_exists(5,$abilities)){ echo $standard[5]/$abilities[5]['level']*5 ?>,<?php } ?>
+
+                        <?php if(array_key_exists(4,$abilities)){ echo $standard[4]/$abilities[4]['level']*5 ?>,<?php } ?>
+
+                        <?php if(array_key_exists(2,$abilities)){ echo $standard[2]/$abilities[2]['level']*5 ?>,<?php } ?>]
                 },]
             },
             options: {
