@@ -19,7 +19,7 @@ class Login extends CI_Controller
         $wxinfo = array();
         $wxinfo = $this->session->userdata('wxinfo');
         if ((strpos($_SERVER['HTTP_USER_AGENT'], 'MicroMessenger') !== false) && empty($wxinfo)) {
-            redirect('login/getwechatcode');
+            $this->getwechatcode($code);
             return false;
         } else {
             $userinfo = $this->student_model->get_row("unionid = '" . $wxinfo['unionid'] . "' and unionid<>'' and isdel=2 ");
@@ -178,7 +178,7 @@ class Login extends CI_Controller
         echo 1;
     }
 
-    public function setwxinfo()
+    public function setwxinfo($company_code='')
     {
         $orgin_state = $this->session->userdata('wxstate');
         $state = $this->input->get('state');
@@ -197,19 +197,28 @@ class Login extends CI_Controller
                 'country' => $userData->country,
                 'headimgurl' => $userData->headimgurl);
             $this->session->set_userdata('wxinfo', $wxinfo);
-            redirect('login/index');
+            $urictrol = $this->input->get('urictrol');
+            $uriact = $this->input->get('uriact');
+            $uriobjid = $this->input->get('uriobjid');
+            $weburl=site_url('login/index/'.$company_code).'?urictrol='.$urictrol.'&uriact='.$uriact.'&uriobjid='.$uriobjid;
+            redirect($weburl);
         } else {
-            redirect('login/getwechatcode');
+            $this->getwechatcode($company_code);
         }
 
     }
 
     //获取code url
-    public function getwechatcode()
+    private function getwechatcode($company_code='')
     {
+        $urictrol = $this->input->get('urictrol');
+        $uriact = $this->input->get('uriact');
+        $uriobjid = $this->input->get('uriobjid');
+        $weburl=site_url('login/setwxinfo/'.$company_code).'?urictrol='.$urictrol.'&uriact='.$uriact.'&uriobjid='.$uriobjid;
+
         $state = rand(10000, 99999);
         $this->session->set_userdata('wxstate', $state);
-        $url = $this->wechat->getCodeRedirect(site_url('login/setwxinfo'), $state);
+        $url = $this->wechat->getCodeRedirect($weburl, $state);
         redirect($url);
     }
 
