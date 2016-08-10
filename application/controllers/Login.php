@@ -17,15 +17,18 @@ class Login extends CI_Controller
     public function index($code)
     {
         $wxinfo = array();
-//        $wxinfo = $this->session->userdata('wxinfo');
-//        if ((strpos($_SERVER['HTTP_USER_AGENT'], 'MicroMessenger') !== false) && empty($wxinfo)) {
-//            redirect('login/getwechatcode');
-//        } else {
-//            $userinfo = $this->student_model->get_row("unionid = '" . $wxinfo['unionid'] . "' and unionid<>'' and isdel=2 ");
-//            if (!empty($userinfo)) {
-//                $this->session->set_userdata('loginInfo', $userinfo);
-//                redirect('course', 'index');//微信登录
-//            }
+        $wxinfo = $this->session->userdata('wxinfo');
+        if ((strpos($_SERVER['HTTP_USER_AGENT'], 'MicroMessenger') !== false) && empty($wxinfo)) {
+            redirect('login/getwechatcode');
+            return false;
+        } else {
+            $userinfo = $this->student_model->get_row("unionid = '" . $wxinfo['unionid'] . "' and unionid<>'' and isdel=2 ");
+            if (!empty($userinfo)) {
+                $this->session->set_userdata('loginInfo', $userinfo);
+                $this->indexRedirect();
+                return false;
+            }
+        }
         $act = $this->input->post('act');
         $error_msg = '';
         if (!empty($act)) {
@@ -56,15 +59,8 @@ class Login extends CI_Controller
                             $this->student_model->update($user, $userinfo['id']);
                         }
                         $this->session->set_userdata('loginInfo', $userinfo);
-                        $urictrol = $this->input->get('urictrol');
-                        $uriact = $this->input->get('uriact');
-                        $uriobjid = $this->input->get('uriobjid');
-                        if (!empty($uriobjid)) {
-                            $url = site_url($urictrol . '/' . $uriact . '/' . $uriobjid);
-                            redirect($url);
-                        } else {
-                            redirect('course', 'index');
-                        }
+                        $this->indexRedirect();
+                        return false;
                     } else {
                         $error_msg = "密码错误";
                     }
@@ -75,8 +71,19 @@ class Login extends CI_Controller
         }
         $company = $this->company_model->get_row(array('code' => $code));
         $this->load->view('login/login', compact('error_msg','company'));
-        //}
 
+    }
+
+    private function indexRedirect(){
+        $urictrol = $this->input->get('urictrol');
+        $uriact = $this->input->get('uriact');
+        $uriobjid = $this->input->get('uriobjid');
+        if (!empty($uriobjid)) {
+            $url = site_url($urictrol . '/' . $uriact . '/' . $uriobjid);
+            redirect($url);
+        } else {
+            redirect('course', 'index');
+        }
     }
 
     //注册1
