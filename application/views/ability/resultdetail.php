@@ -54,7 +54,7 @@
                                     <?php } ?>
                                 </ul>
                                 <?php for($i=1;$i<=$a['level'];$i++){?>
-                                    <p class="starTxt" <?php if($i!=$a['level_standard']){ ?>style="display: none;"<?php } ?> ><?php echo nl2br($a['level_info'.$i]) ?></p>
+                                    <p class="starTxt" <?php if($i!=$a['point']){ ?>style="display: none;"<?php } ?> ><?php echo nl2br($a['level_info'.$i]) ?></p>
                                 <?php } ?>
                             </div>
                         </dd>
