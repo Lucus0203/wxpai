@@ -9,11 +9,11 @@
                 </div>
 
                 <div class="listText">
-                        <p>师资类型：<?php echo $teacher['type']==2?'外部':'内部' ?></p>
-                        <p>讲师头衔：<?php echo $teacher['title'] ?></p>
-                        <p>擅长类别：<?php echo $teacher['specialty'] ?></p>
-                        <p>授课年限：<?php echo $teacher['years'] ?></p>
-                        <p>工作形式：<?php echo $teacher['work_type']==2?'兼职':'专职' ?></p>
+                    <p>师资类型：<?php echo $teacher['type']==2?'外部':'内部' ?></p>
+                    <?php echo (!empty($teacher['title']))?'<p>讲师头衔：'.$teacher['title'].'</p>':''; ?>
+                    <?php echo (!empty($teacher['specialty']))?'<p>擅长类别：'.$teacher['specialty'].'</p>':''; ?>
+                    <?php echo (!empty($teacher['years']))?'<p>授课年限：'.$teacher['years'].'</p>':''; ?>
+                    <p>工作形式：<?php echo $teacher['work_type']==2?'兼职':'专职' ?></p>
                 </div>
         </div>
 <div class="mConts">

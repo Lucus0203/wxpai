@@ -20,8 +20,11 @@
                 <?php }} ?>
         </div>
         <div class="listText">
-            <p>课程讲师：<a class="blue" href="<?php echo site_url('teacher/info/'.$teacher['id']);?>"><?php echo $teacher['name'] ?></a> </p>
-            <p><span class="mr30">开课时间：<?php echo $course['time_start'] ?></span> </p>
+            <?php if(!empty($teacher['name'])){?>
+                <p>课程讲师：<a class="blue" href="<?php echo site_url('teacher/info/'.$teacher['id']);?>"><?php echo $teacher['name'] ?></a> </p>
+            <?php } ?>
+            <p>开始时间：<?php echo date("m-d H:i",  strtotime($course['time_start'])) ?></p>
+            <p>结束时间：<?php echo date("m-d H:i",  strtotime($course['time_end'])) ?></p>
             <p>开课地点：<?php echo $course['address'] ?></p>
 
         </div>

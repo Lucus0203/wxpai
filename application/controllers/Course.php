@@ -32,15 +32,20 @@ class Course extends CI_Controller
     }
 
 
-    public function index()
+    public function index($mycourse='')
     {
         $this->session->set_userdata('homeUrl', current_url());
         $logininfo = $this->_logininfo;
         //status 1报名中3进行中4结束2待开启报名9其他
-        $sql = "select c.*,t.name as teacher,if( unix_timestamp(now()) > unix_timestamp(c.time_end),4,if( unix_timestamp(now()) > unix_timestamp(c.time_start) and unix_timestamp(now()) < unix_timestamp(c.time_end),3,if( isapply_open !=1 ,2,if(unix_timestamp(now()) > unix_timestamp(c.apply_start) and unix_timestamp(now()) < unix_timestamp(c.apply_end),1,9) ) ) ) as status,a.status as apply_status from " . $this->db->dbprefix('course') . " c "
-            . "left join " . $this->db->dbprefix('teacher') . " t on c.teacher_id=t.id "
-            . "left join " . $this->db->dbprefix('course_apply_list') . " a on a.course_id=c.id and a.student_id={$logininfo['id']} "
-            . "where c.company_code = " . $logininfo['company_code'] . " and c.isdel=2 and c.ispublic=1 ";
+        $sql = "select c.*,t.name as teacher,if( unix_timestamp(now()) > unix_timestamp(c.time_end),4,if( unix_timestamp(now()) > unix_timestamp(c.time_start) and unix_timestamp(now()) < unix_timestamp(c.time_end),3,if( (isapply_open !=1 or unix_timestamp(now()) < unix_timestamp(c.apply_start)) ,2,if(unix_timestamp(now()) > unix_timestamp(c.apply_start) and unix_timestamp(now()) < unix_timestamp(c.apply_end),1,9) ) ) ) as status,a.status as apply_status from " . $this->db->dbprefix('course') . " c "
+            . "left join " . $this->db->dbprefix('teacher') . " t on c.teacher_id=t.id ";
+            if($mycourse!='mycourse'){
+                $sql.= "left join " . $this->db->dbprefix('course_apply_list') . " a on a.course_id=c.id and a.student_id={$logininfo['id']} "
+                . "where c.company_code = " . $logininfo['company_code'] . " and c.isdel=2 and c.ispublic=1 ";
+            }else{
+                $sql.= "left join " . $this->db->dbprefix('course_apply_list') . " a on a.course_id=c.id "
+                . "where c.company_code = " . $logininfo['company_code'] . " and c.isdel=2 and c.ispublic=1 and a.student_id={$logininfo['id']} ";
+            }
         $totalres = $this->db->query("select count(*) as num from ($sql) s ")->row_array();
         $total = $totalres['num'];
         $page_num = 6;
@@ -55,21 +60,26 @@ class Course extends CI_Controller
         }
 
         $this->load->view('header');
-        $this->load->view('course/list', array('courses' => $courses, 'total' => $total, 'current_num' => $page_num));
+        $this->load->view('course/list', array('courses' => $courses, 'total' => $total, 'current_num' => $page_num,'mycourse'=>$mycourse));
         $this->load->view('footer');
 
     }
 
     //加载更多课程
-    public function morecourse()
+    public function morecourse($mycourse='')
     {
         $logininfo = $this->_logininfo;
         $num = $this->input->post('num');
         //status 1报名中3进行中4结束2待开启报名9其他
-        $sql = "select c.*,t.name as teacher,if( unix_timestamp(now()) > unix_timestamp(c.time_end),4,if( unix_timestamp(now()) > unix_timestamp(c.time_start) and unix_timestamp(now()) < unix_timestamp(c.time_end),3,if( isapply_open !=1 ,2,if(unix_timestamp(now()) > unix_timestamp(c.apply_start) and unix_timestamp(now()) < unix_timestamp(c.apply_end),1,9) ) ) ) as status,a.status as apply_status from " . $this->db->dbprefix('course') . " c "
-            . "left join " . $this->db->dbprefix('teacher') . " t on c.teacher_id=t.id "
-            . "left join " . $this->db->dbprefix('course_apply_list') . " a on a.course_id=c.id and a.student_id={$logininfo['id']} "
-            . "where c.company_code = " . $logininfo['company_code'] . " and c.isdel=2 and c.ispublic=1 ";
+        $sql = "select c.*,t.name as teacher,if( unix_timestamp(now()) > unix_timestamp(c.time_end),4,if( unix_timestamp(now()) > unix_timestamp(c.time_start) and unix_timestamp(now()) < unix_timestamp(c.time_end),3,if( (isapply_open !=1 or unix_timestamp(now()) < unix_timestamp(c.apply_start)) ,2,if(unix_timestamp(now()) > unix_timestamp(c.apply_start) and unix_timestamp(now()) < unix_timestamp(c.apply_end),1,9) ) ) ) as status,a.status as apply_status from " . $this->db->dbprefix('course') . " c "
+            . "left join " . $this->db->dbprefix('teacher') . " t on c.teacher_id=t.id ";
+            if($mycourse!='mycourse'){
+                $sql.= "left join " . $this->db->dbprefix('course_apply_list') . " a on a.course_id=c.id and a.student_id={$logininfo['id']} "
+                    . "where c.company_code = " . $logininfo['company_code'] . " and c.isdel=2 and c.ispublic=1 ";
+            }else{
+                $sql.= "left join " . $this->db->dbprefix('course_apply_list') . " a on a.course_id=c.id "
+                    . "where c.company_code = " . $logininfo['company_code'] . " and c.isdel=2 and c.ispublic=1 and a.student_id={$logininfo['id']} ";
+            }
         $page_num = 6;
         $sql .= " order by status asc,c.id desc limit $num,$page_num ";
         $query = $this->db->query($sql);
@@ -79,59 +89,8 @@ class Course extends CI_Controller
             $query = $this->db->query($applycountsql);
             $applycount = $query->row_array();
             $courses[$k]['apply_count'] = $applycount['num'];
-        }
-        echo json_encode($courses);
-
-    }
-
-    //我报名的课程
-    public function mycourses()
-    {
-        $this->session->set_userdata('homeUrl', current_url());
-        $logininfo = $this->_logininfo;
-        //status 1报名中3进行中4结束2待开启报名9其他
-        $sql = "select c.*,t.name as teacher,if( unix_timestamp(now()) > unix_timestamp(c.time_end),4,if( unix_timestamp(now()) > unix_timestamp(c.time_start) and unix_timestamp(now()) < unix_timestamp(c.time_end),3,if( isapply_open !=1 ,2,if(unix_timestamp(now()) > unix_timestamp(c.apply_start) and unix_timestamp(now()) < unix_timestamp(c.apply_end),1,9) ) ) ) as status,a.status as apply_status from " . $this->db->dbprefix('course') . " c "
-            . "left join " . $this->db->dbprefix('teacher') . " t on c.teacher_id=t.id "
-            . "left join " . $this->db->dbprefix('course_apply_list') . " a on a.course_id=c.id "
-            . "where c.company_code = " . $logininfo['company_code'] . " and c.isdel=2 and c.ispublic=1 and a.student_id={$logininfo['id']} ";
-        $totalres = $this->db->query("select count(*) as num from ($sql) s ")->row_array();
-        $total = $totalres['num'];
-        $page_num = 6;
-        $sql .= " order by status asc,c.id desc limit 0,$page_num ";
-        $query = $this->db->query($sql);
-        $courses = $query->result_array();
-        foreach ($courses as $k => $c) {
-            $applycountsql = "select count(*) as num from " . $this->db->dbprefix('course_apply_list') . " a where a.course_id={$c['id']}";
-            $query = $this->db->query($applycountsql);
-            $applycount = $query->row_array();
-            $courses[$k]['apply_count'] = $applycount['num'];
-        }
-
-        $this->load->view('header');
-        $this->load->view('course/mycourses', array('courses' => $courses, 'total' => $total, 'current_num' => $page_num));
-        $this->load->view('footer');
-
-    }
-
-    //加载更多我报名的课程
-    public function moremycourse()
-    {
-        $logininfo = $this->_logininfo;
-        $num = $this->input->post('num');
-        //status 1报名中3进行中4结束2待开启报名9其他
-        $sql = "select c.*,t.name as teacher,if( unix_timestamp(now()) > unix_timestamp(c.time_end),4,if( unix_timestamp(now()) > unix_timestamp(c.time_start) and unix_timestamp(now()) < unix_timestamp(c.time_end),3,if( isapply_open !=1 ,2,if(unix_timestamp(now()) > unix_timestamp(c.apply_start) and unix_timestamp(now()) < unix_timestamp(c.apply_end),1,9) ) ) ) as status,a.status as apply_status from " . $this->db->dbprefix('course') . " c "
-            . "left join " . $this->db->dbprefix('teacher') . " t on c.teacher_id=t.id "
-            . "left join " . $this->db->dbprefix('course_apply_list') . " a on a.course_id=c.id "
-            . "where c.company_code = " . $logininfo['company_code'] . " and c.isdel=2 and c.ispublic=1 and a.student_id={$logininfo['id']} ";
-        $page_num = 6;
-        $sql .= " order by status asc,c.id desc limit $num,$page_num ";
-        $query = $this->db->query($sql);
-        $courses = $query->result_array();
-        foreach ($courses as $k => $c) {
-            $applycountsql = "select count(*) as num from " . $this->db->dbprefix('course_apply_list') . " a where a.course_id={$c['id']}";
-            $query = $this->db->query($applycountsql);
-            $applycount = $query->row_array();
-            $courses[$k]['apply_count'] = $applycount['num'];
+            $courses[$k]['time_start'] = date('m-d H:i',strtotime($c['time_start']));
+            $courses[$k]['time_end'] = date('m-d H:i',strtotime($c['time_end']));
         }
         echo json_encode($courses);
 

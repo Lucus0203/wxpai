@@ -209,6 +209,10 @@ textarea:after {
 	background-color: #f6f6f6 !important;
 }
 
+.bgBlack {
+    background-color: #828282 !important;
+}
+
 .blue {
 	color: #09bed5 !important;
 }
@@ -266,7 +270,6 @@ textarea:after {
 	font-size: 14px;
 	vertical-align: middle;
 	text-align: center;
-	margin-left: 30px;
 }
 
 .orangeH25 {
@@ -347,7 +350,6 @@ textarea:after {
 
 .titp {
 	font-size: 20px;
-	margin-bottom: 20px;
 	color: #8c8c8c;
 }
 
@@ -486,10 +488,18 @@ textarea:after {
 	max-width: 40%;
 	float: left;
 	margin-right: 5%;
+    min-height: 100px;
+}
+
+.listBox .listCont .imgBox .helper {
+    display: inline-block;
+    height: 100%;
+    vertical-align: middle;
 }
 
 .listBox .listCont .imgBox img{
 	max-width: 100% !important;
+    vertical-align: middle;
 }
 
 .listBox .listCont .listText {
@@ -504,17 +514,13 @@ textarea:after {
 }
 
 .listBox .listCont .listText .titp {
-	margin-bottom: 5px;
 	font-size: 16px;
 	color: #333;
 }
 
 .listBox .listCont .listText .titp a {
-	display: inline-block;
 	min-width: 150px;
 	max-width: 70%;
-	overflow-x: hidden;
-	color: #333;
 	word-break:break-all; /*支持IE，chrome，FF不支持*/
 	word-wrap:break-word;/*支持IE，chrome，FF*/ 
 }

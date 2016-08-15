@@ -3,62 +3,63 @@ $(document).ready(function(){
     $('#more').click(function(){
         var num=$('#current_num').val();
         $.ajax({
-                type:"post",
-                url:'<?php echo site_url('course/morecourse') ?>',
-                data:{'num':num},
-                datatype:'jsonp',
-                success:function(res){
-                    var json_obj = $.parseJSON(res);
-                    var count=0;
-                    var str='';
-                    $.each(json_obj,function(i,item){
-                        str+='<div class="listCont">'+
-                            '<div class="imgBox"><a href="<?php echo base_url() ?>course/info/'+item.id+'"><img src="<?php echo $this->config->item('pc_url').'uploads/course_img/' ?>'+item.page_img+'" alt="" width="160"></a></div>'+
-                            '<div class="listText">'+
-                                    '<p class="titp"><a href="<?php echo base_url() ?>course/info/'+item.id+'">'+item.title+'</a>';
-                            if(item.status==1){
-                                if(item.apply_num>0&&item.apply_count>=item.apply_num){
-                                    str+='<span class="redH25">报名满额</span>';
-                                }else{
-                                    str+='<span class="greenH25">报名中</span>';
-                                }
-                            }else if(item.status==3){
-                                str+='<span class="greenH25">进行中</span>';
-                            }else if(item.status==4){
-                                str+='<span class="grayH25">已结束</span>';
-                            }else{
-                                str+='<span class="orangeH25">报名未开启</span>';
-                            }
+            type:"post",
+            url:'<?php echo site_url('course/morecourse/'.$mycourse) ?>',
+            data:{'num':num},
+            datatype:'jsonp',
+            success:function(res){
+                var json_obj = $.parseJSON(res);
+                var count=0;
+                var str='';
+                $.each(json_obj,function(i,item){
+                    str+='<div class="listCont">'+
+                        '<div class="imgBox"><span class="helper"></span><a href="<?php echo base_url() ?>course/info/'+item.id+'"><img src="<?php echo $this->config->item('pc_url').'uploads/course_img/' ?>'+item.page_img+'" alt="" width="160"></a></div>'+
+                        '<div class="listText">'+
+                                '<p class="titp"><a class="blue" href="<?php echo base_url() ?>course/info/'+item.id+'">'+item.title+'</a></p><p>';
+                        if(item.status==4){
+                            str+='<span class="grayH25">已结束</span>';
+                        }else{
                             if(item.apply_status==3){
                                 str+='<span class="orangeH25">待审核</span>';
                             }else if(item.apply_status==2){
                                 str+='<span class="redH25">报名被拒</span>';
                             }else if(item.apply_status==1){
                                 str+='<span class="greenH25">报名成功</span>';
+                            }else{
+                                str+='<span class="orangeH25">未报名</span>';
                             }
-                        str+='</p>';
-                        if($.trim(item.teacher)!=''){
-                               str+='<p>课程讲师：<span class="blue">'+item.teacher+'</span> </p>';
-                           }
-                        str+='<p><span class="mr30">开课时间：'+item.time_start+'</span> </p>'+
-                            '<p>开课地点：'+item.address+'</p></div></div>';
-                        ++count;
-                    });
-                    $('.listBox').append(str);
-                    var current_num=$('#current_num').val()*1+count;
-                    $('#current_num').val(current_num);
-                    if(current_num>=$('#total').val()*1){
-                        $('#more').remove();
-                    }
+                        }
+                    str+='</p>';
+                    if($.trim(item.teacher)!=''){
+                           str+='<p>课程讲师：<span class="blue">'+item.teacher+'</span> </p>';
+                       }
+                    str+='<p>开始时间：'+item.time_start+'</p>'+
+                        '<p>结束时间：'+item.time_end+'</p>'+
+                        '<p>开课地点：'+item.address+'</p></div></div>';
+                    ++count;
+                });
+                $('.listBox').append(str);
+                var current_num=$('#current_num').val()*1+count;
+                $('#current_num').val(current_num);
+                if(current_num>=$('#total').val()*1){
+                    $('#more').remove();
                 }
+                $('.listBox .listCont .imgBox').each(function(){
+                    $(this).height($(this).next().height());
+                })
+            }
         });
     });
+    //图片上下居中
+    $('.listBox .listCont .imgBox').each(function(){
+        $(this).height($(this).next().height());
+    })
 });
 </script>
 
 <!--head-->
 <header class="clearfix" id="gHeader">
-        <div class="header">内训课程<a href="javascript:void(0);"><i class="ilevel">=</i></a></div>
+        <div class="header"><?php echo ($mycourse=='mycourse')?'我报名的课程':'内训课程'; ?><a href="javascript:void(0);"><i class="ilevel">=</i></a></div>
         <?php $this->load->view ( 'rightbar' ); ?>
 </header>
 <div class="mConts">
@@ -69,32 +70,43 @@ $(document).ready(function(){
                 <?php foreach ($courses as $c){?>
                     <div class="listCont">
 
-                        <div class="imgBox"><a href="<?php echo site_url('course/info/'.$c['id']) ?>"><img src="<?php echo empty($c['page_img'])?$this->config->item('pc_url').'images/course_default_img.jpg':$this->config->item('pc_url').'uploads/course_img/'.$c['page_img'] ?>" alt="" width="160"></a></div>
+                        <div class="imgBox"><span class="helper"></span><a href="<?php echo site_url('course/info/'.$c['id']) ?>"><img src="<?php echo empty($c['page_img'])?$this->config->item('pc_url').'images/course_default_img.jpg':$this->config->item('pc_url').'uploads/course_img/'.$c['page_img'] ?>" alt="" width="160"></a></div>
                             <div class="listText">
-                <p class="titp"><a href="<?php echo site_url('course/info/'.$c['id']) ?>"><?php echo $c['title'] ?></a>
-                    <?php if($c['status']==1){//1报名中3进行中4结束2待开启报名9其他 ?>
-                        <?php if($c['apply_status']==3){ ?><span class="orangeH25">待审核</span>
-                        <?php }elseif($c['apply_status']==2){ ?><span class="redH25">报名被拒</span>
-                        <?php }elseif($c['apply_status']==1){ ?><span class="greenH25">报名成功</span>
-                        <?php }elseif($c['apply_num']>0&&$c['apply_count']>=$c['apply_num']){ ?><span class="redH25">报名满额</span>
-                        <?php }else{ ?><span class="greenH25">报名中</span><?php } ?>
-                    <?php }elseif($c['status']==3){ ?>
-                        <?php if($c['apply_status']==3){ ?><span class="orangeH25">待审核</span>
-                        <?php }elseif($c['apply_status']==2){ ?><span class="redH25">报名被拒</span>
-                        <?php }else{ ?><span class="greenH25">进行中</span><?php } ?>
-                    <?php }elseif($c['status']==4){ ?>
+                <p class="titp"><a class="blue" href="<?php echo site_url('course/info/'.$c['id']) ?>"><?php echo $c['title'] ?></a></p>
+                    <!--<p><?php /*if($c['status']==1){//1报名中3进行中4结束2待开启报名9其他 */?>
+                        <?php /*if($c['apply_status']==3){ */?><span class="orangeH25">待审核</span>
+                        <?php /*}elseif($c['apply_status']==2){ */?><span class="redH25">报名被拒</span>
+                        <?php /*}elseif($c['apply_status']==1){ */?><span class="greenH25">报名成功</span>
+                        <?php /*}elseif($c['apply_num']>0&&$c['apply_count']>=$c['apply_num']){ */?><span class="redH25">报名满额</span>
+                        <?php /*}else{ */?><span class="greenH25">报名中</span><?php /*} */?>
+                    <?php /*}elseif($c['status']==3){ */?>
+                        <?php /*if($c['apply_status']==3){ */?><span class="orangeH25">待审核</span>
+                        <?php /*}elseif($c['apply_status']==2){ */?><span class="redH25">报名被拒</span>
+                        <?php /*}else{ */?><span class="greenH25">进行中</span><?php /*} */?>
+                    <?php /*}elseif($c['status']==4){ */?>
                         <span class="grayH25">已结束</span>
-                    <?php }else{ ?>
+                    <?php /*}else{ */?>
                         <span class="orangeH25">报名未开启</span>
-                    <?php } ?>
+                    <?php /*} */?>
+                    </p>-->
+                    <p><?php  if($c['status']==4){ ?>
+                            <span class="grayH25">已结束</span>
+                        <?php }else{ ?>
+                            <?php if($c['apply_status']==3){ ?><span class="orangeH25">待审核</span>
+                            <?php }elseif($c['apply_status']==2){ ?><span class="redH25">报名被拒</span>
+                            <?php }elseif($c['apply_status']==1){ ?><span class="greenH25">报名成功</span>
+                            <?php }else{ ?><span class="orangeH25">未报名</span><?php } ?>
+                        <?php } ?>
+                        </p>
                                 
                     
                                     </p>
                                 <?php if(!empty($c['teacher'])){ ?>
                                     <p>课程讲师：<a class="blue" href="<?php echo site_url('teacher/info/'.$c['teacher_id']) ?>"><?php echo $c['teacher'] ?></a> </p>
                                 <?php } ?>
-                                    <p><span class="mr30">开课时间：<?php echo date("Y-m-d H:i",  strtotime($c['time_start'])) ?></span> </p>
-                                    <p>开课地点：<?php echo $c['address'] ?></p>
+                                    <p>开始时间：<?php echo date("m-d H:i",  strtotime($c['time_start'])) ?></p>
+                                    <p>结束时间：<?php echo date("m-d H:i",  strtotime($c['time_end'])) ?></p>
+                                <p>开课地点：<?php echo $c['address'] ?></p>
                             </div>
                     </div>
                 <?php } ?>

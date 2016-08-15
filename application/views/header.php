@@ -34,12 +34,12 @@
 					return false;
 					
 				});
-                                //隐藏侧边栏
-                                $('.mapBg').click(function(){
-                                        $('.rightBarBox').slideUp();
-                                        $('.rightBar').css('left','100%');
-                                        chk=1;
-                                });
+                //隐藏侧边栏
+                $('.mapBg').click(function(){
+                        $('.rightBarBox').slideUp();
+                        $('.rightBar').css('left','100%');
+                        chk=1;
+                });
 			
 			})
 		</script>
