@@ -774,9 +774,14 @@ textarea:after {
 .starBox{ margin-bottom:  40px;}
 .starBox .star { margin-bottom: -2px; margin-left: 5px;}
 .starBox li{ display: inline-block; margin-right: 5px;}
-.starBox li a{ background: url(../images/gray_start.png) no-repeat left top; text-align:  center; width: 32px; line-height: 1.2; height: 44px; padding-top: 5px; font-size: 16px; color: #fff; display: inline-block;}
+.starBox li a{ text-align:  center; color: #e7e7e7; display: inline-block;padding-bottom: 11px; position: relative;font-size: 0.9em;}
+.starBox li a span.num{position: absolute;top:0;left: 0;width: 35px;line-height: 38px;text-align: center;color:#ffffff;    font-size: 16px;}
+.starBox li.yellow a{ color:#ffce49;}
+.starBox li.blue a{ color:#9de0e7;}
+.starBox li.cur a{ background: url(../images/start_cur.png) no-repeat left top;}
+.starColorYellow{color:#ffce49;}
+.starColorBlue{color:#9de0e7;}
 
-.starBox li.cur a{ background: url(../images/yellow_start.png) no-repeat left top;}
 .starBox .starTxt{ font-size:  16px; color: #3e3e3e; border:  1px solid #f0f0f0; padding: 10px;border-radius: 5px; background-color: #f8f8f8;}
 .pinggu{ padding: 20px; color:#666;}
 

@@ -16,7 +16,7 @@
                 datasets: [{
                     label:'<?php echo $loginInfo['name'] ?>',
                     backgroundColor: "rgba(255, 206, 73,0.5)",
-                    pointBackgroundColor: "rgba(217, 163, 73,1)",
+                    pointBackgroundColor: "rgba(255, 206, 73,1)",
                     data: [<?php if(array_key_exists(1,$abilities)){ echo round($abilities[1]['point']/$abilities[1]['level']*5,1) ?>,<?php } ?>
                         <?php if(array_key_exists(3,$abilities)){ echo round($abilities[3]['point']/$abilities[3]['level']*5 ,1)?>,<?php } ?>
 

@@ -4,7 +4,7 @@
     $(function(){
         $('ul.star li').click(function(){
             var i=$(this).parent().find('li').index($(this));
-            $(this).addClass('cur').siblings().removeClass('cur');
+            $(this).addClass('cur yellow').siblings().removeClass('cur yellow');
             $(this).parent().parent().find('.starTxt').hide().eq(i).show();
             $(this).parent().parent().prev().val((i+1));
             return false;
@@ -51,11 +51,11 @@
                 <dt><?php echo ($k+1).'、'.$a['model_name'] ?><input type="hidden" name="modname[<?php echo $a['id']?>]" value="<?php echo $a['model_name']?>" /></dt>
                 <dd <?php if($a===end($abilies)){echo 'class="noborder"';}?> ><p class="txtIn"><?php echo $a['info'] ?></p>
                     <input type="hidden" name="modid[<?php echo $a['id']?>]" value="1" />
-                    <div class="starBox">
+                    <div class="starBox mt10">
                         <ul class="star">
                             <?php for($i=1;$i<=$a['level'];$i++){?>
                                 <li>
-                                    <a href="#"><?php echo $i ?></a>
+                                    <a href="#"><i class="fa fa-star fa-3x"></i><span class="num"><?php echo $i ?></span></a>
                                 </li>
                             <?php } ?>
                         </ul>

@@ -10,7 +10,8 @@
             <div class="listCont">
                 <div class="imgBox"><a href="<?php echo ($c['complate_status']==2)?site_url('ability/result/'.$c['id']):site_url('ability/assess/'.$c['id']) ?>"><img src="<?php echo empty($c['page_img'])?$this->config->item('pc_url').'images/course_default_img.jpg':$this->config->item('pc_url').'uploads/course_img/'.$c['page_img'] ?>" alt="" width="160"></a></div>
                 <div class="listText">
-                    <p class="titp"><a href="<?php echo ($c['complate_status']==2)?site_url('ability/result/'.$c['id']):site_url('ability/assess/'.$c['id']) ?>"><?php echo $c['name'] ?></a>
+                    <p class="titp"><a class="blue" href="<?php echo ($c['complate_status']==2)?site_url('ability/result/'.$c['id']):site_url('ability/assess/'.$c['id']) ?>"><?php echo $c['name'] ?></a></p>
+                    <p>
                         <?php if($c['complate_status']==1){ ?>
                             <span class="orangeH25">待评估</span>
                         <?php }else{ ?>

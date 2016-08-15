@@ -98,6 +98,7 @@ class Ability extends CI_Controller {
             $abilityObj['student_id']=$this->_logininfo['id'];
             $abilityObj['point']=$v;
             $abilityObj['type']=$m['type'];
+            $abilityObj['model_id']=$mid;
             $abilityObj['name']=$modnames[$mid];
             $abilityObj['info']=$m['info'];
             $abilityObj['level']=$m['level'];
@@ -148,6 +149,23 @@ class Ability extends CI_Controller {
     }
 
     public function resultdetail($abilityjob_id){
+        $sql = "select assess.*,if(cajm.level_standard!='',cajm.level_standard,job_model.level_standard) as level_standard from " . $this->db->dbprefix('company_ability_job_student_assess') . " assess "
+            . "left join " . $this->db->dbprefix('ability_job_model') . " job_model on job_model.id = assess.model_id "
+            . "left join " . $this->db->dbprefix('company_ability_job_model') . " cajm on cajm.model_id = assess.model_id and cajm.job_id=$abilityjob_id and cajm.company_code='".$this->_logininfo['company_code']."' "
+            . "where assess.company_code = '".$this->_logininfo['company_code']."' and assess.ability_job_id=$abilityjob_id and student_id=".$this->_logininfo['id'];
+        $query = $this->db->query($sql . " order by assess.type asc,assess.id asc ");
+        $res = $query->result_array();
+        $abilities=array();
+        foreach ($res as $a){
+            $abilities[$a['type']][]=$a;
+        }
+        $abilityjob=$this->abilityjob_model->get_row(array('id'=>$abilityjob_id));
+        $this->load->view ( 'header' );
+        $this->load->view ( 'ability/resultdetail',compact('abilities','abilityjob'));
+        $this->load->view ( 'footer' );
+    }
+
+    public function resultrecommend($abilityjob_id){
         $sql = "select count(*) as num,sum(point) as point,sum(level) as level,type from " . $this->db->dbprefix('company_ability_job_student_assess') . " assess "
             . "where assess.company_code = '".$this->_logininfo['company_code']."' and assess.ability_job_id=$abilityjob_id and student_id=".$this->_logininfo['id'];
         $query = $this->db->query($sql . " group by type order by assess.type asc,assess.id asc ");
@@ -158,7 +176,7 @@ class Ability extends CI_Controller {
         }
         $abilityjob=$this->abilityjob_model->get_row(array('id'=>$abilityjob_id));
         $this->load->view ( 'header' );
-        $this->load->view ( 'ability/resultdetail',compact('abilities','abilityjob'));
+        $this->load->view ( 'ability/resultrecommend',compact('abilities','abilityjob'));
         $this->load->view ( 'footer' );
     }
 
