@@ -9,8 +9,8 @@ class Zhidingsms
 {
     var $_svr_url ='120.27.149.106:8030/service/httpService/httpInterface.do?';// 服务器接口路径
     var $_username = 'ZD30018';// 账号
-    var $_password='qxw30018';// 密码
-    var $_veryCode='6lf0xdkf358a';// 通讯认证Key
+    var $_password='4wxQJpbA';// 密码
+    var $_veryCode='NGQRcBXQMCJW';// 通讯认证Key
 
     /**
      * 普通短信
