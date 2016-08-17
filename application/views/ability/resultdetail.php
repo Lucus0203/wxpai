@@ -25,8 +25,8 @@
 
         <?php foreach ($abilities as $key=>$abilies) { ?>
             <div class="abilityBox">
-                <dl class="kecDl aCenter">
-                    <dt>
+                <dl class="kecDl aCenter p0">
+                    <dt class="f24">
                         <?php if($key==1){
                             echo '一、专业/技能';
                         }elseif($key==2){
@@ -40,7 +40,7 @@
                         } ?>
                     </dt>
                 </dl>
-                <dl class="kecDl">
+                <dl class="kecDl p0">
                     <?php foreach ($abilies as $k=>$a){ ?>
                         <dt><?php echo ($k+1).'、'.$a['name'] ?><input type="hidden" name="modname[<?php echo $a['id']?>]" value="<?php echo $a['model_name']?>" /></dt>
                         <dd <?php if($a===end($abilies)){echo 'class="noborder"';}?> ><p class="txtIn"><?php echo $a['info'] ?></p>
