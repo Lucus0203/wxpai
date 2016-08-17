@@ -13,9 +13,9 @@
                         <?php  if(strtotime($course['apply_end']) < time()){ ?>
                             <span class="grayH25">已结束</span>
                         <?php }else{ ?>
-                            <?php if($course['apply_status']==3){ ?><span class="orangeH25">待审核</span>
-                            <?php }elseif($course['apply_status']==2){ ?><span class="redH25">报名被拒</span>
-                            <?php }elseif($course['apply_status']==1){ ?><span class="greenH25">报名成功</span>
+                            <?php if($apply['status']==3){ ?><span class="orangeH25">待审核</span>
+                            <?php }elseif($apply['status']==2){ ?><span class="redH25">报名被拒</span>
+                            <?php }elseif($apply['status']==1){ ?><span class="greenH25">报名成功</span>
                             <?php }else{ ?><span class="orangeH25">未报名</span><?php } ?>
                         <?php } ?>
                     </p>
@@ -49,6 +49,8 @@
     <a href="<?php echo site_url('course/apply/'.$course['id']) ?>" class="blueBtnH40" >我要报名</a>
 <?php }elseif(strtotime($course['apply_end']) < time()|| strtotime($course['time_start']) < time() || ($course['apply_num']>0&&$c['apply_count']>=$course['apply_num'])){ ?>
     <span class="blueBtnH40 bgBlack" >报名已结束</span>
+<?php }elseif($course['isapply_open']==1&&$apply['status']==3){ ?>
+    <span class="blueBtnH40 bgBlack" >报名待审核</span>
 <?php }else{ ?>
     <span class="blueBtnH40 bgBlack" >报名未开始</span>
 <?php } ?>
