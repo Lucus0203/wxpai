@@ -5,7 +5,7 @@
 </header>
 <div class="proCont">
                 <div class="imgBox">
-                        <img src="<?php echo $this->config->item('pc_url').'uploads/teacher_img/'.$teacher['head_img'] ?>" alt="" width="160">
+                        <img src="<?php echo !empty($teacher['head_img'])?$this->config->item('pc_url').'uploads/teacher_img/'.$teacher['head_img']:$this->config->item('pc_url').'images/face_default.png' ?>" alt="" width="160">
                 </div>
 
                 <div class="listText">
