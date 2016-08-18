@@ -17,6 +17,8 @@ class Course extends CI_Controller
             $urictrol = $this->uri->segment(1, 0);
             $uriact = $this->uri->segment(2, 0);//info,signin
             $objid = $this->uri->segment(3, 0);
+            $parm4 = $this->uri->segment(4, 0);
+            $objid .= !empty($parm4)?'/'.$parm4:'';
             if (!empty($uriact) && !empty($objid)) {
                 $course = $this->course_model->get_row(array('id' => $objid));
                 $url = site_url('login/index/' . $course['company_code']) . '?urictrol=' . $urictrol . '&uriact=' . $uriact . '&uriobjid=' . $objid;
