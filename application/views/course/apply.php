@@ -19,7 +19,7 @@
         <div class="listCont">
 
             <div class="imgBox"><img
-                    src="<?php echo $this->config->item('pc_url') . 'uploads/course_img/' . $course['page_img'] ?>"
+                    src="<?php echo empty($course['page_img'])?$this->config->item('pc_url').'images/course_default_img.jpg':$this->config->item('pc_url').'uploads/course_img/'.$course['page_img'] ?>"
                     alt="" width="160"></div>
             <div class="listText">
                 <p class="titp"><a class="blue"

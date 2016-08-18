@@ -45,10 +45,14 @@
         </dl>
 </div>
 <div class="bottomFix">
-<?php if(empty($apply)&&$course['isapply_open']==1&&(strtotime($course['apply_start']) < time())&&(strtotime($course['apply_end']) > time())&&($course['apply_num']==0||$course['apply_count']<$course['apply_num'])){ ?>
-    <a href="<?php echo site_url('course/apply/'.$course['id']) ?>" class="blueBtnH40" >我要报名</a>
-<?php }elseif(strtotime($course['apply_end']) < time()|| strtotime($course['time_start']) < time() || ($course['apply_num']>0&&$c['apply_count']>=$course['apply_num'])){ ?>
+<?php if($course['apply_num']>0&&$c['apply_count']>=$course['apply_num']){ ?>
+    <span class="blueBtnH40 bgBlack" >报名已满</span>
+<?php }elseif(strtotime($course['time_start']) < time()){ ?>
+    <span class="blueBtnH40 bgBlack" >课程已开始</span>
+<?php }elseif(strtotime($course['apply_end']) < time()){ ?>
     <span class="blueBtnH40 bgBlack" >报名已结束</span>
+<?php }elseif(empty($apply)&&$course['isapply_open']==1&&(strtotime($course['apply_start']) < time())&&(strtotime($course['apply_end']) > time())&&($course['apply_num']==0||$course['apply_count']<$course['apply_num'])){ ?>
+    <a href="<?php echo site_url('course/apply/'.$course['id']) ?>" class="blueBtnH40" >我要报名</a>
 <?php }elseif($course['isapply_open']==1&&$apply['status']==3){ ?>
     <span class="blueBtnH40 bgBlack" >报名待审核</span>
 <?php }else{ ?>
