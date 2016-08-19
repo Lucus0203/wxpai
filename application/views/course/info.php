@@ -49,8 +49,6 @@
     <span class="blueBtnH40 bgBlack" >课程已结束</span>
 <?php }elseif($course['isapply_open']==1&&$apply['status']==3){ ?>
     <span class="blueBtnH40 bgBlack" >报名待审核</span>
-<?php }elseif(strtotime($course['time_start']) < time()){ ?>
-    <span class="blueBtnH40 bgBlack" >课程已开始</span>
 <?php }elseif(strtotime($course['apply_end']) < time()){ ?>
     <span class="blueBtnH40 bgBlack" >报名已结束</span>
 <?php }elseif($course['apply_num']>0&&$c['apply_count']>=$course['apply_num']){ ?>
