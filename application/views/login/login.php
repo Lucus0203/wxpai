@@ -30,7 +30,7 @@
     <div class="iptBox" <?php if(!empty($company)){ ?>style="display: none;" <?php } ?>>
                         <input name="company_code" type="text" class="ipt" placeholder="公司编号" value="<?php echo $company['code'] ?>" /></div>
     <div class="iptBox">
-                        <input name="mobile" type="mobile" class="ipt" placeholder="手机号码" /></div>
+                        <input name="mobile" type="mobile" value="<?php echo $mobile ?>" class="ipt" placeholder="手机号码" /></div>
     <div class="iptBox">
                         <input name="password" type="password" class="ipt" placeholder="登录密码" /></div>
     <input type="submit" value="登录" class="blueBtnH40">

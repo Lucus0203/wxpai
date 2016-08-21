@@ -69,7 +69,7 @@ class Login extends CI_Controller
             }
         }
         $company = $this->company_model->get_row(array('code' => $code));
-        $this->load->view('login/login', compact('error_msg','company'));
+        $this->load->view('login/login', compact('error_msg','company','mobile'));
 
     }
 
