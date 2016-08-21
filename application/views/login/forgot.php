@@ -149,6 +149,9 @@
     </header>
     <div class="mConts">
         <p class="red mb20"><?php echo $msg ?></p>
+        <?php if($success=='ok'){?>
+            <a href="<?php echo site_url('login/index/'.$company['code']) ?>" class="blueBtnH40">返回登录</a>
+        <?php }else{ ?>
         <form id="signupForm" action="" method="post" >
             <input type="hidden" name="act" value="act" />
             <div class="iptBox" <?php if(!empty($company['code'])){echo 'style="display:none;"';} ?> >
@@ -181,6 +184,7 @@
             </div>
             <input type="submit" value="修改密码" class="blueBtnH40">
         </form>
+        <?php } ?>
     </div>
 
 </article>
