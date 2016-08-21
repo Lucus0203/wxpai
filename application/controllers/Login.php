@@ -8,7 +8,7 @@ class Login extends CI_Controller
     {
         parent::__construct();
         $this->load->library(array('session', 'wechat'));
-        $this->load->helper(array('form', 'url'));
+        $this->load->helper(array('form', 'url','captcha'));
         $this->load->model(array('user_model', 'company_model', 'department_model', 'student_model'));
 
     }
@@ -16,7 +16,6 @@ class Login extends CI_Controller
 
     public function index($code)
     {
-        $wxinfo = array();
         $wxinfo = $this->session->userdata('wxinfo');
         if ((strpos($_SERVER['HTTP_USER_AGENT'], 'MicroMessenger') !== false) && empty($wxinfo)) {
             $this->getwechatcode($code);
@@ -75,15 +74,42 @@ class Login extends CI_Controller
     }
 
     private function indexRedirect(){
-        $urictrol = $this->input->get('urictrol');
-        $uriact = $this->input->get('uriact');
-        $uriobjid = $this->input->get('uriobjid');
-        if (!empty($uriobjid)) {
-            $url = site_url($urictrol . '/' . $uriact . '/' . $uriobjid);
-            redirect($url);
+        $action_uri=$this->session->userdata('action_uri');
+        if (!empty($action_uri)) {
+            redirect($action_uri);
         } else {
             redirect('course', 'index');
         }
+    }
+
+    //忘记密码
+    public function forgot($company_code){
+        $res = array();
+        $act = $this->input->post('act');
+        $res['company']=$this->company_model->get_row(array('code' => $company_code));
+        if (!empty($act)) {
+            $user = array('mobile' => $this->input->post('mobile'),
+                'user_pass' => $this->input->post('user_pass'),
+                'company_code' => $this->input->post('company_code'),
+                'mobile_code' => $this->input->post('mobile_code'));
+            $res['user']=$user;
+            $res['company'] = $company = $this->company_model->get_row(array('code' => $user['company_code']));
+            $userinfo = $this->student_model->get_row(array('mobile' => $user['mobile'],'company_code'=>$user['company_code'], 'isdel' => 2));
+            if (empty($company)) {
+                $msg = '公司编号错误';
+            } elseif (!empty($userinfo) && $userinfo['mobile_code'] == $user['mobile_code']) {
+                $user['mobile_code'] = rand(1000, 9999);//换个验证码
+                $user['user_pass'] = md5($user['user_pass']);
+                $this->student_model->update($user, $userinfo['id']);
+                $msg = '密码修改成功,请返回登录';
+                unset($res['user']);
+            } else {
+                $msg = '短信验证码错误';
+            }
+            $res['msg']=$msg;
+        }
+        $res['cap']=$this->getCaptcha();
+        $this->load->view('login/forgot', $res);
     }
 
     //注册1
@@ -99,22 +125,24 @@ class Login extends CI_Controller
                 'mobile_code' => $this->input->post('mobile_code'));
             $res['user'] = $user;
             $res['company']=$company = $this->company_model->get_row(array('code' => $user['company_code']));
-            $userinfo = $this->student_model->get_row(array('mobile' => $user['mobile'], 'isdel' => 2));
+            $userinfo = $this->student_model->get_row(array('mobile' => $user['mobile'],'company_code'=>$user['company_code'], 'isdel' => 2));
             if (empty($company)) {
-                $res['msg'] = '公司编码错误';
+                $res['msg'] = '公司编号错误';
             } elseif ($userinfo['register_flag'] == 2) {
                 $res['msg'] = '手机号已注册';
             } elseif (!empty($userinfo) && $userinfo['mobile_code'] == $user['mobile_code']) {
-                $code = rand(1000, 9999);//换个验证码
+                $user['mobile_code'] = rand(1000, 9999);//换个验证码
                 $user['user_pass'] = md5($user['user_pass']);
+                $user['user_name'] = $user['mobile'];
                 $this->student_model->update($user, $userinfo['id']);
                 $userinfo = $this->student_model->get_row(array('id' => $userinfo['id']));
                 $this->session->set_userdata('loginInfo', $userinfo);
                 redirect(site_url('login/register2/' . $userinfo['id']));
             } else {
-                $res['msg'] = '验证码错误,请重新获取';
+                $res['msg'] = '短信验证码错误';
             }
         }
+        $res['cap']=$this->getCaptcha();
 
         $this->load->view('login/register_first', $res);
     }
@@ -145,7 +173,7 @@ class Login extends CI_Controller
             $res['user'] = $user;
             $this->student_model->update($user, $loginInfo['id']);
             $this->session->set_userdata('loginInfo', $this->student_model->get_row(array('id' => $loginInfo['id'])));
-            redirect(site_url('course/index'));
+            $this->indexRedirect();
         }
 
         $this->load->view('login/register_complate', $res);
@@ -158,23 +186,49 @@ class Login extends CI_Controller
     }
 
     //获取验证码
-    public function getcode()
+    public function getcode($forgot='')
     {
-        $mobile = $this->input->post('mobile');
-        $code = rand(1000, 9999);
-        $userinfo = $this->student_model->get_row(array('mobile' => $mobile, 'isdel' => 2));
-        if ($userinfo['register_flag'] == 2) {
-            echo '此手机号已注册';
+        $s=$this->input->server(array('HTTP_REFERER'));
+        if(empty($s['HTTP_REFERER'])){
+            show_404();
             return false;
         }
+        $mobile = $this->input->post('mobile');
+        $company_code = $this->input->post('company_code');
+        $captcha = $this->input->post('captcha');
+        if(empty($mobile)){
+            echo '请输入手机号码';
+            return false;
+        }elseif(empty($company_code)){
+            echo '请输入公司编号';
+            return false;
+        }elseif($this->session->userdata('captcha')=='999999'){
+            echo '4位验证码已过期';
+            return false;
+        }elseif(strtolower($captcha)!=$this->session->userdata('captcha')){
+            echo '验证码错误';
+            return false;
+        }
+        $userinfo = $this->student_model->get_row(array('mobile' => $mobile,'company_code'=>$company_code, 'isdel' => 2));
+        if ($forgot=='forgot') {//忘记密码
+            if(empty($userinfo['user_name'])){
+                echo '此手机号未注册';
+                return false;
+            }
+        }elseif ($userinfo['register_flag'] == 2) {//注册
+            echo '手机号已注册';
+            return false;
+        }
+        $code = rand(1000, 9999);
         if (!empty($userinfo['id'])) {
             $this->student_model->update(array('mobile_code' => $code), $userinfo['id']);
         } else {
-            $this->student_model->create(array('mobile' => $mobile, 'mobile_code' => $code, 'created' => date("Y-m-d H:i:s")));
+            $this->student_model->create(array('mobile' => $mobile, 'mobile_code' => $code, 'company_code'=>$company_code,'created' => date("Y-m-d H:i:s")));
         }
         
         $this->load->library('zhidingsms');
         $this->zhidingsms->sendTPSMS($mobile,'@1@='.$code,'ZD30018-0001');
+        $this->session->set_userdata('captcha', '999999');
         echo 1;
     }
 
@@ -197,10 +251,7 @@ class Login extends CI_Controller
                 'country' => $userData->country,
                 'headimgurl' => $userData->headimgurl);
             $this->session->set_userdata('wxinfo', $wxinfo);
-            $urictrol = $this->input->get('urictrol');
-            $uriact = $this->input->get('uriact');
-            $uriobjid = $this->input->get('uriobjid');
-            $weburl=site_url('login/index/'.$company_code).'?urictrol='.$urictrol.'&uriact='.$uriact.'&uriobjid='.$uriobjid;
+            $weburl=site_url('login/index/'.$company_code);
             redirect($weburl);
         } else {
             $this->getwechatcode($company_code);
@@ -211,15 +262,32 @@ class Login extends CI_Controller
     //获取code url
     private function getwechatcode($company_code='')
     {
-        $urictrol = $this->input->get('urictrol');
-        $uriact = $this->input->get('uriact');
-        $uriobjid = $this->input->get('uriobjid');
-        $weburl=site_url('login/setwxinfo/'.$company_code).'?urictrol='.$urictrol.'&uriact='.$uriact.'&uriobjid='.$uriobjid;
+        $weburl=site_url('login/setwxinfo/'.$company_code);
 
         $state = rand(10000, 99999);
         $this->session->set_userdata('wxstate', $state);
         $url = $this->wechat->getCodeRedirect($weburl, $state);
         redirect($url);
+    }
+
+    public function updateCaptcha(){
+        $cap=$this->getCaptcha();
+        echo $cap['filename'];
+    }
+
+    private function getCaptcha(){
+        $vals = array(
+            'img_width' => '100',
+            'img_height'    => 30,
+            'word_length'   => 4,
+            'font_size' => 16,
+            'img_path'  => './uploads/captcha/',
+            'img_url'   => base_url().'uploads/captcha/',
+            'pool'      => '2345678abcdefhijkmnpqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ'
+        );
+        $cap = create_captcha($vals);
+        $this->session->set_userdata('captcha', strtolower($cap['word']));
+        return $cap;
     }
 
     public function loginout()

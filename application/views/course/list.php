@@ -31,7 +31,7 @@ $(document).ready(function(){
                         }
                     str+='</p>';
                     if($.trim(item.teacher)!=''){
-                           str+='<p>课程讲师：<span class="blue">'+item.teacher+'</span> </p>';
+                           str+='<p>课程讲师：<a class="blue" href="<?php echo base_url().'teacher/info/' ?>'+item.teacher_id+'">'+item.teacher+'</a> </p>';
                        }
                     str+='<p>开始时间：'+item.time_start+'</p>'+
                         '<p>结束时间：'+item.time_end+'</p>'+
@@ -59,7 +59,7 @@ $(document).ready(function(){
 
 <!--head-->
 <header class="clearfix" id="gHeader">
-        <div class="header"><?php echo ($mycourse=='mycourse')?'我报名的课程':'内训课程'; ?><a href="javascript:void(0);"><i class="ilevel">=</i></a></div>
+        <div class="header"><?php echo ($mycourse=='mycourse')?'我的课程':'内训课程'; ?><a href="javascript:void(0);"><i class="ilevel">=</i></a></div>
         <?php $this->load->view ( 'rightbar' ); ?>
 </header>
 <div class="mConts">

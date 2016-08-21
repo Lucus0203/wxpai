@@ -1,6 +1,6 @@
 <!--head-->
 <header class="clearfix mb0" id="gHeader">
-        <div class="header"><a href="<?php echo $_SERVER['HTTP_REFERER'];?>"><i class="iright">◇</i></a><?php echo $teacher['name'] ?><a href="javascript:void(0);"><i class="ilevel">=</i></a></div>
+        <div class="header"><a href="<?php echo site_url('course/index');?>"><i class="iright">◇</i></a><?php echo $teacher['name'] ?><a href="javascript:void(0);"><i class="ilevel">=</i></a></div>
         <?php $this->load->view ( 'rightbar' ); ?>
 </header>
 <div class="proCont">

@@ -25,32 +25,23 @@
 				</div>
 			</header>
 			<div class="mConts">
-                            <form method="post" action="">
-                                <input type="hidden" name="act" value="act" />
-				<div class="titp">学员用户登录</div>
-                                <p class="red"><?php echo $error_msg ?></p>
-				<div class="iptBox" <?php if(!empty($company)){ ?>style="display: none;" <?php } ?>>
-									<input name="company_code" type="text" class="ipt" placeholder="公司编号" value="<?php echo $company['code'] ?>" /></div>
-				<div class="iptBox">
-                                    <input name="mobile" type="mobile" class="ipt" placeholder="手机号码" /></div>
-				<div class="iptBox">
-                                    <input name="password" type="password" class="ipt" placeholder="登录密码" /></div>
-				<input type="submit" value="登录" class="blueBtnH40">
-                            </form>
-                            <p class="f18 aCenter gray9 mb20">还不是注册学员？</p>
-                            <a href="<?php echo site_url('login/register1/'.$company['code']) ?>" class="borBlueBtnH40">立即注册</a>
+                <form method="post" action="">
+                    <input type="hidden" name="act" value="act" />
+    <div class="titp">学员用户登录</div>
+                    <p class="red"><?php echo $error_msg ?></p>
+    <div class="iptBox" <?php if(!empty($company)){ ?>style="display: none;" <?php } ?>>
+                        <input name="company_code" type="text" class="ipt" placeholder="公司编号" value="<?php echo $company['code'] ?>" /></div>
+    <div class="iptBox">
+                        <input name="mobile" type="mobile" class="ipt" placeholder="手机号码" /></div>
+    <div class="iptBox">
+                        <input name="password" type="password" class="ipt" placeholder="登录密码" /></div>
+    <input type="submit" value="登录" class="blueBtnH40">
+                </form>
+                <a href="<?php echo site_url('login/register1/'.$company['code']) ?>" class="borBlueBtnH40">立即注册</a>
+                <a href="<?php echo site_url('login/forgot/'.$company['code']) ?>" class="borBlueBtnH40">忘记密码?</a>
 			</div>
 
 		</article>
-		<script>
-			var _hmt = _hmt || [];
-			(function() {
-				var hm = document.createElement("script");
-				hm.src = "//hm.baidu.com/hm.js?b84ccdce1e3ffd049fdf347fc743928b";
-				var s = document.getElementsByTagName("script")[0];
-				s.parentNode.insertBefore(hm, s);
-			})();
-		</script>
 	</body>
 
 </html>

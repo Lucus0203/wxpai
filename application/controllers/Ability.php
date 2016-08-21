@@ -10,19 +10,17 @@ class Ability extends CI_Controller {
 
         $this->_logininfo=$this->session->userdata('loginInfo');
         if(empty($this->_logininfo)){
-            $urictrol = $this->uri->segment(1, 0);
-            $uriact = $this->uri->segment(2, 0);//info,signin
-            $objid = $this->uri->segment(3, 0);
             $company_code = $this->uri->segment(4, 0);
-            if (!empty($uriact) && !empty($objid)) {
-                $url = site_url('login/index/' . $company_code) . '?urictrol=' . $urictrol . '&uriact=' . $uriact . '&uriobjid=' . $objid;
+            if (!empty($company_code)) {
+                $url = site_url('login/index/' . $company_code);
+                $this->session->set_userdata('action_uri', current_url());
                 redirect($url);
             } else {
                 redirect('login', 'index');
             }
         }else{
+            $this->session->unset_userdata('action_uri');
             $this->load->vars(array('loginInfo'=>$this->_logininfo));
-            $this->load->vars(array('homeUrl'=>$this->session->userdata('homeUrl')));
         }
 
     }

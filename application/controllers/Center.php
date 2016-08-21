@@ -13,7 +13,6 @@ class Center extends CI_Controller {
 			redirect('login','index');
 		}else{
 			$this->load->vars(array('loginInfo'=>$this->_logininfo));
-                        $this->load->vars(array('homeUrl'=>$this->session->userdata('homeUrl')));
 		}
 		
 	}
