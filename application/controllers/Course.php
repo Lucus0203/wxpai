@@ -8,8 +8,8 @@ class Course extends CI_Controller
     {
         parent::__construct();
         $this->load->library(array('session'));
-        $this->load->helper(array('form', 'url'));
-        $this->load->model(array('user_model', 'course_model', 'teacher_model', 'homework_model', 'homeworklist_model', 'survey_model', 'surveylist_model', 'ratings_model', 'ratingslist_model', 'signinlist_model'));
+        $this->load->helper(array('form', 'url','download'));
+        $this->load->model(array('user_model', 'course_model', 'teacher_model', 'homework_model', 'homeworklist_model', 'survey_model', 'surveylist_model', 'ratings_model', 'ratingslist_model', 'signinlist_model','prepare_model'));
 
         $this->load->database();
         $this->_logininfo = $this->session->userdata('loginInfo');
@@ -178,6 +178,29 @@ class Course extends CI_Controller
         $this->load->view('footer');
     }
 
+    //课前准备
+    public function prepare($courseid){
+        $prepare=$this->prepare_model->get_row(array('course_id'=>$courseid));
+        $course = $this->course_model->get_row(array('id' => $courseid,'company_code'=>$this->_logininfo['company_code']));
+        $this->load->view('header');
+        $this->load->view('course/prepare', compact('course','prepare','msg','success'));
+        $this->load->view('footer');
+    }
+
+    //下载课前准备附件
+    public function preparefile($courseid)
+    {
+        $prepare=$this->prepare_model->get_row(array('course_id'=>$courseid));
+        $filepath = str_replace('html/wxpai','html/pai', FCPATH ).'uploads/course_file/';//
+        if(file_exists($filepath. $prepare['file'])){
+            $data = file_get_contents($filepath . $prepare['file']); // Read the file's contents
+            force_download($prepare['filename'], $data);
+        }else{
+            echo '文档不存在,请联系客服人员';
+        }
+
+    }
+
     //课前调研
     public function survey($courseid)
     {
@@ -188,7 +211,7 @@ class Course extends CI_Controller
             . " where hwlist.course_id=$courseid and hwlist.student_id=" . $logininfo['id'] . " order by hwlist.id ";
         $query = $this->db->query($sql);
         $survey = $query->result_array();
-        if (count($survey) == $total) {//已答过内容展示所有问题与答案
+        if (count($survey) == $total && $total>0) {//已答过内容展示所有问题与答案
             $this->load->view('header');
             $this->load->view('course/survey_result', array('course' => $course, 'survey' => $survey));
             $this->load->view('footer');
