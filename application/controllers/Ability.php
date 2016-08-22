@@ -21,6 +21,7 @@ class Ability extends CI_Controller {
         }else{
             $this->session->unset_userdata('action_uri');
             $this->load->vars(array('loginInfo'=>$this->_logininfo));
+            $this->load->vars(array('homeUrl' => site_url('ability/index')));
         }
 
     }

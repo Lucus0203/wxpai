@@ -26,7 +26,8 @@ class Course extends CI_Controller
         } else {
             $this->session->unset_userdata('action_uri');
             $this->load->vars(array('loginInfo' => $this->_logininfo));
-            $this->load->vars(array('homeUrl' => $this->session->userdata('homeUrl')));
+            $homeUrl=$this->session->userdata('homeUrl');
+            $this->load->vars(array('homeUrl' => $homeUrl??site_url('course/index')));
         }
 
     }
@@ -389,6 +390,15 @@ class Course extends CI_Controller
             $msg='签退已结束';
         }
         echo '<script type="text/javascript">alert("'.$msg.'");window.location="' . site_url('login/loginout') . '";</script>';
+    }
+
+
+    //是否是自己公司下的课程
+    private function isAllowCourseid($courseid){
+        if(empty($courseid)||$this->course_model->get_count(array('id' => $courseid,'company_code'=>$this->_logininfo['company_code']))<=0){
+            redirect(site_url('course/index'));
+            return false;
+        }
     }
 
 }
