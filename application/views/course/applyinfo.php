@@ -38,8 +38,10 @@
                 <?php echo nl2br($course['info']) ?>
             </dd>
         <?php } ?>
+        <?php if(!empty($course['income'])){ ?>
         <dt>课程收益</dt>
         <dd><?php echo nl2br($course['income']) ?></dd>
+        <?php } ?>
         <dt>课程大纲</dt>
         <dd class="noborder">
             <?php echo nl2br($course['outline']) ?>
