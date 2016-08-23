@@ -644,13 +644,13 @@ textarea:after {
 
 .topNavi li {
 	display: inline-block;
-	line-height: 40px;
+	line-height: 45px;
+    width: 23%;
 }
 
 .topNavi li a {
 	color: #666;
-	font-size: 14px;
-	padding: 0 10px;
+	font-size: 16px;
 }
 
 .topNavi li a:hover,
@@ -658,7 +658,7 @@ textarea:after {
 	border-bottom: 2px solid #10d6ef;
 	display: inline-block;
 	margin-bottom: -2px;
-	font-weight: 600;
+    color:#10d6ef;
 }
 
 .proBox {
