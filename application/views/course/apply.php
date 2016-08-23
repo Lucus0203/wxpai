@@ -42,7 +42,7 @@
                 <?php if (!empty($course['apply_tip'])) { ?><p class="red"><?php echo $course['apply_tip'] ?></p><?php } ?>
 
             </div>
-            <input type="submit" value="提交报名申请" class="blueBtnH40">
+            <input type="submit" value="提交报名申请" class="blueBtnH40 noradius">
         </form>
     </div>
 

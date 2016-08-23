@@ -315,7 +315,7 @@ class Course extends CI_Controller
                     $this->ratingslist_model->create($o);
                 }
             }
-            $msg = '提交成功';
+            $msg = '评价提交成功';
         }
         $question = $this->ratings_model->get_all(array('course_id' => $courseid));
         foreach ($question as $qk => $q) {
