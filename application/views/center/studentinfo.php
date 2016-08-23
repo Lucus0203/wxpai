@@ -34,12 +34,6 @@
                 name: {
                     required: true
                 },
-                job_code: {
-                    required: true
-                },
-                job_name: {
-                    required: true
-                },
                 department_parent_id: {
                     required: true
                 },
@@ -54,12 +48,6 @@
                 name: {
                     required: "请输入您的姓名"
                 },
-                job_code: {
-                    required: "请输入您的工号"
-                },
-                job_name: {
-                    required: "请输入您的职业名称"
-                },
                 department_parent_id: {
                     required: "请选择您所在的部门"
                 },
@@ -67,7 +55,7 @@
                     required: "请输入您的手机号码"
                 },
                 email: {
-                    required: "请输入您的点子邮箱"
+                    required: "请输入您的电子邮箱"
                 }
             },
             errorPlacement: function ( error, element ) {
