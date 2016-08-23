@@ -352,12 +352,12 @@ class Course extends CI_Controller
             return;
         }
         $msg="签到失败";
-        $logout='';
+        $redirect='window.location="' . site_url('course/info/' . $courseid) . '"';
         if($this->_logininfo['company_code']!=$course['company_code']){
             $msg='您不是此公司的员工';
             $logininfo['company_code']=$course['company_code'];
             $this->session->set_userdata('loginInfo', $logininfo);
-            $logout='window.location="' . site_url('login/loginout') . '";';
+            $redirect='window.location="' . site_url('login/loginout') . '";';
         }elseif($course['issignin_open'] != 1){
             $msg='签到未开启';
         }elseif ($course['signin_start'] > date("Y-m-d H:i:s")){
@@ -365,7 +365,7 @@ class Course extends CI_Controller
         }elseif ($course['signin_end'] < date("Y-m-d H:i:s")){
             $msg='签到已结束';
         }
-        echo '<script type="text/javascript">alert("'.$msg.'");' . $logout . '</script>';
+        echo '<script type="text/javascript">alert("'.$msg.'");' . $redirect . '</script>';
 
     }
 
@@ -384,12 +384,12 @@ class Course extends CI_Controller
             return;
         }
         $msg="签退失败";
-        $logout='';
+        $redirect='window.location="' . site_url('course/info/' . $courseid) . '"';
         if($this->_logininfo['company_code']!=$course['company_code']){
             $msg='您不是此公司的员工';
             $logininfo['company_code']=$course['company_code'];
             $this->session->set_userdata('loginInfo', $logininfo);
-            $logout='window.location="' . site_url('login/loginout') . '";';
+            $redirect='window.location="' . site_url('login/loginout') . '";';
         }elseif($course['issignin_open'] != 1){
             $msg='签退未开启';
         }elseif ($course['signout_start'] > date("Y-m-d H:i:s")){
@@ -397,7 +397,7 @@ class Course extends CI_Controller
         }elseif ($course['signout_end'] < date("Y-m-d H:i:s")){
             $msg='签退已结束';
         }
-        echo '<script type="text/javascript">alert("'.$msg.'");' . $logout . '</script>';
+        echo '<script type="text/javascript">alert("'.$msg.'");' . $redirect . '</script>';
     }
 
 
