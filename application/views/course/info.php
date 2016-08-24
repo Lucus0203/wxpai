@@ -45,11 +45,11 @@
         </dl>
 </div>
 <div class="bottomFix">
-<?php if(strtotime($course['time_end']) < time()){ ?>
+<?php if(!empty($course['time_end'])&&strtotime($course['time_end']) < time()){ ?>
     <span class="blueBtnH40 bgBlack mb0 noradius" >课程已结束</span>
 <?php }elseif($course['isapply_open']==1&&$apply['status']==3){ ?>
     <span class="blueBtnH40 bgBlack mb0 noradius" >报名待审核</span>
-<?php }elseif(strtotime($course['apply_end']) < time()){ ?>
+<?php }elseif(!empty($course['apply_end'])&&strtotime($course['apply_end']) < time()){ ?>
     <span class="blueBtnH40 bgBlack mb0 noradius" >报名已结束</span>
 <?php }elseif($course['apply_num']>0&&$c['apply_count']>=$course['apply_num']){ ?>
     <span class="blueBtnH40 bgBlack mb0 noradius" >报名已满</span>
