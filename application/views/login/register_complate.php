@@ -90,6 +90,7 @@
 				</div>
 				<div class="iptBox">
                                     <select class="ipt" name="department_id" >
+                                        <option value="">选择部门</option>
                                         <?php foreach($deaprtments as $d){?>
                                         <option value="<?php echo $d['id'] ?>"><?php echo $d['name'] ?></option>
                                         <?php } ?>

@@ -43,6 +43,11 @@ class Company_model extends CI_Model {
 		$this->db->where ( 'id', $id );
 		$this->db->delete ( 'company' );
 	}
+	//统计数量
+    public function get_count($where=FALSE){
+        $this->db->where ($where);
+        return $this->db->count_all_results('company');
+    }
         
         public function get_last_company(){
                 $this->db->order_by('id','desc');

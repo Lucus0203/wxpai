@@ -210,6 +210,10 @@ class Login extends CI_Controller
             echo '验证码错误';
             return false;
         }
+        if($this->company_model->get_count(array('code'=>$company_code))<=0){
+            echo '未找到对应的公司编号';
+            return false;
+        }
         $userinfo = $this->student_model->get_row(array('mobile' => $mobile,'company_code'=>$company_code, 'isdel' => 2));
         if ($forgot=='forgot') {//忘记密码
             if(empty($userinfo['user_name'])){
