@@ -2,7 +2,7 @@
 <html><head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
-    <title>忘记密码</title>
+    <title>重置密码</title>
     <meta name="keywords" content="" />
     <meta name="description" content="" />
     <meta name="author" content="" />
@@ -145,7 +145,7 @@
 <article id="container">
     <!--head-->
     <header class="clearfix" id="gHeader">
-        <div class="header"><a href="<?php echo site_url('login/index/'.$company['code']) ?>"><i class="iright">◇</i></a>忘记密码</div>
+        <div class="header"><a href="<?php echo site_url('login/index/'.$company['code']) ?>"><i class="iright">◇</i></a>重置密码</div>
     </header>
     <div class="mConts">
         <p class="red mb20"><?php echo $msg ?></p>
@@ -182,7 +182,7 @@
             <div class="iptBox">
                 <input name="user_pass" value="<?php echo $user['user_pass'] ?>" type="text" class="ipt" placeholder="设置密码" autocomplete="off" />
             </div>
-            <input type="submit" value="修改密码" class="blueBtnH40">
+            <input type="submit" value="确定重置" class="blueBtnH40">
         </form>
         <?php } ?>
     </div>

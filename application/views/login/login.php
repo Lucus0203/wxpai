@@ -36,7 +36,7 @@
     <input type="submit" value="登录" class="blueBtnH40">
                 </form>
                 <a href="<?php echo site_url('login/register1/'.$company['code']) ?>" class="borBlueBtnH40">立即注册</a>
-                <a href="<?php echo site_url('login/forgot/'.$company['code']) ?>" class="borBlueBtnH40">忘记密码?</a>
+                <a href="<?php echo site_url('login/forgot/'.$company['code']) ?>" class="borBlueBtnH40">重置密码</a>
 			</div>
 
 		</article>
