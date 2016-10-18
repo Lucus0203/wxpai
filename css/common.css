@@ -55,12 +55,12 @@ input[type="radio"],input[type="checkbox"]{
     border-radius:100%;
     display:inline-block;
     height:16px;
-    margin-right:10px;
     margin-top:-1px;
+    vertical-align: middle;
 }
 input[type="checkbox"]{border-radius:0}
 input[type=radio]:checked,input[type="checkbox"]:checked{
-    background-color:#09bed5;border-radius:100%;content:"";display:inline-block;height:12px;margin:2px;width:12px;
+    background-color:#09bed5;height:16px;
 }
 
 input,
