@@ -69,9 +69,9 @@
         <div class="bottom">
             <p class="aCenter gray9"><?php echo ($page++).'/'.count($abilities) ?></p>
             <?php if($abilies===end($abilities)) { ?>
-                <input type="submit" value="确认提交" class="blueBtnH40">
+                <input type="submit" value="确认提交" class="blueBtnH40 mb0">
             <?php }else{ ?>
-                <input type="button" value="下一页  >" class="blueBtnH40 next">
+                <input type="button" value="下一页  >" class="blueBtnH40 mb0 next">
             <?php } ?>
         </div>
     </div>

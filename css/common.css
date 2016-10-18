@@ -45,18 +45,20 @@ textarea {
 input::-ms-clear {
 	display: none;
 }
+input:focus, textarea:focus {outline: none;}
+input:focus{-webkit-tap-highlight-color:rgba(0,0,0,0);-webkit-user-modify:read-write-plaintext-only;}
 
 input,
 select,
 textarea {
 	font-size: 100%;
 	color: #666;
-	-webkit-appearance: none;
 }
 
 a {
 	text-decoration: none;
 	color: #0066cc;
+    -webkit-appearance:none;
 }
 
 * html .clearfix {
@@ -153,6 +155,10 @@ textarea:after {
 	margin-bottom: 20px !important;
 }
 
+.mb50 {
+	margin-bottom: 50px !important;
+}
+
 .pt10 {
 	padding-top: 10px !important;
 }
@@ -161,9 +167,13 @@ textarea:after {
 	padding: 15px !important;
 }
 
-.f50{ font-size: 50px !important;}
-.f24{ font-size: 24px !important;}
+.f50 {
+	font-size: 50px !important;
+}
 
+.f24 {
+	font-size: 24px !important;
+}
 
 .p20 {
 	padding: 20px !important;
@@ -197,6 +207,15 @@ textarea:after {
 	width: 70% !important;
 }
 
+.wb90 {
+	width: 90% !important;
+}
+
+.wb100 {
+	width: 100% !important;
+}
+
+
 .bgOrange {
 	background-color: #f2da89 !important;
 }
@@ -210,7 +229,7 @@ textarea:after {
 }
 
 .bgBlack {
-    background-color: #828282 !important;
+	background-color: #828282 !important;
 }
 
 .blue {
@@ -290,13 +309,13 @@ textarea:after {
 
 .blueBtnH40 {
 	background-color: #67d0de;
-	border-radius: 3px;
 	display: inline-block;
 	width: 100%;
 	line-height: 41px;
 	color: #fff;
 	font-size: 16px;
 	margin: 10px 0;
+    -webkit-appearance: none;
 }
 
 .borBlueBtnH40 {
@@ -309,18 +328,31 @@ textarea:after {
 	display: inline-block;
 	margin: 10px 0;
 	width: 100%;
+    -webkit-appearance: none;
 }
 
-.borBlueBtnH40:hover {
-	background-color: #6ac0d4;
-	color: #fff;
+.f12 {
+    font-size: 12px !important;
 }
 
-.f16{ font-size: 16px !important;}
-.f18{ font-size: 18px !important;}
-.fblock{display: block;}
+.f16 {
+	font-size: 16px !important;
+}
 
-.error{ display: block !important; text-align: left !important; clear:  both !important;}
+.f18 {
+	font-size: 18px !important;
+}
+
+.fblock {
+	display: block;
+}
+
+.error {
+	display: block !important;
+	text-align: left !important;
+	clear: both !important;
+}
+
 
 /*公共头部*/
 
@@ -330,7 +362,6 @@ textarea:after {
 	min-height: 50px;
 	overflow: hidden;
 	zoom: 1;
-	
 }
 
 .mLogo {
@@ -383,7 +414,7 @@ textarea:after {
 	width: 100%;
 	border-radius: 3px;
 	font-size: 16px;
-	padding:15px;
+	padding: 15px;
 	height: 150px;
 }
 
@@ -488,18 +519,18 @@ textarea:after {
 	max-width: 40%;
 	float: left;
 	margin-right: 5%;
-    min-height: 100px;
+	min-height: 100px;
 }
 
 .listBox .listCont .imgBox .helper {
-    display: inline-block;
-    height: 100%;
-    vertical-align: middle;
+	display: inline-block;
+	height: 100%;
+	vertical-align: middle;
 }
 
-.listBox .listCont .imgBox img{
+.listBox .listCont .imgBox img {
 	max-width: 100% !important;
-    vertical-align: middle;
+	vertical-align: middle;
 }
 
 .listBox .listCont .listText {
@@ -521,12 +552,10 @@ textarea:after {
 .listBox .listCont .listText .titp a {
 	min-width: 150px;
 	max-width: 70%;
-	word-break:break-all; /*支持IE，chrome，FF不支持*/
-	word-wrap:break-word;/*支持IE，chrome，FF*/ 
-}
-
-.listBox .listCont .listText .titp a:hover {
-	color: #31c9dc;
+	word-break: break-all;
+	/*支持IE，chrome，FF不支持*/
+	word-wrap: break-word;
+	/*支持IE，chrome，FF*/
 }
 
 .loadText {
@@ -645,7 +674,7 @@ textarea:after {
 .topNavi li {
 	display: inline-block;
 	line-height: 45px;
-    width: 23%;
+	width: 23%;
 }
 
 .topNavi li a {
@@ -653,12 +682,11 @@ textarea:after {
 	font-size: 16px;
 }
 
-.topNavi li a:hover,
 .topNavi li.cur a {
 	border-bottom: 2px solid #10d6ef;
 	display: inline-block;
 	margin-bottom: -2px;
-    color:#10d6ef;
+	color: #10d6ef;
 }
 
 .proBox {
@@ -705,17 +733,26 @@ textarea:after {
 	padding: 0 10px;
 }
 
+.btnList{ width: 100%;}
+
 .btnList li {
 	width: 30%;
-	display: inline-block;
-	padding: 0 5%;
+	display: block;
+	float:  left;
 }
+
+.btnList li a{ display:  block; width: auto !important;}
 
 
 /*星星*/
-.startConts{ border-bottom: 1px solid #ececec; padding: 20px 0;}
+
+.startConts {
+	border-bottom: 1px solid #ececec;
+	padding: 20px 0;
+}
+
 .startBox {
-	margin:  15px 0;
+	margin: 15px 0;
 	vertical-align: middle;
 	background: url(../images/star_rank.png) no-repeat left -23px;
 	display: inline-block;
@@ -739,7 +776,7 @@ textarea:after {
 }
 
 .dataDl dt {
-	float: left;	
+	float: left;
 	color: #a5a5a5;
 	padding: 8px;
 }
@@ -750,56 +787,296 @@ textarea:after {
 	padding: 8px 0 8px 30%;
 }
 
-.gray3{ color: #333 !important;}
-.iconV{ letter-spacing: 10px; font-family: "agency fb";}
+.gray3 {
+	color: #333 !important;
+}
 
-.fankui { text-align: left;}
+.iconV {
+	letter-spacing: 10px;
+	font-family: "agency fb";
+}
 
-.fankui dt{ color: #7d7d7d; font-size: 15px; line-height: 1.7; padding: 25px 20px 10px;}
+.fankui {
+	text-align: left;
+}
 
-.fankui dd{ padding: 10px 20px 30px; overflow: hidden; zoom:1; border-bottom: 1px solid #dfdfdf;/*box-shadow: 1px 1px 1px #ccc;*/}
-.fankui dd.noborder{ border-bottom: none;}
-.fankui dd ul li { width: 20%; float: left;}
-.fankui dd ul li a{ border:  1px solid #dfdfdf;  background-color: #fff;margin: 0 3px; color: #7f7f7f; display: block; font-size: 15px; text-align: center; padding: 10px 0;}
-.starsList{ margin: 10px 0;}
-.starsList a{ color: #ccc; font-size: 35px; font-weight: bold; font-family: serif; margin:  0 3px;}
+.fankui dt {
+	color: #7d7d7d;
+	font-size: 15px;
+	line-height: 1.7;
+	padding: 25px 20px 10px;
+}
 
-.starsList a.starOn{ color: #00bbd3;}
+.fankui dd {
+	padding: 10px 20px 30px;
+	overflow: hidden;
+	zoom: 1;
+	border-bottom: 1px solid #dfdfdf;
+	/*box-shadow: 1px 1px 1px #ccc;*/
+}
 
-.white{ color:#fff;font-weight: normal;  }
+.fankui dd.noborder {
+	border-bottom: none;
+}
 
-.bottomFix{ position: fixed; bottom: 0; width:  100%;}
-.bottomFix a{margin:0;}
+.fankui dd ul li {
+	width: 20%;
+	float: left;
+}
 
-.starBox{ margin-bottom:  40px;}
-.starBox .star { margin-bottom: -2px; margin-left: 5px;}
-.starBox li{ display: inline-block; margin-right: 5px;}
-.starBox li a{ text-align:  center; color: #e7e7e7; display: inline-block;padding-bottom: 11px; position: relative;font-size: 0.9em;}
-.starBox li a span.num{position: absolute;top:0;left: 0;width: 35px;line-height: 38px;text-align: center;color:#ffffff;    font-size: 16px;}
-.starBox li.yellow a{ color:#ffce49;}
-.starBox li.blue a{ color:#9de0e7;}
-.starBox li.cur a{ background: url(../images/start_cur.png) no-repeat left top;}
-.starColorYellow{color:#ffce49;}
-.starColorBlue{color:#9de0e7;}
+.fankui dd ul li a {
+	border: 1px solid #dfdfdf;
+	background-color: #fff;
+	margin: 0 3px;
+	color: #7f7f7f;
+	display: block;
+	font-size: 15px;
+	text-align: center;
+	padding: 10px 0;
+}
 
-.starBox .starTxt{ font-size:  16px; color: #3e3e3e; border:  1px solid #f0f0f0; padding: 10px;border-radius: 5px; background-color: #f8f8f8;}
-.pinggu{ padding: 20px; color:#666;}
+.starsList {
+	margin: 10px 0;
+}
 
-.pinggu p{ font-size:  18px; margin-bottom: 10px; text-align: left;}
-.pinggulist{ line-height:  1.2; text-align: left; margin: 0 auto; width: 200px; font-size: 18px; color:#666; }
-.pinggulist li{margin: 20px 0;}
-.pinggulist li span{ line-height: 30px;}
-.pinggulist li .star{ display: inline-block; font-size: 30px; font-family: arial; vertical-align:  middle;}
+.starsList a {
+	color: #ccc;
+	font-size: 35px;
+	font-weight: bold;
+	font-family: serif;
+	margin: 0 3px;
+}
 
-.pinggulist li .star a{color: #e7e7e7; font-weight:  bold;}
-.pinggulist li .star a.starOn{ color: #ffce49;}
-.pinggulist li span.txt{ display: inline-block; width: 40%;}
-.pingguImg{ width: 80%; margin:  0 auto; height: 300px;}
-.fl{ float: left !important; }
-.txtIn{text-indent:2em !important;}
-.w360{width:360px !important;}
-.verAlignDot{vertical-align:  -12px; }
-.captchaBtn{display: block;float:right;text-align: right;font-size: 12px; margin: 11px 0 0;width: 35%;}
-.captchaBtn img{margin-right:5px;vertical-align: middle;}
-.prepareTxt{line-height: 26px;word-break: break-all;}
-.noradius{border-radius: inherit;}
+.starsList a.starOn {
+	color: #00bbd3;
+}
+
+.white {
+	color: #fff;
+	font-weight: normal;
+}
+
+.bottomFix {
+	position: fixed;
+	bottom: 0;
+	width: 100%;
+	padding: 0;
+}
+
+.bottomFix a {
+	margin: 0;
+}
+
+.starBox {
+	margin-bottom: 40px;
+}
+
+.starBox .star {
+	margin-bottom: -2px;
+	margin-left: 5px;
+}
+
+.starBox li {
+	display: inline-block;
+	margin-right: 5px;
+}
+
+.starBox li a {
+	text-align: center;
+	color: #e7e7e7;
+	display: inline-block;
+	padding-bottom: 11px;
+	position: relative;
+	font-size: 0.9em;
+}
+
+.starBox li a span.num {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 35px;
+	line-height: 38px;
+	text-align: center;
+	color: #ffffff;
+	font-size: 16px;
+}
+
+.starBox li.yellow a {
+	color: #ffce49;
+}
+
+.starBox li.blue a {
+	color: #9de0e7;
+}
+
+.starBox li.cur a {
+	background: url(../images/start_cur.png) no-repeat left top;
+}
+
+.starColorYellow {
+	color: #ffce49;
+}
+
+.starColorBlue {
+	color: #9de0e7;
+}
+
+.starBox .starTxt {
+	font-size: 16px;
+	color: #3e3e3e;
+	border: 1px solid #f0f0f0;
+	padding: 10px;
+	border-radius: 5px;
+	background-color: #f8f8f8;
+}
+
+.pinggu {
+	padding: 20px;
+	color: #666;
+}
+
+.pinggu p {
+	font-size: 18px;
+	margin-bottom: 10px;
+	text-align: left;
+}
+
+.pinggulist {
+	line-height: 1.2;
+	text-align: left;
+	margin: 0 auto;
+	width: 200px;
+	font-size: 18px;
+	color: #666;
+}
+
+.pinggulist li {
+	margin: 20px 0;
+}
+
+.pinggulist li span {
+	line-height: 30px;
+}
+
+.pinggulist li .star {
+	display: inline-block;
+	font-size: 30px;
+	font-family: arial;
+	vertical-align: middle;
+}
+
+.pinggulist li .star a {
+	color: #e7e7e7;
+	font-weight: bold;
+}
+
+.pinggulist li .star a.starOn {
+	color: #ffce49;
+}
+
+.pinggulist li span.txt {
+	display: inline-block;
+	width: 40%;
+}
+
+.pingguImg {
+	width: 80%;
+	margin: 0 auto;
+	height: 300px;
+}
+
+.fl {
+	float: left !important;
+}
+
+.txtIn {
+	text-indent: 2em !important;
+}
+
+.w360 {
+	width: 360px !important;
+}
+
+.verAlignDot {
+	vertical-align: -12px;
+}
+
+.captchaBtn {
+	display: block;
+	float: right;
+	text-align: right;
+	font-size: 12px;
+	margin: 11px 0 0;
+	width: 35%;
+}
+
+.captchaBtn img {
+	margin-right: 5px;
+	vertical-align: middle;
+}
+
+.prepareTxt {
+	line-height: 26px;
+	word-break: break-all;
+}
+
+.noradius {
+	border-radius: inherit;
+}
+
+.listUl {
+	clear: both;
+	overflow: hidden;
+	zoom: 1;
+}
+
+.listUl li {
+	float: left;
+	width: 50%;
+}
+
+.tipsF14 {
+	font-size: 14px;
+	line-height: 1.7;
+	margin: 20px 10px;
+}
+
+.feiTips {
+	border-bottom: 1px solid #dcdcdc;
+	font-size: 18px;
+	line-height: 30px;
+	height: 15px;
+	margin: 0 15px 30px 15px;
+}
+
+.feiTips span {
+	background-color: #fff;
+	padding: 0 10px;
+}
+
+.feiList {
+	overflow: hidden;
+	zoom: 1;
+	clear: both;
+	margin-bottom: 20px;
+}
+
+.feiList li {
+	width: 100%;
+	float: left;
+}
+
+.feiList li a {
+	margin: 10px 10px 0 10px;
+    padding: 0 5px;
+	border: 1px solid #ccc;
+	text-align: center;
+	color: #666666;
+	display: block;
+	line-height: 30px;
+}
+.feiList li.on a{
+	border: 1px solid #00bbd3;
+	background-color: #e8fdff;
+	color: #00bbd3;
+}
