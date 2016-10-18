@@ -354,7 +354,6 @@ class Course extends CI_Controller
         $msg="签到失败";
         $redirect='window.location="' . site_url('course/info/' . $courseid) . '"';
         if($this->_logininfo['company_code']!=$course['company_code']){
-            $msg='您不是此公司的员工';
             $logininfo['company_code']=$course['company_code'];
             $this->session->set_userdata('loginInfo', $logininfo);
             $redirect='window.location="' . site_url('login/loginout') . '";';
@@ -386,7 +385,6 @@ class Course extends CI_Controller
         $msg="签退失败";
         $redirect='window.location="' . site_url('course/info/' . $courseid) . '"';
         if($this->_logininfo['company_code']!=$course['company_code']){
-            $msg='您不是此公司的员工';
             $logininfo['company_code']=$course['company_code'];
             $this->session->set_userdata('loginInfo', $logininfo);
             $redirect='window.location="' . site_url('login/loginout') . '";';
