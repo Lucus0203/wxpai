@@ -112,7 +112,7 @@
                                 <option <?php if($loginInfo['department_id']==$d['id']){ ?>selected=""<?php } ?> value="<?php echo $d['id'] ?>"><?php echo $d['name'] ?></option>
                             <?php } ?>
                         </select>
-                        </div>
+                    </div>
 
                 </dd>
                 <dt><label for="mobile">手机号码</label></dt>

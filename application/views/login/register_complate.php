@@ -14,6 +14,29 @@
 		<script type="text/javascript" src="<?php echo base_url();?>js/jquery.validate.min.js"></script>
 		<script type="text/javascript">
 			$(document).ready(function(){
+                $('select[name=department_parent_id]').change(function(){
+                    var departmentid=$(this).val();
+                    $.ajax({
+                        type:"post",
+                        url:'<?php echo site_url('center/ajaxDepartment') ?>',
+                        data:{'departmentid':departmentid},
+                        datatype:'jsonp',
+                        success:function(res){
+                            var json_obj = $.parseJSON(res);
+                            var count=0;
+                            var str='<option value="'+departmentid+'">请选择</option>';
+                            $.each(json_obj.departs,function(i,item){
+                                str+='<option value="'+item.id+'">'+item.name+'</option>';
+                                ++count;
+                            });
+                            if(count>0){
+                                $('select[name=department_id]').show().html(str)
+                            }else{
+                                $('select[name=department_id]').hide().html('<option value="'+departmentid+'" selected >请选择</option>');
+                            }
+                        }
+                    });
+                });
 				$( "#signupForm" ).validate( {
                                         rules: {
 						name: {
@@ -23,7 +46,6 @@
 							required: true
 						},
 						email: {
-							required: true,
 							email: true
 						}
 					},
@@ -37,7 +59,6 @@
 							required: "请选择您的所在部门"
 						},
 						email: {
-							required: "请输入您的电子邮箱",
 							email: "请输入正确的电子邮箱"
 						}
 					},
@@ -71,8 +92,8 @@
                                     <input name="name" value="<?php echo $user['name'] ?>" type="text" class="ipt" placeholder="您的姓名" />
                                 </div>
                                 <div class="iptBox">
-                                    <label><input name="sex" value="1" type="radio" checked />男</label>
-                                    <label><input name="sex" value="2" type="radio" />女</label>
+                                    <label><input name="sex" value="1" type="radio" checked />&nbsp;男</label>&nbsp;&nbsp;
+                                    <label><input name="sex" value="2" type="radio" />&nbsp;女</label>
                                 </div>
                                 <div class="iptBox">
                                     <input name="job_code" value="<?php echo $user['job_code'] ?>" type="text" class="ipt" placeholder="您的工号" />
@@ -80,10 +101,16 @@
                                 <div class="iptBox">
                                     <input name="job_name" value="<?php echo $user['job_name'] ?>" type="text" class="ipt" placeholder="职位名称" />
                                 </div>
-                                <div class="iptBox">
-                                    <select class="ipt" name="department_id" >
-                                        <option value="">选择部门</option>
-                                        <?php foreach($deaprtments as $d){?>
+                                <div class="noboriptBox">
+                                    <select id="department_parent_id" name="department_parent_id" style="height: 41px;" class="ipt">
+                                        <option value="">请选择</option>
+                                        <?php foreach ($deprtments as $d){ ?>
+                                            <option value="<?php echo $d['id'] ?>"><?php echo $d['name'] ?></option>
+                                        <?php } ?>
+                                    </select>
+                                    <select id="department_id" name="department_id" style="display: none;height: 41px;" class="ipt">
+                                        <option value="">请选择</option>
+                                        <?php foreach ($second_departments as $d){ ?>
                                             <option value="<?php echo $d['id'] ?>"><?php echo $d['name'] ?></option>
                                         <?php } ?>
                                     </select>
