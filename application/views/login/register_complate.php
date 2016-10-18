@@ -19,12 +19,6 @@
 						name: {
 							required: true
 						},
-						job_code: {
-							required: true
-						},
-						job_name: {
-							required: true
-						},
 						department_id: {
 							required: true
 						},
@@ -38,12 +32,6 @@
 						name: {
 							required: "请输入您的姓名",
 							
-						},
-						job_code: {
-							required: "请输入您的工号"
-						},
-						job_name: {
-							required: "请输入您的职位名称"
 						},
 						department_id: {
 							required: "请选择您的所在部门"
@@ -79,26 +67,30 @@
 			<div class="mConts">
                             <form id="signupForm" action="" method="post" >
                                 <input type="hidden" name="act" value="act" />
-				<div class="iptBox">
+                                <div class="iptBox">
                                     <input name="name" value="<?php echo $user['name'] ?>" type="text" class="ipt" placeholder="您的姓名" />
-				</div>
-				<div class="iptBox">
+                                </div>
+                                <div class="iptBox">
+                                    <label><input name="sex" value="1" type="radio" checked />男</label>
+                                    <label><input name="sex" value="2" type="radio" />女</label>
+                                </div>
+                                <div class="iptBox">
                                     <input name="job_code" value="<?php echo $user['job_code'] ?>" type="text" class="ipt" placeholder="您的工号" />
-				</div>
-				<div class="iptBox">
+                                </div>
+                                <div class="iptBox">
                                     <input name="job_name" value="<?php echo $user['job_name'] ?>" type="text" class="ipt" placeholder="职位名称" />
-				</div>
-				<div class="iptBox">
+                                </div>
+                                <div class="iptBox">
                                     <select class="ipt" name="department_id" >
                                         <option value="">选择部门</option>
                                         <?php foreach($deaprtments as $d){?>
-                                        <option value="<?php echo $d['id'] ?>"><?php echo $d['name'] ?></option>
+                                            <option value="<?php echo $d['id'] ?>"><?php echo $d['name'] ?></option>
                                         <?php } ?>
                                     </select>
-				</div>
-				<div class="iptBox">
+                                </div>
+                                <div class="iptBox">
                                     <input name="email" value="<?php echo $user['email'] ?>" type="text" class="ipt" placeholder="电子邮件" />
-				</div>
+                                </div>
 
                                 <input type="submit" value="保存" class="blueBtnH40">
                             </form>

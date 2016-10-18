@@ -9,7 +9,7 @@ class Login extends CI_Controller
         parent::__construct();
         $this->load->library(array('session', 'wechat'));
         $this->load->helper(array('form', 'url','captcha'));
-        $this->load->model(array('user_model', 'company_model', 'department_model', 'student_model'));
+        $this->load->model(array('user_model', 'company_model', 'department_model', 'student_model','annualsurvey_model','annualanswer_model'));
 
     }
 
@@ -74,12 +74,29 @@ class Login extends CI_Controller
     }
 
     private function indexRedirect(){
+        $this->initSessionData();
         $action_uri=$this->session->userdata('action_uri');
         if (!empty($action_uri)) {
             redirect($action_uri);
         } else {
             redirect('course', 'index');
         }
+    }
+
+    private function initSessionData(){
+        $loginInfo=$this->session->userdata('loginInfo');
+        //年度调研
+        $survey=$this->annualsurvey_model->get_row("company_code=".$this->db->escape($loginInfo['company_code'])." and unix_timestamp(now()) >= unix_timestamp(time_start) and unix_timestamp(now()) <= unix_timestamp(time_end) and isdel = 2 ");
+        $annualSurveyStatus=0;
+        if(!empty($survey['id'])){
+            $annualSurveyStatus=1;//有问卷
+            $answer=$this->annualanswer_model->get_row(array('student_id'=>$loginInfo['id'],'company_code'=>$loginInfo['company_code'],'annual_survey_id'=>$survey['id']));
+            if(!empty($answer['id'])){
+                $annualSurveyStatus=2;//已回答
+            }
+        }
+        $loginInfo['annualSurveyStatus']=$annualSurveyStatus;
+        $this->session->set_userdata('loginInfo',$loginInfo );
     }
 
     //忘记密码
@@ -162,6 +179,7 @@ class Login extends CI_Controller
             $user = array('name' => $this->input->post('name'),
                 'job_code' => $this->input->post('job_code'),
                 'job_name' => $this->input->post('job_name'),
+                'sex' => $this->input->post('sex'),
                 'department_id' => $this->input->post('department_id'),
                 'email' => $this->input->post('email'),
                 'register_flag' => 2,
