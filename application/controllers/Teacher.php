@@ -13,8 +13,7 @@ class Teacher extends CI_Controller {
             $objid = $this->uri->segment(3, 0);
             if (!empty($objid)) {
                 $teacher=$this->teacher_model->get_row(array('id'=>$objid));
-                $url = site_url('login/index/' . $teacher['company_code']);
-                $this->session->set_userdata('action_uri', current_url());
+                $url = site_url('login/index/' . $teacher['company_code']).'?action_uri='.current_url();
                 redirect($url);
             } else {
                 redirect('login', 'index');

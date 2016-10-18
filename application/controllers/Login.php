@@ -75,7 +75,7 @@ class Login extends CI_Controller
 
     private function indexRedirect(){
         $this->initSessionData();
-        $action_uri=$this->session->userdata('action_uri');
+        $action_uri=$this->input->get('action_uri');
         if (!empty($action_uri)) {
             redirect($action_uri);
         } else {
@@ -315,11 +315,11 @@ class Login extends CI_Controller
 
     public function loginout()
     {
+        $action_uri=$this->session->userdata('action_uri');
         $logininfo = $this->session->userdata('loginInfo');
         $this->load->database();
         $this->db->query('update ' . $this->db->dbprefix('student') . ' set unionid = NULL where id=' . $logininfo['id']);
-        $this->session->sess_destroy();
-        redirect(site_url("login/index/".$logininfo['company_code']));
+        redirect(site_url("login/index/".$logininfo['company_code']).'?action_uri='.$action_uri);
     }
 
 }

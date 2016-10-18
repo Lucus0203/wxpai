@@ -17,8 +17,7 @@ class Course extends CI_Controller
             $objid = $this->uri->segment(3, 0);
             if (!empty($objid)) {
                 $course = $this->course_model->get_row(array('id' => $objid));
-                $url = site_url('login/index/' . $course['company_code']);
-                $this->session->set_userdata('action_uri', current_url());
+                $url = site_url('login/index/' . $course['company_code']).'?action_uri='.current_url();
                 redirect($url);
             } else {
                 redirect('login', 'index');
@@ -356,7 +355,8 @@ class Course extends CI_Controller
         if($this->_logininfo['company_code']!=$course['company_code']){
             $logininfo['company_code']=$course['company_code'];
             $this->session->set_userdata('loginInfo', $logininfo);
-            $redirect='window.location="' . site_url('login/loginout') . '";';
+            $this->session->set_userdata('action_uri', current_url());
+            redirect(site_url('login/loginout'));return false;
         }elseif($course['issignin_open'] != 1){
             $msg='签到未开启';
         }elseif ($course['signin_start'] > date("Y-m-d H:i:s")){
@@ -387,7 +387,8 @@ class Course extends CI_Controller
         if($this->_logininfo['company_code']!=$course['company_code']){
             $logininfo['company_code']=$course['company_code'];
             $this->session->set_userdata('loginInfo', $logininfo);
-            $redirect='window.location="' . site_url('login/loginout') . '";';
+            $this->session->set_userdata('action_uri', current_url());
+            redirect(site_url('login/loginout'));return false;
         }elseif($course['issignin_open'] != 1){
             $msg='签退未开启';
         }elseif ($course['signout_start'] > date("Y-m-d H:i:s")){

@@ -12,8 +12,7 @@ class Ability extends CI_Controller {
         if(empty($this->_logininfo)){
             $company_code = $this->uri->segment(4, 0);
             if (!empty($company_code)) {
-                $url = site_url('login/index/' . $company_code);
-                $this->session->set_userdata('action_uri', current_url());
+                $url = site_url('login/index/' . $company_code).'?action_uri='.current_url();
                 redirect($url);
             } else {
                 redirect('login', 'index');

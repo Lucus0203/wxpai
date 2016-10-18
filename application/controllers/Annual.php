@@ -13,8 +13,7 @@ class Annual extends CI_Controller {
             $objid = $this->uri->segment(3, 0);
             if (!empty($objid)) {
                 $survey = $this->annualsurvey_model->get_row(array('id' => $objid));
-                $url = site_url('login/index/' . $survey['company_code']);
-                $this->session->set_userdata('action_uri', current_url());
+                $url = site_url('login/index/' . $survey['company_code']).'?action_uri='.current_url();
                 redirect($url);
             } else {
                 redirect('login', 'index');
