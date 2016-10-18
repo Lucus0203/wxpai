@@ -174,12 +174,15 @@ class Login extends CI_Controller
         if (empty($loginInfo)) {
             redirect(site_url('login/register1'));
         }
-        $res['deaprtments'] = $this->department_model->get_all(array('company_code' => $loginInfo['company_code']));
+        $where = "parent_id is null and company_code = '{$loginInfo['company_code']}' ";
+        $deprtments = $this->department_model->get_all($where);
+        $second_departments = !empty($studentinfo['department_parent_id'])?$this->department_model->get_all(array('parent_id' => $studentinfo['department_parent_id'],'company_code'=>$loginInfo['company_code'])):array();
         if (!empty($act)) {
             $user = array('name' => $this->input->post('name'),
                 'job_code' => $this->input->post('job_code'),
                 'job_name' => $this->input->post('job_name'),
                 'sex' => $this->input->post('sex'),
+                'department_parent_id' => $this->input->post('department_parent_id'),
                 'department_id' => $this->input->post('department_id'),
                 'email' => $this->input->post('email'),
                 'register_flag' => 2,
@@ -189,13 +192,12 @@ class Login extends CI_Controller
             $user['openid'] = $wxinfo['openid'];
             $user['unionid'] = $wxinfo['unionid'];
             $user['headimgurl'] = $wxinfo['headimgurl'];
-            $res['user'] = $user;
             $this->student_model->update($user, $loginInfo['id']);
             $this->session->set_userdata('loginInfo', $this->student_model->get_row(array('id' => $loginInfo['id'])));
             $this->indexRedirect();
         }
 
-        $this->load->view('login/register_complate', $res);
+        $this->load->view('login/register_complate', compact('deprtments','second_departments','user'));
     }
 
     //注册成功
