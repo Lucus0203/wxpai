@@ -12,7 +12,7 @@
 		<meta name="author" content="" />
 		<meta name="Copyright" content="www.trainingpie.com" />
         <link rel="stylesheet" href="<?php echo base_url() ?>css/font-awesome.min.css">
-        <link rel="stylesheet" href="<?php echo base_url() ?>css/common.css?0814">
+        <link rel="stylesheet" href="<?php echo base_url() ?>css/common.css?0819">
 		<script type="text/javascript" src="<?php echo base_url() ?>js/jquery1.83.js"></script>
 		<script type="text/javascript">
 			$(document).ready(function() {
