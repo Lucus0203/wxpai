@@ -26,6 +26,13 @@ class Annual extends CI_Controller {
 
 
     public function answer($surveyid) {
+        $survey=$this->annualsurvey_model->get_row(array('id'=>$surveyid));
+        if($this->_logininfo['company_code']!=$survey['company_code']){
+            $logininfo['company_code']=$survey['company_code'];
+            $this->session->set_userdata('loginInfo', $logininfo);
+            $this->session->set_userdata('action_uri', current_url());
+            redirect(site_url('login/loginout'));return false;
+        }
         $survey=$this->annualsurvey_model->get_row("company_code=".$this->db->escape($this->_logininfo['company_code'])." and unix_timestamp(now()) >= unix_timestamp(time_start) and unix_timestamp(now()) <= unix_timestamp(time_end) and isdel = 2 ");
         $annualAnswer=$this->annualanswer_model->get_row(array('annual_survey_id'=>$survey['id'],'student_id'=>$this->_logininfo['id']));
         if(empty($survey['id'])){
