@@ -27,7 +27,7 @@ class Annual extends CI_Controller {
 
     public function answer($surveyid) {
         $survey=$this->annualsurvey_model->get_row(array('id'=>$surveyid));
-        if($this->_logininfo['company_code']!=$survey['company_code']){
+        if(!empty($surveyid)&&$this->_logininfo['company_code']!=$survey['company_code']){
             $logininfo['company_code']=$survey['company_code'];
             $this->session->set_userdata('loginInfo', $logininfo);
             $this->session->set_userdata('action_uri', current_url());
