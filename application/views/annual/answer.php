@@ -19,16 +19,16 @@
 
     <ul class="topNavi">
         <li class="<?php if($qatype=='acceptance'){?>cur<?php } ?>">
-            <a href="javascript:;<?php //echo site_url('annual/answer/acceptance');?>">认同度</a>
+            <a>认同度</a>
         </li>
         <li class="<?php if($qatype=='organization'){?>cur<?php } ?>">
-            <a href="javascript:;<?php //echo site_url('annual/answer/organization');?>">组织性</a>
+            <a>组织性</a>
         </li>
         <li class="<?php if($qatype=='requirement'){?>cur<?php } ?>">
-            <a href="javascript:;<?php //echo site_url('annual/answer/requirement');?>">需求信息</a>
+            <a>需求信息</a>
         </li>
         <li class="<?php if($qatype=='coursechosen'){?>cur<?php } ?>">
-            <a href="javascript:;<?php //echo site_url('annual/answer/coursechosen');?>">课程选择</a>
+            <a>课程选择</a>
         </li>
     </ul>
 

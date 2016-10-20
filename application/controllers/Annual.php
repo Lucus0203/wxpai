@@ -9,7 +9,7 @@ class Annual extends CI_Controller {
         $this->load->model(array('student_model','company_model','annualsurvey_model','annualquestion_model','annualoption_model','annualanswer_model','annualanswerdetail_model','annualanswercourse_model','annualcourse_model','annualcoursetype_model'));
 
         $this->_logininfo=$this->session->userdata('loginInfo');
-        if(empty($this->_logininfo)){
+        if(empty($this->_logininfo['id'])){
             $objid = $this->uri->segment(3, 0);
             if (!empty($objid)) {
                 $survey = $this->annualsurvey_model->get_row(array('id' => $objid));
@@ -154,7 +154,7 @@ class Annual extends CI_Controller {
             if($module==4){
                 redirect(site_url('annual/answercomplete'));
             }else{
-                redirect(site_url('annual/answer/'.$qatype));
+                redirect(site_url('annual/answer/'.$surveyid));
             }
         }
     }

@@ -9,7 +9,7 @@ class Center extends CI_Controller {
 		$this->load->model(array('student_model','company_model','department_model'));
 		
 		$this->_logininfo=$this->session->userdata('loginInfo');
-		if(empty($this->_logininfo)){
+		if(empty($this->_logininfo['id'])){
 			redirect('login','index');
 		}else{
 			$this->load->vars(array('loginInfo'=>$this->_logininfo));

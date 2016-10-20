@@ -9,7 +9,7 @@ class Teacher extends CI_Controller {
 		$this->load->model(array('user_model','course_model','teacher_model'));
 		
 		$this->_logininfo=$this->session->userdata('loginInfo');
-		if(empty($this->_logininfo)){
+		if(empty($this->_logininfo['id'])){
             $objid = $this->uri->segment(3, 0);
             if (!empty($objid)) {
                 $teacher=$this->teacher_model->get_row(array('id'=>$objid));

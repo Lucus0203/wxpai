@@ -16,18 +16,18 @@ class Login extends CI_Controller
 
     public function index($code)
     {
-        $wxinfo = $this->session->userdata('wxinfo');
-        if ((strpos($_SERVER['HTTP_USER_AGENT'], 'MicroMessenger') !== false) && empty($wxinfo)) {
-            $this->getwechatcode($code);
-            return false;
-        } else {
-            $userinfo = $this->student_model->get_row("unionid = '" . $wxinfo['unionid'] . "' and unionid<>'' and isdel=2 ");
-            if (!empty($userinfo)) {
-                $this->session->set_userdata('loginInfo', $userinfo);
-                $this->indexRedirect();
-                return false;
-            }
-        }
+//        $wxinfo = $this->session->userdata('wxinfo');
+//        if ((strpos($_SERVER['HTTP_USER_AGENT'], 'MicroMessenger') !== false) && empty($wxinfo)) {
+//            $this->getwechatcode($code);
+//            return false;
+//        } else {
+//            $userinfo = $this->student_model->get_row("unionid = '" . $wxinfo['unionid'] . "' and unionid<>'' and isdel=2 ");
+//            if (!empty($userinfo)) {
+//                $this->session->set_userdata('loginInfo', $userinfo);
+//                $this->indexRedirect();
+//                return false;
+//            }
+//        }
         $act = $this->input->post('act');
         $error_msg = '';
         if (!empty($act)) {

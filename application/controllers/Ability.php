@@ -9,7 +9,7 @@ class Ability extends CI_Controller {
         $this->load->model(array('student_model','company_model','department_model','ability_model','abilityjob_model','companyabilityjob_model'));
 
         $this->_logininfo=$this->session->userdata('loginInfo');
-        if(empty($this->_logininfo)){
+        if(empty($this->_logininfo['id'])){
             $company_code = $this->uri->segment(4, 0);
             if (!empty($company_code)) {
                 $url = site_url('login/index/' . $company_code).'?action_uri='.current_url();
