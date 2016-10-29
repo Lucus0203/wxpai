@@ -33,6 +33,9 @@ class Annual extends CI_Controller {
             $this->session->set_userdata('action_uri', current_url());
             redirect(site_url('login/loginout'));return false;
         }
+        if(!$this->isAccessAccount()&&$this->annualanswer_model->get_count(array('company_code'=>$this->_logininfo['company_code']))>=5){
+            echo '调研问卷提交名额超过5名,请联系您的培训老师';return;
+        }
         $survey=$this->annualsurvey_model->get_row("company_code=".$this->db->escape($this->_logininfo['company_code'])." and unix_timestamp(now()) >= unix_timestamp(time_start) and unix_timestamp(now()) <= unix_timestamp(time_end) and isdel = 2 ");
         $annualAnswer=$this->annualanswer_model->get_row(array('annual_survey_id'=>$survey['id'],'student_id'=>$this->_logininfo['id']));
         if(empty($survey['id'])){
@@ -133,28 +136,10 @@ class Annual extends CI_Controller {
             }
             //update step
             $this->annualanswer_model->update(array('step'=>$module+1),$annualAnswerId);
-
-            //跳转到下一页
-            switch ($module){
-                case '1':
-                    $qatype='organization';
-                    break;
-                case '2':
-                    $qatype='requirement';
-                    break;
-                case '3':
-                    $qatype='coursechosen';
-                    break;
-                case '4':
-                    $qatype='completed';
-                    break;
-                default :
-                    break;
-            }
             if($module==4){
                 redirect(site_url('annual/answercomplete'));
             }else{
-                redirect(site_url('annual/answer/'.$surveyid));
+                redirect(site_url('annual/answer/'.$survey['id']));
             }
         }
     }
@@ -167,6 +152,18 @@ class Annual extends CI_Controller {
         $this->load->view ( 'header' );
         $this->load->view ( 'annual/answercomplete',compact('survey'));
         $this->load->view ( 'footer' );
+    }
+
+    //是否是正式账号
+    private function isAccessAccount(){
+        $ordersql="select count(*) as num FROM pai_company_order company_order where company_order.module='annualplan' and company_order.company_code=".$this->_logininfo['company_code']." and company_order.checked=1 and (company_order.use_num=0 or company_order.use_num_remain > 0) and (company_order.years=0 or (date_add(company_order.start_time, interval company_order.years year) > NOW() and company_order.start_time < NOW() ) )";
+        $query = $this->db->query($ordersql);
+        $res = $query->row_array();
+        if($res['num']>0){
+            return true;
+        }else{
+            return false;
+        }
     }
 
 
