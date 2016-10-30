@@ -9,6 +9,18 @@
             return false;
         });
     });
+    function checkRequired(){
+        var flag=true;
+        $('.required').each(function (i) {
+            if($(this).next().find('input:checked').length<=0&&$.trim($(this).next().find('textarea').val())==''){
+                flag=false;
+            }
+        });
+        if(!flag){
+            alert('您有必答题未答,请您确认并填写');
+        }
+        return flag;
+    }
 </script>
 <!--head-->
 <header class="clearfix mb0" id="gHeader">
@@ -34,7 +46,7 @@
 
     <div>
         <?php if($qatype!='coursechosen'){?>
-        <form method="post" action="<?php echo site_url('annual/storeAnswer/'.$qatype); ?>">
+        <form method="post" action="<?php echo site_url('annual/storeAnswer/'.$qatype); ?>" onsubmit="return checkRequired()">
         <input type="hidden" name="act" value="act" />
         <dl class="kecDl">
             <?php foreach ($questions as $kq=>$q ){ ?>
