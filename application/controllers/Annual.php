@@ -33,7 +33,7 @@ class Annual extends CI_Controller {
             $this->session->set_userdata('action_uri', current_url());
             redirect(site_url('login/loginout'));return false;
         }
-        if(!$this->isAccessAccount()&&$this->annualanswer_model->get_count(array('company_code'=>$this->_logininfo['company_code']))>=5){
+        if(!$this->isAccessAccount()&&$this->annualanswer_model->get_count(array('company_code'=>$this->_logininfo['company_code'],'step'=>5))>=5){
             echo '调研问卷提交名额超过5名,请联系您的培训老师';return;
         }
         $survey=$this->annualsurvey_model->get_row("company_code=".$this->db->escape($this->_logininfo['company_code'])." and unix_timestamp(now()) >= unix_timestamp(time_start) and unix_timestamp(now()) <= unix_timestamp(time_end) and isdel = 2 ");
