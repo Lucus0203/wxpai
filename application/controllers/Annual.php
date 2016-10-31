@@ -21,12 +21,13 @@ class Annual extends CI_Controller {
         }else{
             $this->load->vars(array('loginInfo'=>$this->_logininfo));
             //年度调研
-            $survey=$this->annualsurvey_model->get_row("company_code='".$this->_logininfo['company_code']."' and unix_timestamp(now()) >= unix_timestamp(time_start) and unix_timestamp(now()) <= unix_timestamp(time_end) and isdel = 2 ");
+            $surveySql="select s.*,aa.step from " . $this->db->dbprefix('annual_answer') . " aa left join " . $this->db->dbprefix('annual_survey') . " s on aa.annual_survey_id=s.id where aa.student_id= ".$this->_logininfo['id']." and s.company_code='".$this->_logininfo['company_code']."' and unix_timestamp(now()) >= unix_timestamp(time_start) and unix_timestamp(now()) <= unix_timestamp(time_end) and isdel = 2 and public=2 ";
+            $query=$this->db->query($surveySql);
+            $res=$query->row_array();
             $annualSurveyStatus=0;
-            if(!empty($survey['id'])){
+            if(!empty($res['id'])){
                 $annualSurveyStatus=1;//有问卷
-                $answer=$this->annualanswer_model->get_row(array('student_id'=>$this->_logininfo['id'],'company_code'=>$this->_logininfo['company_code'],'annual_survey_id'=>$survey['id']));
-                if(!empty($answer['id'])){
+                if($res==5){
                     $annualSurveyStatus=2;//已回答
                 }
             }
