@@ -16,18 +16,18 @@ class Login extends CI_Controller
 
     public function index($code)
     {
-        $wxinfo = $this->session->userdata('wxinfo');
-        if ((strpos($_SERVER['HTTP_USER_AGENT'], 'MicroMessenger') !== false) && empty($wxinfo)) {
-            $this->getwechatcode($code);
-            return false;
-        } else {
-            $userinfo = $this->student_model->get_row("unionid = '" . $wxinfo['unionid'] . "' and unionid<>'' and isdel=2 ");
-            if (!empty($userinfo)) {
-                $this->session->set_userdata('loginInfo', $userinfo);
-                $this->indexRedirect();
-                return false;
-            }
-        }
+//        $wxinfo = $this->session->userdata('wxinfo');
+//        if ((strpos($_SERVER['HTTP_USER_AGENT'], 'MicroMessenger') !== false) && empty($wxinfo)) {
+//            $this->getwechatcode($code);
+//            return false;
+//        } else {
+//            $userinfo = $this->student_model->get_row("unionid = '" . $wxinfo['unionid'] . "' and unionid<>'' and isdel=2 ");
+//            if (!empty($userinfo)) {
+//                $this->session->set_userdata('loginInfo', $userinfo);
+//                $this->indexRedirect();
+//                return false;
+//            }
+//        }
         $act = $this->input->post('act');
         $error_msg = '';
         if (!empty($act)) {
@@ -74,29 +74,12 @@ class Login extends CI_Controller
     }
 
     private function indexRedirect(){
-        $this->initSessionData();
         $action_uri=$this->input->get('action_uri');
         if (!empty($action_uri)) {
             redirect($action_uri);
         } else {
             redirect('course', 'index');
         }
-    }
-
-    private function initSessionData(){
-        $loginInfo=$this->session->userdata('loginInfo');
-        //年度调研
-        $survey=$this->annualsurvey_model->get_row("company_code=".$this->db->escape($loginInfo['company_code'])." and unix_timestamp(now()) >= unix_timestamp(time_start) and unix_timestamp(now()) <= unix_timestamp(time_end) and isdel = 2 ");
-        $annualSurveyStatus=0;
-        if(!empty($survey['id'])){
-            $annualSurveyStatus=1;//有问卷
-            $answer=$this->annualanswer_model->get_row(array('student_id'=>$loginInfo['id'],'company_code'=>$loginInfo['company_code'],'annual_survey_id'=>$survey['id']));
-            if(!empty($answer['id'])){
-                $annualSurveyStatus=2;//已回答
-            }
-        }
-        $loginInfo['annualSurveyStatus']=$annualSurveyStatus;
-        $this->session->set_userdata('loginInfo',$loginInfo );
     }
 
     //忘记密码

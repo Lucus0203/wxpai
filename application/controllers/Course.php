@@ -9,7 +9,7 @@ class Course extends CI_Controller
         parent::__construct();
         $this->load->library(array('session'));
         $this->load->helper(array('form', 'url','download'));
-        $this->load->model(array('user_model', 'course_model', 'teacher_model', 'homework_model', 'homeworklist_model', 'survey_model', 'surveylist_model', 'ratings_model', 'ratingslist_model', 'signinlist_model','prepare_model'));
+        $this->load->model(array('user_model', 'course_model', 'teacher_model', 'homework_model', 'homeworklist_model', 'survey_model', 'surveylist_model', 'ratings_model', 'ratingslist_model', 'signinlist_model','prepare_model','annualsurvey_model','annualanswer_model'));
 
         $this->load->database();
         $this->_logininfo = $this->session->userdata('loginInfo');
@@ -27,6 +27,17 @@ class Course extends CI_Controller
             $this->load->vars(array('loginInfo' => $this->_logininfo));
             $homeUrl=$this->session->userdata('homeUrl');
             $this->load->vars(array('homeUrl' => $homeUrl??site_url('course/index')));
+            //年度调研
+            $survey=$this->annualsurvey_model->get_row("company_code='".$this->_logininfo['company_code']."' and unix_timestamp(now()) >= unix_timestamp(time_start) and unix_timestamp(now()) <= unix_timestamp(time_end) and isdel = 2 ");
+            $annualSurveyStatus=0;
+            if(!empty($survey['id'])){
+                $annualSurveyStatus=1;//有问卷
+                $answer=$this->annualanswer_model->get_row(array('student_id'=>$this->_logininfo['id'],'company_code'=>$this->_logininfo['company_code'],'annual_survey_id'=>$survey['id']));
+                if(!empty($answer['id'])){
+                    $annualSurveyStatus=2;//已回答
+                }
+            }
+            $this->load->vars(array('annualSurveyStatus'=>$annualSurveyStatus));
         }
 
     }

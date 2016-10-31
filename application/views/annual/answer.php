@@ -50,7 +50,7 @@
         <input type="hidden" name="act" value="act" />
         <dl class="kecDl">
             <?php foreach ($questions as $kq=>$q ){ ?>
-                <dt class="<?php if($q['required']==1){echo 'required';} ?>"><?php echo ($kq+1).'.'.$q['title'] ?><?php if($q['required']==2){echo '(选答)';} ?></dt>
+                <dt class="<?php if($q['required']==1){echo 'required';} ?>"><?php echo ($kq+1).'.'.$q['title'] ?><?php echo ($q['required']==2)?'(选答)':'(必答)'; ?></dt>
                 <dd <?php if($q===end($questions)){ ?>class="noborder"<?php } ?> >
                     <?php if($q['type']==1||$q['type']==2) {?>
                         <ul class="listUl">

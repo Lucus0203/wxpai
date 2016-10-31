@@ -20,6 +20,17 @@ class Annual extends CI_Controller {
             }
         }else{
             $this->load->vars(array('loginInfo'=>$this->_logininfo));
+            //年度调研
+            $survey=$this->annualsurvey_model->get_row("company_code='".$this->_logininfo['company_code']."' and unix_timestamp(now()) >= unix_timestamp(time_start) and unix_timestamp(now()) <= unix_timestamp(time_end) and isdel = 2 ");
+            $annualSurveyStatus=0;
+            if(!empty($survey['id'])){
+                $annualSurveyStatus=1;//有问卷
+                $answer=$this->annualanswer_model->get_row(array('student_id'=>$this->_logininfo['id'],'company_code'=>$this->_logininfo['company_code'],'annual_survey_id'=>$survey['id']));
+                if(!empty($answer['id'])){
+                    $annualSurveyStatus=2;//已回答
+                }
+            }
+            $this->load->vars(array('annualSurveyStatus'=>$annualSurveyStatus));
         }
 
     }
@@ -33,9 +44,6 @@ class Annual extends CI_Controller {
             $this->session->set_userdata('action_uri', current_url());
             redirect(site_url('login/loginout'));return false;
         }
-        if(!$this->isAccessAccount()&&$this->annualanswer_model->get_count(array('company_code'=>$this->_logininfo['company_code'],'step'=>5))>=5){
-            echo '调研问卷提交名额超过5名,请联系您的培训老师';return;
-        }
         $survey=$this->annualsurvey_model->get_row("company_code=".$this->db->escape($this->_logininfo['company_code'])." and unix_timestamp(now()) >= unix_timestamp(time_start) and unix_timestamp(now()) <= unix_timestamp(time_end) and isdel = 2 ");
         $annualAnswer=$this->annualanswer_model->get_row(array('annual_survey_id'=>$survey['id'],'student_id'=>$this->_logininfo['id']));
         if(empty($survey['id'])){
@@ -43,6 +51,9 @@ class Annual extends CI_Controller {
         }
         if($annualAnswer['step']==5){
             redirect(site_url('annual/answercomplete'));return;
+        }
+        if(!$this->isAccessAccount()&&$this->annualanswer_model->get_count(array('company_code'=>$this->_logininfo['company_code'],'step'=>5))>=5){
+            echo '调研问卷提交名额超过5名,请联系您的培训老师';return;
         }
         $step=array('1'=>'acceptance','2'=>'organization','3'=>'requirement','4'=>'coursechosen');
         $qatype=empty($annualAnswer['id'])?$step[1]:$step[$annualAnswer['step']];
