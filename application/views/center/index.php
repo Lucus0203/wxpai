@@ -6,5 +6,6 @@
     <ul class="ulList">
         <li><a href="<?php echo site_url('center/info') ?>">个人资料</a></li>
         <li><a href="<?php echo site_url('center/changepass') ?>">密码修改</a></li>
+        <li><a href="<?php echo site_url('login/loginout') ?>">退出登录</a></li>
     </ul>
 </div>
