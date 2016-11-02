@@ -22,9 +22,7 @@
 <header class="clearfix mb0" id="gHeader">
     <div class="header">
         <?php echo $abilityjob['name']?>能力评估
-        <a href="javascript:void(0);"><i class="ilevel">=</i></a>
     </div>
-    <?php $this->load->view ( 'rightbar' ); ?>
 </header>
 <div class="mConts p0">
     <form method="post" action="<?php echo site_url('ability/evaluatestore') ?>">

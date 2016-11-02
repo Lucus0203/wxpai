@@ -12,10 +12,8 @@
 </script>
 <header class="clearfix mb0" id="gHeader">
     <div class="header">
-        <?php echo $abilityjob['name'] ?>评估结果
-        <a href="#"><i class="ilevel">=</i></a>
+        <a href="<?php echo site_url('ability/index') ?>"><i class="iright">◇</i></a><?php echo $abilityjob['name'] ?>评估结果
     </div>
-    <?php $this->load->view ( 'rightbar' ); ?>
 </header>
 <div class="mConts p0">
     <div class="pinggu">

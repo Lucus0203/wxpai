@@ -14,36 +14,6 @@
         <link rel="stylesheet" href="<?php echo base_url() ?>css/font-awesome.min.css">
         <link rel="stylesheet" href="<?php echo base_url() ?>css/common.css?0819">
 		<script type="text/javascript" src="<?php echo base_url() ?>js/jquery1.83.js"></script>
-		<script type="text/javascript">
-			$(document).ready(function() {
-				var chk=1;
-			 	$('.rightBarBox').click(function(event){
-			 		event.stopPropagation();
-			 	});
-			 	
-				$('.ilevel').click(function(event) {
-					event.stopPropagation();
-					if(chk==1){
-						$('.rightBarBox').slideDown();
-						$('.rightBar').css('left','50%');
-						chk=0;
-					}else{
-						$('.rightBarBox').slideUp();
-						$('.rightBar').css('left','100%');
-						chk=1;
-					}
-					return false;
-					
-				});
-                //隐藏侧边栏
-                $('.mapBg').click(function(){
-                        $('.rightBarBox').slideUp();
-                        $('.rightBar').css('left','100%');
-                        chk=1;
-                });
-			
-			})
-		</script>
 
 	</head>
 

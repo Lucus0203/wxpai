@@ -1,7 +1,6 @@
 <!--head-->
 <header class="clearfix" id="gHeader">
-    <div class="header">能力评估<a href="javascript:void(0);"><i class="ilevel">=</i></a></div>
-    <?php $this->load->view ( 'rightbar' ); ?>
+    <div class="header">能力评估</div>
 </header>
 <div class="mConts">
     <div class="listBox">

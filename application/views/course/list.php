@@ -59,8 +59,9 @@ $(document).ready(function(){
 
 <!--head-->
 <header class="clearfix" id="gHeader">
-        <div class="header"><?php echo ($mycourse=='mycourse')?'我的课程':'内训课程'; ?><a href="javascript:void(0);"><i class="ilevel">=</i></a></div>
-        <?php $this->load->view ( 'rightbar' ); ?>
+        <div class="header">
+            <ul class="headUl"><li class="<?php echo ($mycourse!='mycourse')?'cur':''; ?>"><a href="<?php echo site_url('course/index') ?>">全部</a></li><li class="<?php echo ($mycourse=='mycourse')?'cur':''; ?>"><a href="<?php echo base_url('course/index/mycourse') ?>">我的</a></li></ul>
+        </div>
 </header>
 <div class="mConts">
             <div class="listBox">

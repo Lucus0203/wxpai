@@ -12,11 +12,14 @@
 </script>
 <!--head-->
 <header class="clearfix mb0" id="gHeader">
-    <div class="header"><?php echo $survey['title'] ?><a href="javascript:void(0);"><i class="ilevel">=</i></a></div>
-    <?php $this->load->view ( 'rightbar' ); ?>
+    <div class="header"><?php echo $survey['title'] ?></div>
 </header>
 <div class="mConts p0">
     <div>
-        <p class="tipsF14">调研问卷已完成,感谢您的提交。</p>
+        <?php if($above=='quota'){ ?>
+            <p class="tipsF14">调研问卷提交名额超过5名,请联系您的培训老师</p>
+        <?php }else{ ?>
+            <p class="tipsF14">调研问卷已完成,感谢您的提交。</p>
+        <?php } ?>
     </div>
 </div>

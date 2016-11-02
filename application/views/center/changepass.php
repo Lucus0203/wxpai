@@ -43,8 +43,7 @@
 </script>
 <!--head-->
 <header class="clearfix" id="gHeader">
-        <div class="header">我的资料<a href="javascript:void(0);"><i class="ilevel">=</i></a></div>
-        <?php $this->load->view ( 'rightbar' ); ?>
+        <div class="header">密码修改</div>
 </header>
 <div class="mConts">
     <form id="form" method="post" action="">

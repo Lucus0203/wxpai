@@ -20,18 +20,7 @@ class Annual extends CI_Controller {
             }
         }else{
             $this->load->vars(array('loginInfo'=>$this->_logininfo));
-            //年度调研
-            $surveySql="select s.*,aa.step from " . $this->db->dbprefix('annual_answer') . " aa left join " . $this->db->dbprefix('annual_survey') . " s on aa.annual_survey_id=s.id where aa.student_id= ".$this->_logininfo['id']." and s.company_code='".$this->_logininfo['company_code']."' and unix_timestamp(now()) >= unix_timestamp(time_start) and unix_timestamp(now()) <= unix_timestamp(time_end) and isdel = 2 and public=2 ";
-            $query=$this->db->query($surveySql);
-            $res=$query->row_array();
-            $annualSurveyStatus=0;
-            if(!empty($res['id'])){
-                $annualSurveyStatus=1;//有问卷
-                if($res==5){
-                    $annualSurveyStatus=2;//已回答
-                }
-            }
-            $this->load->vars(array('annualSurveyStatus'=>$annualSurveyStatus));
+            $this->load->vars(array('footerNavi'=>'mission'));
         }
 
     }
@@ -45,7 +34,7 @@ class Annual extends CI_Controller {
             $this->session->set_userdata('action_uri', current_url());
             redirect(site_url('login/loginout'));return false;
         }
-        $survey=$this->annualsurvey_model->get_row("company_code=".$this->db->escape($this->_logininfo['company_code'])." and unix_timestamp(now()) >= unix_timestamp(time_start) and unix_timestamp(now()) <= unix_timestamp(time_end) and isdel = 2 ");
+        $survey=$this->annualsurvey_model->get_row("company_code=".$this->db->escape($this->_logininfo['company_code'])." and unix_timestamp(now()) >= unix_timestamp(time_start) and unix_timestamp(now()) <= unix_timestamp(time_end) and isdel = 2 and public = 2 ");
         $annualAnswer=$this->annualanswer_model->get_row(array('annual_survey_id'=>$survey['id'],'student_id'=>$this->_logininfo['id']));
         if(empty($survey['id'])){
             echo '调研问卷不存在或已过期';return;
@@ -53,8 +42,8 @@ class Annual extends CI_Controller {
         if($annualAnswer['step']==5){
             redirect(site_url('annual/answercomplete'));return;
         }
-        if(!$this->isAccessAccount()&&$this->annualanswer_model->get_count(array('company_code'=>$this->_logininfo['company_code'],'step'=>5))>=5){
-            echo '调研问卷提交名额超过5名,请联系您的培训老师';return;
+        if(!$this->isAccessAccount()&&$this->annualanswer_model->get_count(array('company_code'=>$this->_logininfo['company_code'],'annual_survey_id'=>$survey['id'],'step'=>5))>=5){
+            redirect(site_url('annual/answercomplete').'?above=quota');return;
         }
         $step=array('1'=>'acceptance','2'=>'organization','3'=>'requirement','4'=>'coursechosen');
         $qatype=empty($annualAnswer['id'])?$step[1]:$step[$annualAnswer['step']];
@@ -109,7 +98,7 @@ class Annual extends CI_Controller {
             default :
                 break;
         }
-        $survey=$this->annualsurvey_model->get_row("company_code=".$this->db->escape($this->_logininfo['company_code'])." and unix_timestamp(now()) >= unix_timestamp(time_start) and unix_timestamp(now()) <= unix_timestamp(time_end) and isdel = 2 ");
+        $survey=$this->annualsurvey_model->get_row("company_code=".$this->db->escape($this->_logininfo['company_code'])." and unix_timestamp(now()) >= unix_timestamp(time_start) and unix_timestamp(now()) <= unix_timestamp(time_end) and isdel = 2 and public = 2 ");
         $questions=$this->annualquestion_model->get_all(array('annual_survey_id'=>$survey['id'],'module'=>$module));
         if(empty($survey['id'])){
             echo '调研问卷不存在或已过期';
@@ -157,12 +146,15 @@ class Annual extends CI_Controller {
     }
 
     public function answercomplete(){
+        $above=$this->input->get('above');
+
         $survey=$this->annualsurvey_model->get_row("company_code=".$this->db->escape($this->_logininfo['company_code'])." and unix_timestamp(now()) >= unix_timestamp(time_start) and unix_timestamp(now()) <= unix_timestamp(time_end) and isdel = 2 ");
         $this->_logininfo['annualSurveyStatus']=2;
         $this->session->set_userdata('loginInfo',$this->_logininfo );
         $this->load->vars(array('loginInfo'=>$this->_logininfo));
+
         $this->load->view ( 'header' );
-        $this->load->view ( 'annual/answercomplete',compact('survey'));
+        $this->load->view ( 'annual/answercomplete',compact('survey','above'));
         $this->load->view ( 'footer' );
     }
 

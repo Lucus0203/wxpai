@@ -1,7 +1,6 @@
 <!--head-->
 <header class="clearfix mb0" id="gHeader">
-        <div class="header"><a href="<?php echo $homeUrl;?>"><i class="iright">◇</i></a><?php echo $course['title'] ?><a href="javascript:void(0);"><i class="ilevel">=</i></a></div>
-        <?php $this->load->view ( 'rightbar' ); ?>
+        <div class="header"><a href="<?php echo $homeUrl;?>"><i class="iright">◇</i></a><?php echo $course['title'] ?></div>
 </header>
 <div class="proCont">
                 <div class="imgBox">

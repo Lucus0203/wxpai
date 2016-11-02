@@ -393,6 +393,7 @@ textarea:after {
 
 .mConts {
 	padding: 0 10px;
+    margin-bottom: 60px;
 }
 
 .iptBox {
@@ -471,6 +472,12 @@ textarea:after {
 	position: absolute;
 	display: inline-block;
 }
+
+.header .fa{color:  #fff; font-size: 30px; font-weight: normal; margin: 8px 0 0 10px;}
+.header .headUl{ display: inline-block; vertical-align: middle; font-size: 17px; border:2px solid #fff; border-radius: 5px; margin: 5px 0; line-height:30px; overflow: hidden; zoom:1;}
+.header .headUl li{ display: inline-block; }
+.header .headUl li a{ color: #fff; padding: 0 30px;  display: inline-block;}
+.header .headUl li.cur a{ background-color:  #fff; color: #00bbd3;}
 
 .coBtn {
 	border: 1px solid #00bbd3;
@@ -678,7 +685,6 @@ textarea:after {
 
 .kecDl dd {
 	font-size: 14px;
-	padding-bottom: 10px;
 	line-height: 1.8;
 	border-bottom: 1px solid #eaeaea;
 	margin-bottom: 25px;
@@ -1054,6 +1060,8 @@ textarea:after {
 .listUl li {
 	float: left;
 	width: 100%;
+    font-size: 16px;
+    padding: 5px;
 }
 
 .tipsF14 {
@@ -1101,3 +1109,26 @@ textarea:after {
 	background-color: #e8fdff;
 	color: #00bbd3;
 }
+
+.bottomNavi{
+	text-align:  center;
+	position: fixed;
+	bottom: 0; 
+	padding: 5px 0; background-color:  #f5f5f5; border-top: 1px solid #dcdcdc; width: 100%;}
+
+.bottomNavi li{
+	display: inline-block;
+	font-size:  12px;
+	min-width: 30%;
+}
+
+.bottomNavi li  i{ font-size: 28px;}
+.bottomNavi li a{ color: #999; display: block;}
+.bottomNavi li.on a{color: #00bbd3;}
+.bottomNavi li span{ display:  block;}
+
+
+.ulList li{ font-size:  17px; border-bottom:  1px solid #dcdcdc; text-align: left; padding: 15px 20px;}
+.ulList li a{ color: #666666; display:  block; position: relative;}
+.ulList li a:before{ content:"\f054"; position: absolute; right: 0; display: block; font-family: FontAwesome; color: #999;}
+
