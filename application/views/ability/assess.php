@@ -4,7 +4,7 @@
         <a href="<?php echo site_url('ability/index') ?>"><i class="iright">◇</i></a>能力评估
     </div>
 </header>
-<div class="mConts p0">
+<div class="mConts p0 clearfix">
     <div class="pinggu">
         <p class="aCenter f24 mb20"><?php echo $abilityjob['name'] ?></p>
         <p>能力评估能够帮助你更好的了解自己的职业能力，发现自己欠缺的技能或经验</p>
