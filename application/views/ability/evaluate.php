@@ -10,18 +10,20 @@
             return false;
         });
         $('.next').click(function(){
-            //if(confirm('确认下一页吗?')){
+            if($('.abilityBox').eq(currentPage).find('ul.star').length>$('.abilityBox').eq(currentPage).find('li.yellow').length) {
+                alert('还有能力没有进行评估');
+            }else{
                 currentPage++;
                 $('.abilityBox').eq(currentPage).show().siblings().hide();
                 $('body,html').scrollTop(0);
-            //}
+            }
         });
         $('.abilityBox:gt(0)').hide();
     });
 </script>
 <header class="clearfix mb0" id="gHeader">
     <div class="header">
-        <?php echo $abilityjob['name']?>能力评估
+        <a href="<?php echo site_url('ability/assess/'.$abilityjob['id']) ?>"><i class="iright">◇</i></a><?php echo $abilityjob['name']?>能力评估
     </div>
 </header>
 <div class="mConts p0">
