@@ -36,14 +36,14 @@ class Annual extends CI_Controller {
         }
         $survey=$this->annualsurvey_model->get_row("company_code=".$this->db->escape($this->_logininfo['company_code'])." and unix_timestamp(now()) >= unix_timestamp(time_start) and unix_timestamp(now()) <= unix_timestamp(time_end) and isdel = 2 and public = 2 ");
         $annualAnswer=$this->annualanswer_model->get_row(array('annual_survey_id'=>$survey['id'],'student_id'=>$this->_logininfo['id']));
-        if(empty($survey['id'])){
-            echo '调研问卷不存在或已过期';return;
+        if(empty($survey['id'])){//未发布或已过期
+            redirect(site_url('annual/answercomplete').'?err=noexist');return;
         }
         if($annualAnswer['step']==5){
             redirect(site_url('annual/answercomplete'));return;
         }
         if(!$this->isAccessAccount()&&$this->annualanswer_model->get_count(array('company_code'=>$this->_logininfo['company_code'],'annual_survey_id'=>$survey['id'],'step'=>5))>=5){
-            redirect(site_url('annual/answercomplete').'?above=quota');return;
+            redirect(site_url('annual/answercomplete').'?err=above');return;
         }
         $step=array('1'=>'acceptance','2'=>'organization','3'=>'requirement','4'=>'coursechosen');
         $qatype=empty($annualAnswer['id'])?$step[1]:$step[$annualAnswer['step']];
@@ -100,8 +100,8 @@ class Annual extends CI_Controller {
         }
         $survey=$this->annualsurvey_model->get_row("company_code=".$this->db->escape($this->_logininfo['company_code'])." and unix_timestamp(now()) >= unix_timestamp(time_start) and unix_timestamp(now()) <= unix_timestamp(time_end) and isdel = 2 and public = 2 ");
         $questions=$this->annualquestion_model->get_all(array('annual_survey_id'=>$survey['id'],'module'=>$module));
-        if(empty($survey['id'])){
-            echo '调研问卷不存在或已过期';
+        if(empty($survey['id'])){//未发布或已过期
+            redirect(site_url('annual/answercomplete').'?err=noexist');return;
         }
         if(!empty($survey['id'])&&!empty($act)){
             $annualAnswer=$this->annualanswer_model->get_row(array('annual_survey_id'=>$survey['id'],'student_id'=>$this->_logininfo['id']));
@@ -146,7 +146,7 @@ class Annual extends CI_Controller {
     }
 
     public function answercomplete(){
-        $above=$this->input->get('above');
+        $err=$this->input->get('err');
 
         $survey=$this->annualsurvey_model->get_row("company_code=".$this->db->escape($this->_logininfo['company_code'])." and unix_timestamp(now()) >= unix_timestamp(time_start) and unix_timestamp(now()) <= unix_timestamp(time_end) and isdel = 2 ");
         $this->_logininfo['annualSurveyStatus']=2;
@@ -154,7 +154,7 @@ class Annual extends CI_Controller {
         $this->load->vars(array('loginInfo'=>$this->_logininfo));
 
         $this->load->view ( 'header' );
-        $this->load->view ( 'annual/answercomplete',compact('survey','above'));
+        $this->load->view ( 'annual/answercomplete',compact('survey','err'));
         $this->load->view ( 'footer' );
     }
 
