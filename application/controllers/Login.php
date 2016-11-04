@@ -306,6 +306,7 @@ class Login extends CI_Controller
         $this->db->query('update ' . $this->db->dbprefix('student') . ' set unionid = NULL , openid = NULL where id=' . $logininfo['id']);
         $url=site_url("login/index/".$logininfo['company_code']);
         $url.=!empty($action_uri)?'?action_uri='.$action_uri:'';
+        $this->session->sess_destroy();
         redirect($url);
     }
 

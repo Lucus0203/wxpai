@@ -101,6 +101,7 @@ class Course extends CI_Controller
     //课程详情
     public function info($id)
     {
+        $this->isAllowCourseid($courseid);
         $logininfo = $this->_logininfo;
         $data = array('course_id' => $id, 'student_id' => $logininfo['id']);
         $apply = $this->db->get_where('course_apply_list', $data)->row_array();
@@ -125,6 +126,7 @@ class Course extends CI_Controller
     //课程报名
     public function apply($id)
     {
+        $this->isAllowCourseid($courseid);
         $logininfo = $this->_logininfo;
         $act = $this->input->post('act');
         $course = $this->course_model->get_row(array('id' => $id,'company_code'=>$logininfo['company_code']));
@@ -157,6 +159,7 @@ class Course extends CI_Controller
     //报名过课程详情
     public function applyinfo($id)
     {
+        $this->isAllowCourseid($courseid);
         $logininfo = $this->_logininfo;
         $data = array('course_id' => $id, 'student_id' => $logininfo['id']);
         $a = $this->db->get_where('course_apply_list', $data)->row_array();
@@ -181,6 +184,7 @@ class Course extends CI_Controller
 
     //课前准备
     public function prepare($courseid){
+        $this->isAllowCourseid($courseid);
         $prepare=$this->prepare_model->get_row(array('course_id'=>$courseid));
         $course = $this->course_model->get_row(array('id' => $courseid,'company_code'=>$this->_logininfo['company_code']));
         $this->load->view('header');
@@ -191,6 +195,7 @@ class Course extends CI_Controller
     //下载课前准备附件
     public function preparefile($courseid)
     {
+        $this->isAllowCourseid($courseid);
         $prepare=$this->prepare_model->get_row(array('course_id'=>$courseid));
         $filepath = str_replace('html/wxpai','html/pai', FCPATH ).'uploads/course_file/';//
         if(file_exists($filepath. $prepare['file'])){
@@ -205,6 +210,7 @@ class Course extends CI_Controller
     //课前调研
     public function survey($courseid)
     {
+        $this->isAllowCourseid($courseid);
         $logininfo = $this->_logininfo;
         $course = $this->course_model->get_row(array('id' => $courseid,'company_code'=>$logininfo['company_code']));
         $total = $this->survey_model->count(array('course_id' => $courseid));
@@ -251,6 +257,7 @@ class Course extends CI_Controller
     //课程作业
     public function homework($courseid)
     {
+        $this->isAllowCourseid($courseid);
         $logininfo = $this->_logininfo;
         $course = $this->course_model->get_row(array('id' => $courseid,'company_code'=>$logininfo['company_code']));
         $total = $this->homework_model->count(array('course_id' => $courseid));
@@ -296,6 +303,7 @@ class Course extends CI_Controller
     //课程评价
     public function ratings($courseid)
     {
+        $this->isAllowCourseid($courseid);
         $logininfo = $this->_logininfo;
         $act = $this->input->post('act');
         $qid = $this->input->post('qid');
@@ -331,6 +339,7 @@ class Course extends CI_Controller
     //课程签到
     public function signin($courseid, $qrcode)
     {
+        $this->isAllowCourseid($courseid);
         $logininfo = $this->_logininfo;
         $course = $this->course_model->get_row(array('id' => $courseid));
 
@@ -372,6 +381,7 @@ class Course extends CI_Controller
     //课程签退
     public function signout($courseid, $qrcode)
     {
+        $this->isAllowCourseid($courseid);
         $logininfo = $this->_logininfo;
         $course = $this->course_model->get_row(array('id' => $courseid));
         if ($this->_logininfo['company_code']==$course['company_code']&&$this->_logininfo['company_code']==$course['company_code']&&$course['issignin_open'] == 1 && $course['signout_start'] <= date("Y-m-d H:i:s") && $course['signout_end'] >= date("Y-m-d H:i:s")) {//$qrcode==$course['signout_qrcode']
