@@ -413,7 +413,7 @@ class Course extends CI_Controller
 
     //是否是自己公司下的课程
     private function isAllowCourseid($courseid){
-        if(empty($courseid)||$this->course_model->get_count(array('id' => $courseid,'company_code'=>$this->_logininfo['company_code']))<=0){ echo $this->course_model->get_count(array('id' => $courseid,'company_code'=>$this->_logininfo['company_code']));
+        if(empty($courseid)||$this->course_model->get_count(array('id' => $courseid,'company_code'=>$this->_logininfo['company_code']))<=0){ //echo $this->course_model->get_count(array('id' => $courseid,'company_code'=>$this->_logininfo['company_code']));
             //redirect(site_url('course/index'));
             return false;
         }
