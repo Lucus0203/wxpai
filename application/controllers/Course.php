@@ -101,7 +101,7 @@ class Course extends CI_Controller
     //课程详情
     public function info($id)
     {
-        $this->isAllowCourseid($courseid);
+        $this->isAllowCourseid($id);
         $logininfo = $this->_logininfo;
         $data = array('course_id' => $id, 'student_id' => $logininfo['id']);
         $apply = $this->db->get_where('course_apply_list', $data)->row_array();
@@ -126,7 +126,7 @@ class Course extends CI_Controller
     //课程报名
     public function apply($id)
     {
-        $this->isAllowCourseid($courseid);
+        $this->isAllowCourseid($id);
         $logininfo = $this->_logininfo;
         $act = $this->input->post('act');
         $course = $this->course_model->get_row(array('id' => $id,'company_code'=>$logininfo['company_code']));
@@ -159,7 +159,7 @@ class Course extends CI_Controller
     //报名过课程详情
     public function applyinfo($id)
     {
-        $this->isAllowCourseid($courseid);
+        $this->isAllowCourseid($id);
         $logininfo = $this->_logininfo;
         $data = array('course_id' => $id, 'student_id' => $logininfo['id']);
         $a = $this->db->get_where('course_apply_list', $data)->row_array();
