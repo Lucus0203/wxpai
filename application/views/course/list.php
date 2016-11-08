@@ -12,8 +12,9 @@ $(document).ready(function(){
                 var count=0;
                 var str='';
                 $.each(json_obj,function(i,item){
+                    var page_img=item.page_img?'uploads/course_img/'+item.page_img:'images/course_default_img.jpg';
                     str+='<div class="listCont">'+
-                        '<div class="imgBox"><span class="helper"></span><a href="<?php echo base_url() ?>course/info/'+item.id+'"><img src="<?php echo $this->config->item('pc_url').'uploads/course_img/' ?>'+item.page_img+'" alt="" width="160"></a></div>'+
+                        '<div class="imgBox"><span class="helper"></span><a href="<?php echo base_url() ?>course/info/'+item.id+'"><img src="<?php echo $this->config->item('pc_url') ?>'+page_img+'" alt="" width="160"></a></div>'+
                         '<div class="listText">'+
                                 '<p class="titp"><a class="blue" href="<?php echo base_url() ?>course/info/'+item.id+'">'+item.title+'</a></p><p>';
                         if(item.status==4){
