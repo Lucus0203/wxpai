@@ -16,9 +16,9 @@ class Login extends CI_Controller
 
     public function index($code)
     {
+        $action_uri=$this->input->get('action_uri');
         $wxinfo = $this->session->userdata('wxinfo');
         if ((strpos($_SERVER['HTTP_USER_AGENT'], 'MicroMessenger') !== false) && empty($wxinfo)) {
-            $action_uri=$this->input->get('action_uri');
             $this->getwechatcode($code,$action_uri);
             return false;
         } else {
@@ -70,7 +70,7 @@ class Login extends CI_Controller
             }
         }
         $company = $this->company_model->get_row(array('code' => $code));
-        $this->load->view('login/login', compact('error_msg','company','mobile'));
+        $this->load->view('login/login', compact('error_msg','company','mobile','action_uri'));
 
     }
 
@@ -111,6 +111,10 @@ class Login extends CI_Controller
             $res['msg']=$msg;
         }
         $res['cap']=$this->getCaptcha();
+        $action_uri=$this->input->get('action_uri');
+        if(!empty($action_uri)){
+            $res['action_uri']=$action_uri;
+        }
         $this->load->view('login/forgot', $res);
     }
 
@@ -145,6 +149,10 @@ class Login extends CI_Controller
             }
         }
         $res['cap']=$this->getCaptcha();
+        $action_uri=$this->input->get('action_uri');
+        if(!empty($action_uri)){
+            $res['action_uri']=$action_uri;
+        }
 
         $this->load->view('login/register_first', $res);
     }
@@ -152,7 +160,6 @@ class Login extends CI_Controller
     //完善基本信息
     public function register2()
     {
-        $res = array();
         $act = $this->input->post('act');
         $loginInfo = $this->session->userdata('loginInfo');
         if (empty($loginInfo)) {
@@ -180,7 +187,6 @@ class Login extends CI_Controller
             $this->session->set_userdata('loginInfo', $this->student_model->get_row(array('id' => $loginInfo['id'])));
             $this->indexRedirect();
         }
-
         $this->load->view('login/register_complate', compact('deprtments','second_departments','user'));
     }
 
