@@ -18,7 +18,8 @@ class Login extends CI_Controller
     {
         $wxinfo = $this->session->userdata('wxinfo');
         if ((strpos($_SERVER['HTTP_USER_AGENT'], 'MicroMessenger') !== false) && empty($wxinfo)) {
-            $this->getwechatcode($code);
+            $action_uri=$this->input->get('action_uri');
+            $this->getwechatcode($code,$action_uri);
             return false;
         } else {
             $userinfo = $this->student_model->get_row("unionid = '" . $wxinfo['unionid'] . "' and unionid<>'' and isdel=2 ");
@@ -259,7 +260,8 @@ class Login extends CI_Controller
                 'country' => $userData->country,
                 'headimgurl' => $userData->headimgurl);
             $this->session->set_userdata('wxinfo', $wxinfo);
-            $weburl=site_url('login/index/'.$company_code);
+            $action_uri = $this->input->get('action_uri');
+            $weburl=site_url('login/index/'.$company_code).'?action_uri='.$action_uri;
             redirect($weburl);
         } else {
             $this->getwechatcode($company_code);
@@ -268,9 +270,9 @@ class Login extends CI_Controller
     }
 
     //获取code url
-    private function getwechatcode($company_code='')
+    private function getwechatcode($company_code='',$action_uri)
     {
-        $weburl=site_url('login/setwxinfo/'.$company_code);
+        $weburl=site_url('login/setwxinfo/'.$company_code).'?action_uri='.$action_uri;
 
         $state = rand(10000, 99999);
         $this->session->set_userdata('wxstate', $state);
