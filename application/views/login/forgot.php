@@ -150,7 +150,7 @@
     <div class="mConts">
         <p class="red mb20"><?php echo $msg ?></p>
         <?php if($success=='ok'){?>
-            <a href="<?php echo site_url('login/index/'.$company['code']) ?>" class="blueBtnH40">返回登录</a>
+            <a href="<?php echo site_url('login/index/'.$company['code']).'?action_uri='.$action_uri ?>" class="blueBtnH40">返回登录</a>
         <?php }else{ ?>
         <form id="signupForm" action="" method="post" >
             <input type="hidden" name="act" value="act" />
