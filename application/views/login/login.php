@@ -35,8 +35,8 @@
                         <input name="password" type="password" class="ipt" placeholder="登录密码" /></div>
     <input type="submit" value="登录" class="blueBtnH40">
                 </form>
-                <a href="<?php echo site_url('login/register1/'.$company['code']) ?>" class="borBlueBtnH40">立即注册</a>
-                <a href="<?php echo site_url('login/forgot/'.$company['code']) ?>" class="borBlueBtnH40">重置密码</a>
+                <a href="<?php echo site_url('login/register1/'.$company['code']).'?action_uri='.$action_uri ?>" class="borBlueBtnH40">立即注册</a>
+                <a href="<?php echo site_url('login/forgot/'.$company['code']).'?action_uri='.$action_uri ?>" class="borBlueBtnH40">重置密码</a>
 			</div>
 
 		</article>

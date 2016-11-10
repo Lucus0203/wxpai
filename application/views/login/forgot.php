@@ -145,7 +145,7 @@
 <article id="container">
     <!--head-->
     <header class="clearfix" id="gHeader">
-        <div class="header"><a href="<?php echo site_url('login/index/'.$company['code']) ?>"><i class="iright">◇</i></a>重置密码</div>
+        <div class="header"><a href="<?php echo site_url('login/index/'.$company['code']).'?action_uri='.$action_uri ?>"><i class="iright">◇</i></a>重置密码</div>
     </header>
     <div class="mConts">
         <p class="red mb20"><?php echo $msg ?></p>
