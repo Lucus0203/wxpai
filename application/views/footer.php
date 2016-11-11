@@ -11,6 +11,9 @@
 </ul>
 </article>
 <script>
+    if($('.iright').length>0){
+        $('ul.bottomNavi').hide();
+    }
     var _hmt = _hmt || [];
     (function() {
         var hm = document.createElement("script");

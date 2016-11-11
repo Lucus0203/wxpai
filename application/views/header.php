@@ -14,13 +14,6 @@
         <link rel="stylesheet" href="<?php echo base_url() ?>css/font-awesome.min.css">
         <link rel="stylesheet" href="<?php echo base_url() ?>css/common.css?0819">
 		<script type="text/javascript" src="<?php echo base_url() ?>js/jquery1.83.js"></script>
-        <script>
-            $(document).ready(function(){
-                if($('.iright').length>0){
-                    $('ul.bottomNavi').hide();
-                }
-            });
-        </script>
 
 	</head>
 

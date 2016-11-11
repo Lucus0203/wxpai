@@ -158,6 +158,7 @@ class Annual extends CI_Controller {
         $this->load->view ( 'footer' );
     }
 
+
     //是否是正式账号
     private function isAccessAccount(){
         $ordersql="select count(*) as num FROM pai_company_order company_order where company_order.module='annualplan' and company_order.company_code=".$this->_logininfo['company_code']." and company_order.checked=1 and (company_order.use_num=0 or company_order.use_num_remain > 0) and (company_order.years=0 or (date_add(company_order.start_time, interval company_order.years year) > NOW() and company_order.start_time < NOW() ) )";

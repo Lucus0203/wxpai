@@ -456,7 +456,7 @@ textarea:after {
 	left: 10px;
 	width: 12px;
 	overflow: hidden;
-	top: 10px;
+	top: 13px;
 	position: absolute;
 	display: inline-block;
 }
@@ -1107,6 +1107,43 @@ textarea:after {
 	border: 1px solid #00bbd3;
 	background-color: #e8fdff;
 	color: #00bbd3;
+}
+
+/*表格的系统样式*/
+.tableA{
+    border-spacing: 0;
+    font-size: 16px;
+    line-height: 35px;
+    width: 100%;
+}
+
+.tableA th{ color: #333333; background-color:  #f2f2f2; font-weight:  normal;}
+
+.tableA td{ border-bottom:  1px solid #cccccc; color: #333;padding: 5px 0; }
+
+.noborder{ border:  none !important;}
+.borBlue{ border: 1px solid #09bed5; display: inline-block; color: #09bed5; line-height: 28px; text-align: center; width: 80px;border-radius: 5px;}
+.yellow1{ color: #ffcc00;}
+
+.caiwuList {
+    text-align: left;
+    color: #333;
+}
+.caiwuList dt {
+    font-size: 15px;
+    line-height: 1.7;
+    padding: 15px 10px 0px;
+}
+
+.caiwuList dd {
+    padding: 10px 10px 15px;
+    overflow: hidden;
+    zoom: 1;
+    border-bottom: 1px solid #dfdfdf;
+}
+
+.caiwuList dd.noborder {
+    border-bottom: none;
 }
 
 .bottomNavi{

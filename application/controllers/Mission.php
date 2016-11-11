@@ -9,7 +9,7 @@ class Mission extends CI_Controller
         parent::__construct();
         $this->load->library(array('session'));
         $this->load->helper(array('form', 'url','download'));
-        $this->load->model(array('user_model', 'course_model', 'teacher_model', 'homework_model', 'homeworklist_model', 'survey_model', 'surveylist_model', 'ratings_model', 'ratingslist_model', 'signinlist_model','prepare_model','annualsurvey_model','annualanswer_model'));
+        $this->load->model(array('user_model','student_model', 'course_model', 'teacher_model', 'homework_model', 'homeworklist_model', 'survey_model', 'surveylist_model', 'ratings_model', 'ratingslist_model', 'signinlist_model','prepare_model','annualsurvey_model','annualanswer_model'));
 
         $this->load->database();
         $this->_logininfo = $this->session->userdata('loginInfo');
@@ -37,6 +37,8 @@ class Mission extends CI_Controller
 
 
     public function index(){
+        $loginInfo=$this->student_model->get_row(array('id'=>$this->_logininfo['id']));
+        $this->load->vars(array('loginInfo' => $loginInfo));
         $this->load->view('header');
         $this->load->view('mission/index');
         $this->load->view('footer');
