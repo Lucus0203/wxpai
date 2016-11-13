@@ -3,7 +3,7 @@
 </header>
 <div class="mConts p0">
 
-    <?php if(!empty($students)){ ?>
+    <?php if(count($students)>0){ ?>
     <table class="tableA">
         <col width="2.5%" />
         <col width="23%" />
