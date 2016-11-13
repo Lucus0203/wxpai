@@ -31,7 +31,7 @@ class Annual extends CI_Controller {
         if(!empty($surveyid)&&$this->_logininfo['company_code']!=$survey['company_code']){
             $logininfo['company_code']=$survey['company_code'];
             $this->session->set_userdata('loginInfo', $logininfo);
-            $this->session->set_userdata('action_uri', current_url());
+            $this->session->unset_userdata('action_uri');
             redirect(site_url('login/loginout'));return false;
         }
         $survey=$this->annualsurvey_model->get_row("company_code=".$this->db->escape($this->_logininfo['company_code'])." and unix_timestamp(now()) >= unix_timestamp(time_start) and unix_timestamp(now()) <= unix_timestamp(time_end) and isdel = 2 and public = 2 ");
@@ -148,7 +148,7 @@ class Annual extends CI_Controller {
     public function answercomplete(){
         $err=$this->input->get('err');
 
-        $survey=$this->annualsurvey_model->get_row("company_code=".$this->db->escape($this->_logininfo['company_code'])." and unix_timestamp(now()) >= unix_timestamp(time_start) and unix_timestamp(now()) <= unix_timestamp(time_end) and isdel = 2 ");
+        $survey=$this->annualsurvey_model->get_row("company_code=".$this->db->escape($this->_logininfo['company_code'])." and unix_timestamp(now()) >= unix_timestamp(time_start) and unix_timestamp(now()) <= unix_timestamp(time_end) and isdel = 2 and public = 2 ");
         $this->_logininfo['annualSurveyStatus']=2;
         $this->session->set_userdata('loginInfo',$this->_logininfo );
         $this->load->vars(array('loginInfo'=>$this->_logininfo));

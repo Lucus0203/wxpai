@@ -122,6 +122,7 @@ class Login extends CI_Controller
     public function register1($company_code)
     {
         $res = array();
+        $action_uri=$this->input->get('action_uri');
         $act = $this->input->post('act');
         $res['company']=$this->company_model->get_row(array('code' => $company_code));
         if (!empty($act)) {
@@ -143,7 +144,7 @@ class Login extends CI_Controller
                 $this->student_model->update($user, $userinfo['id']);
                 $userinfo = $this->student_model->get_row(array('id' => $userinfo['id']));
                 $this->session->set_userdata('loginInfo', $userinfo);
-                redirect(site_url('login/register2/' . $userinfo['id']));
+                redirect(site_url('login/register2/' . $userinfo['id']).'?action_uri='.$action_uri);
             } else {
                 $res['msg'] = '短信验证码错误';
             }
