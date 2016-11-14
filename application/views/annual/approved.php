@@ -34,7 +34,7 @@
             <td style="border-top:7px solid #e6e6e6;"></td>
             <td style="border-top:7px solid #e6e6e6;"></td>
             <td style="border-top:7px solid #e6e6e6;">部门预算:</td>
-            <td style="border-top:7px solid #e6e6e6;">¥<?php echo $budget ?></td>
+            <td style="border-top:7px solid #e6e6e6;">¥<?php echo round($budget) ?></td>
             <td style="border-top:7px solid #e6e6e6;"></td>
         </tr>
     </table>
