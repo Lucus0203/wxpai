@@ -41,13 +41,17 @@
 <div class="mConts">
 
     <dl class="caiwuList">
-        <?php foreach ($courses as $c){ ?>
-        <dt><?php echo $c['title'] ?></dt>
-        <dd>
-            <p class="fLeft">课程预算：<?php echo round($c['price']/$c['people']) ?>元/人<br>
-                审核状态：<?php if(empty($c['status'])){?><span class="yellow1 mr10">未审核</span><?php }else{echo ($c['status']=='1')?'<span class="green mr10">已通过</span>':'<span class="red mr10">未通过</span>';} ?></p>
-            <p class="fRight pt10"><a href="#" rel="<?php echo $c['annual_course_id'] ?>" <?php if($c['status']=='1'){?>style="display: none"<?php } ?> class="borBlue approvedBtn ">通过</a><a href="#" rel="<?php echo $c['annual_course_id'] ?>" <?php if($c['status']=='2'){?>style="display: none"<?php } ?> class="borBlue unapprovedBtn ml10">不通过</a></p>
-        </dd>
+        <?php if(count($courses)>0){ ?>
+            <?php foreach ($courses as $c){ ?>
+            <dt><?php echo $c['title'] ?></dt>
+            <dd>
+                <p class="fLeft">课程预算：<?php echo round($c['price']/$c['people']) ?>元/人<br>
+                    审核状态：<?php if(empty($c['status'])){?><span class="yellow1 mr10">未审核</span><?php }else{echo ($c['status']=='1')?'<span class="green mr10">已通过</span>':'<span class="red mr10">未通过</span>';} ?></p>
+                <p class="fRight pt10"><a href="#" rel="<?php echo $c['annual_course_id'] ?>" <?php if($c['status']=='1'){?>style="display: none"<?php } ?> class="borBlue approvedBtn ">通过</a><a href="#" rel="<?php echo $c['annual_course_id'] ?>" <?php if($c['status']=='2'){?>style="display: none"<?php } ?> class="borBlue unapprovedBtn ml10">不通过</a></p>
+            </dd>
+            <?php } ?>
+        <?php }else{ ?>
+            <p class="tipsF14">暂时没有需要审核的课程。</p>
         <?php } ?>
     </dl>
 </div>
