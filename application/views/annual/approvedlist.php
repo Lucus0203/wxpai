@@ -4,7 +4,7 @@
             var course=$(this).attr('rel');
             $.ajax({
                 type: "post",
-                url: '<?php echo site_url('annualmanage/approvedcourse/'.$plan['id'].'/'.$loginInfo['id']) ?>',
+                url: '<?php echo site_url('annualmanage/approvedcourse/'.$plan['id'].'/'.$student['id']) ?>',
                 data:{'course':course},
                 async: false,
                 success: function (res) {
@@ -20,7 +20,7 @@
             var course=$(this).attr('rel');
             $.ajax({
                 type: "post",
-                url: '<?php echo site_url('annualmanage/unapprovedcourse/'.$plan['id'].'/'.$loginInfo['id']) ?>',
+                url: '<?php echo site_url('annualmanage/unapprovedcourse/'.$plan['id'].'/'.$student['id']) ?>',
                 data:{'course':course},
                 async: false,
                 success: function (res) {
