@@ -128,7 +128,7 @@ class Annualmanage extends CI_Controller {
                 //报名名单
                 $data = array('course_id' => $apcourse['course_id'], 'student_id' => $studentid);
                 $a = $this->db->get_where('course_apply_list', $data)->row_array();
-                $data['note'] = '来自年度需求调研的报名申请';
+                $data['note'] = '年度需求调研报名';
                 $data['status'] = $status;
                 if (empty($a)) {
                     $this->db->insert('course_apply_list', $data);
