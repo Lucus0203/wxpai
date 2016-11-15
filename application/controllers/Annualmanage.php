@@ -29,9 +29,16 @@ class Annualmanage extends CI_Controller {
     public function approved() {
         $plan=$this->annualplan_model->get_row(array('company_code'=>$this->_logininfo['company_code'],'approval_status'=>1));
         if(!empty($plan['id'])){
-            $countcourselist="select count(apcl.id) num,apcl.student_id from ".$this->db->dbprefix('annual_plan_course_list')." apcl where annual_plan_id=".$plan['id']." and status=1 group by student_id ";
-            $sql="select student.*,countlist.num from ".$this->db->dbprefix('student')." student left join ($countcourselist) countlist on student.id=countlist.student_id ".
+            $countcourselist="select count(apcl.id) num,apcl.student_id from ".$this->db->dbprefix('annual_plan_course_list')." apcl where annual_plan_id=".$plan['id']." and status=1 ";
+            $countanswerlist="select count(aac.annual_course_id) total,aac.student_id from ".
+                $this->db->dbprefix('annual_answer_course')." aac left join ".
+                $this->db->dbprefix('annual_plan')." plan ON plan.annual_survey_id = aac.annual_survey_id and plan.id = ".$plan['id']." left join ".
+                $this->db->dbprefix('annual_plan_course')." apc ON apc.annual_plan_id = plan.id and aac.annual_course_id=apc.annual_course_id where plan.id = ".$plan['id']."
+AND apc.openstatus =1 group by aac.student_id ";
+            $sql="select student.*,countlist.num,answerlist.total from ".$this->db->dbprefix('student')." student left join ($countcourselist) countlist on student.id=countlist.student_id ".
+                " left join ($countanswerlist) answerlist on student.id=answerlist.student_id ".
                 " where student.company_code='".$this->_logininfo['company_code']."' and (student.department_id = ".$this->_logininfo['department_id']." or student.department_parent_id = ".$this->_logininfo['department_id']." ) and student.isdel=2 ";
+            $sql.=" group by student.id ";
             $query = $this->db->query($sql);
             $students = $query->result_array();
             //预算总额

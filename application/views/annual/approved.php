@@ -24,7 +24,7 @@
             <td <?php if($s===end($students)){?>class="noborder"<?php } ?>></td>
             <td <?php if($s===end($students)){?>class="noborder"<?php } ?>><?php echo $s['name'] ?></td>
             <td <?php if($s===end($students)){?>class="noborder"<?php } ?>><?php echo $s['job_code'] ?></td>
-            <td <?php if($s===end($students)){?>class="noborder"<?php } ?>><?php echo round($s['num']) ?></td>
+            <td <?php if($s===end($students)){?>class="noborder"<?php } ?>><?php echo round($s['num']).'/'.round($s['total']) ?></td>
             <td <?php if($s===end($students)){?>class="noborder"<?php } ?>><a class="blue" href="<?php echo site_url('annualmanage/approvedlist/'.$plan['id'].'/'.$s['id']) ?>">审核</a></td>
             <td <?php if($s===end($students)){?>class="noborder"<?php } ?>></td>
         </tr>
