@@ -29,15 +29,27 @@
 <div class="mConts p0 clearfix">
 
     <ul class="topNavi">
-        <li class="<?php if($qatype=='acceptance'){?>cur<?php } ?>">
-            <a>认同度</a>
-        </li>
-        <li class="<?php if($qatype=='organization'){?>cur<?php } ?>">
-            <a>组织性</a>
-        </li>
-        <li class="<?php if($qatype=='requirement'){?>cur<?php } ?>">
-            <a>需求信息</a>
-        </li>
+        <?php foreach($modeltyps as $m){
+            switch ($m['module']){
+                case 1:?>
+                    <li class="<?php if($qatype=='acceptance'){?>cur<?php } ?>">
+                        <a>认同度</a>
+                    </li><?php
+                    break;
+                case 2:?>
+                    <li class="<?php if($qatype=='organization'){?>cur<?php } ?>">
+                        <a>组织性</a>
+                    </li><?php
+                    break;
+                case 3:?>
+                    <li class="<?php if($qatype=='requirement'){?>cur<?php } ?>">
+                        <a>需求信息</a>
+                    </li><?php
+                    break;
+                default:
+                    break;
+            }?>
+        <?php } ?>
         <li class="<?php if($qatype=='coursechosen'){?>cur<?php } ?>">
             <a>课程选择</a>
         </li>

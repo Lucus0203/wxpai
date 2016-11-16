@@ -63,6 +63,25 @@ class Annual extends CI_Controller {
             default :
                 break;
         }
+        //判断是否有问题,无则跳过
+        $qmodelsql="select module from ".$this->db->dbprefix('annual_question')." q where annual_survey_id=".$survey['id']." group by module ";
+        $query=$this->db->query($qmodelsql);
+        $modeltyps=$query->result_array();
+        if($module!=4){
+            $flag=false;
+            foreach ($modeltyps as $m){
+                if($m['module']==$module){
+                    $flag=true;
+                }
+            }
+            if(!$flag){
+                //update step
+                $this->annualanswer_model->update(array('step'=>$module+1),$annualAnswer['id']);
+                redirect(site_url('annual/answer/'.$surveyid));
+                return false;
+            }
+        }
+
         if($module<4){
             $questions=$this->annualquestion_model->get_all(array('annual_survey_id'=>$survey['id'],'module'=>$module));
             foreach ($questions as $k=>$q){
@@ -75,7 +94,7 @@ class Annual extends CI_Controller {
             }
         }
         $this->load->view ( 'header' );
-        $this->load->view ( 'annual/answer',compact('survey','qatype','','questions','courses','msg') );
+        $this->load->view ( 'annual/answer',compact('survey','qatype','modeltyps','questions','courses','msg') );
         $this->load->view ( 'footer' );
     }
 
