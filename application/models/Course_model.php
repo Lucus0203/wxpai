@@ -46,7 +46,7 @@ class Course_model extends CI_Model {
     //查找数量
     public function get_count($where=FALSE){
         $this->db->where ($where);
-        echo $this->db->count_all_results('annual_course');
+        echo $this->db->count_all_results('course');
         echo $this->db->last_query();
     }
         
