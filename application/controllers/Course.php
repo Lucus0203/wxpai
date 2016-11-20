@@ -9,7 +9,7 @@ class Course extends CI_Controller
         parent::__construct();
         $this->load->library(array('session'));
         $this->load->helper(array('form', 'url','download'));
-        $this->load->model(array('user_model', 'course_model', 'teacher_model', 'homework_model', 'homeworklist_model', 'survey_model', 'surveylist_model', 'ratings_model', 'ratingslist_model', 'signinlist_model','prepare_model','annualsurvey_model','annualanswer_model'));
+        $this->load->model(array('user_model', 'course_model', 'teacher_model', 'homework_model', 'homeworklist_model', 'survey_model', 'surveylist_model', 'ratings_model', 'ratingslist_model', 'signinlist_model','prepare_model','annualsurvey_model','annualanswer_model','companytokenwx_model'));
 
         $this->load->database();
         $this->_logininfo = $this->session->userdata('loginInfo');
@@ -172,7 +172,8 @@ class Course extends CI_Controller
         $signindata = $this->signinlist_model->get_row(array('course_id' => $id, 'student_id' => $logininfo['id']));
         //微信jssdk
         if ( strpos($_SERVER['HTTP_USER_AGENT'], 'MicroMessenger') !== false ) {
-            $this->load->library('wechat');
+            $companyToken=$this->CI->companytokenwx_model->get_row(array('company_code'=>$logininfo['company_code']));
+            $this->load->library('wechat', $companyToken);
             $signPackage = $this->wechat->getSignPackage();
         }else{
             $signPackage = array();
