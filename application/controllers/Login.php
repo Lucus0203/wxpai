@@ -254,7 +254,7 @@ class Login extends CI_Controller
         $state = $this->input->get('state');
         $code = $this->input->get('code');
         if ($orgin_state == $state) {
-            $companyToken=$this->CI->companytokenwx_model->get_row(array('company_code'=>$company_code));
+            $companyToken=$this->companytokenwx_model->get_row(array('company_code'=>$company_code));
             $this->load->library('wechat', $companyToken);
             $tokenData = $this->wechat->getTokenData($code);
             $userData = $this->wechat->getUserInfo($tokenData->access_token, $tokenData->openid);
@@ -285,7 +285,7 @@ class Login extends CI_Controller
 
         $state = rand(10000, 99999);
         $this->session->set_userdata('wxstate', $state);
-        $companyToken=$this->CI->companytokenwx_model->get_row(array('company_code'=>$company_code));
+        $companyToken=$this->companytokenwx_model->get_row(array('company_code'=>$company_code));
         $this->load->library('wechat', $companyToken);
         $url = $this->wechat->getCodeRedirect($weburl, $state);
         redirect($url);

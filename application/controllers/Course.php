@@ -172,7 +172,7 @@ class Course extends CI_Controller
         $signindata = $this->signinlist_model->get_row(array('course_id' => $id, 'student_id' => $logininfo['id']));
         //微信jssdk
         if ( strpos($_SERVER['HTTP_USER_AGENT'], 'MicroMessenger') !== false ) {
-            $companyToken=$this->CI->companytokenwx_model->get_row(array('company_code'=>$logininfo['company_code']));
+            $companyToken=$this->companytokenwx_model->get_row(array('company_code'=>$logininfo['company_code']));
             $this->load->library('wechat', $companyToken);
             $signPackage = $this->wechat->getSignPackage();
         }else{
