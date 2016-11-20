@@ -287,8 +287,6 @@ class Login extends CI_Controller
         $this->session->set_userdata('wxstate', $state);
         $companyToken=$this->companytokenwx_model->get_row(array('company_code'=>$company_code));
         $this->load->library('wechat', $companyToken);
-        echo $this->wechat->_appID;
-        echo 'getwechatcode';
         $url = $this->wechat->getCodeRedirect($weburl, $state);
         redirect($url);
     }
