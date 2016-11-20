@@ -3,8 +3,8 @@ if (!defined('BASEPATH')) exit('No direct script access allowed');
 
 class Wechat
 {
-    var $_appID = "wx2736e8f78ee6a1a0";//传师
-    var $_appsecret = "5dcbec418c147ecf5d94f5221f20fdfb";//传师
+    var $_appID="wx24e254d9de36120a";//培训派//传师wx2736e8f78ee6a1a0
+    var $_appsecret="4e2d115891abc0c93bd4eaccaacc9e11";//培训派//传师5dcbec418c147ecf5d94f5221f20fdfb
     var $_access_token;
     var $_token_file;
     var $_jsapi_ticket_file;
