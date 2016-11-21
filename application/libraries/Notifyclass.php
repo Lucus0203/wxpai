@@ -112,7 +112,7 @@ class Notifyclass
                 )
             );
             $companyToken=$this->CI->companytokenwx_model->get_row(array('company_code'=>$student['company_code']));
-            $this->load->library('wechat', $companyToken);
+            $this->CI->load->library('wechat', $companyToken);
             $res = $this->CI->wechat->templateSend($student['openid'], 'TM00186', $this->CI->config->item('base_url') . 'course/survey/' . $course['id'] . '.html', $wxdata);
         }
 
