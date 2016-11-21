@@ -1,7 +1,7 @@
 <!--head-->
 <script>
     $(document).ready(function(){
-        $('ul li').css('width',100/$('ul li').length + 'px');
+        $('ul.btnList li').css('width',100/$('ul li').length + 'px');
     });
 </script>
 <header class="clearfix mb0" id="gHeader">
