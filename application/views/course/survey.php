@@ -1,4 +1,9 @@
 <!--head-->
+<script>
+    $(document).ready(function(){
+        $('ul li').css('width',100/$('ul li').length + 'px');
+    });
+</script>
 <header class="clearfix mb0" id="gHeader">
             <div class="header"><a href="<?php echo $homeUrl;?>"><i class="iright">◇</i></a><?php echo $course['title'] ?></div>
 </header>
