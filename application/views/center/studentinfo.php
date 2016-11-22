@@ -17,7 +17,7 @@
                         ++count;
                     });
                     if(count>0){
-                        $('select[name=department_id]').show().html(str)
+                        $('select[name=department_id]').show().html(str);
                     }else{
                         $('select[name=department_id]').hide().html('<option value="'+departmentid+'" selected >请选择</option>');
                     }
@@ -106,7 +106,7 @@
                             <?php } ?>
                         </select>
                         <select id="department_id" name="department_id" <?php if(count($second_departments)<=0){?>style="display: none;"<?php } ?> class="noboript">
-                            <option value="">请选择</option>
+                            <option value="<?php echo $loginInfo['department_parent_id'] ?>">请选择</option>
                             <?php foreach ($second_departments as $d){ ?>
                                 <option <?php if($loginInfo['department_id']==$d['id']){ ?>selected=""<?php } ?> value="<?php echo $d['id'] ?>"><?php echo $d['name'] ?></option>
                             <?php } ?>
