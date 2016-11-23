@@ -70,7 +70,7 @@ class Notifyclass
             $subject = "《{$course['title']}》报名成功";
             $message = "亲爱的{$student['name']}：
 <p style='text-indent:40px'>你已成功报名参加《{$course['title']}》，该课程将于{$t}在{$course['address']}举行，请提前安排好工作或出差行程，准时参加培训。</p>
-<p style='text-indent:40px'>上课前请先完成课前调研表（<a href='{$link}' target='_blank'>{$link}</a>）和课前作业并提交给我们。</p>
+<p style='text-indent:40px'>上课前请先完成课前调研表（<a href='{$link}' target='_blank'>{$link}</a>）并提交给我们。</p>
 <p style='text-indent:40px'>预祝学习愉快，收获满满！</p>
 
 <p style=\"text-align: right;margin-right: 40px;\">".$company['name'].'</p>';
@@ -90,8 +90,8 @@ class Notifyclass
             $wxdata = array(
                 'first' => array(
                     'value' => '您好,' . $student['name'] . '
-您已成功报名参加' . $course['title'],
-                    'color' => "#173177"
+您已成功报名参加《' . $course['title'].'》',
+                    'color' => "#000000"
                 ),
                 'class' => array(
                     'value' => $course['title'],
@@ -106,9 +106,9 @@ class Notifyclass
                     'color' => "#173177"
                 ),
                 'remark' => array(
-                    'value' => "请提前安排好工作或出差行程，准时参加培训。上课前请先完成课前调研表和课前作业并提交给我们。
+                    'value' => "请提前安排好工作或出差行程，准时参加培训。上课前请先完成课前调研表并提交给我们。
 预祝学习愉快，收获满满！",
-                    'color' => "#173177"
+                    'color' => "#000000"
                 )
             );
 
