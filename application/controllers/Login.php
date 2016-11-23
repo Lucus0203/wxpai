@@ -24,8 +24,12 @@ class Login extends CI_Controller
         } else {
             $userinfo = $this->student_model->get_row("unionid = '" . $wxinfo['unionid'] . "' and unionid<>'' and isdel=2 ");
             if (!empty($userinfo)) {
-                $this->session->set_userdata('loginInfo', $userinfo);
-                $this->indexRedirect();
+                if($userinfo['isleaving']==1){
+                    $this->loginout();
+                }else{
+                    $this->session->set_userdata('loginInfo', $userinfo);
+                    $this->indexRedirect();
+                }
                 return false;
             }
         }
@@ -44,7 +48,9 @@ class Login extends CI_Controller
             }else {
                 $userinfo = $this->student_model->get_row(array('mobile' => $mobile, 'company_code' => $post_company_code, 'isdel' => 2));
                 $userinfo = empty($userinfo['id']) ? $this->student_model->get_row(array('user_name' => $mobile, 'company_code' => $post_company_code, 'isdel' => 2)) : $userinfo;
-                if (!empty($userinfo['id'])) {
+                if($userinfo['isleaving']==1){
+                    $error_msg = "账号已冻结";
+                }elseif (!empty($userinfo['id'])) {
                     $pwd = $userinfo ['user_pass'];
                     if ($pwd == md5($pass)) {
                         if (empty($userinfo['unionid'])) {
