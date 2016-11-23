@@ -178,16 +178,12 @@ class Wechat
      * 发送模板消息
      *
      */
-    function templateSend($touser,$templateCode,$url,$data){
-        $objTempid=$this->getTemplateId($templateCode);
-        if($objTempid->errcode=='0'){
-            $templateid=$objTempid->template_id;
-            $uri="https://api.weixin.qq.com/cgi-bin/message/template/send?access_token=".$this->_access_token;
-            $obj=array('touser'=>$touser,'template_id'=>$templateid,'url'=>$url,'data'=>$data);
-            $o=json_encode($obj);
-            $res=$this->sendJsonData($uri,$o);
-            return $res;
-        }
+    function templateSend($touser,$templateid,$url,$data){
+        $uri="https://api.weixin.qq.com/cgi-bin/message/template/send?access_token=".$this->_access_token;
+        $obj=array('touser'=>$touser,'template_id'=>$templateid,'url'=>$url,'data'=>$data);
+        $o=json_encode($obj);
+        $res=$this->sendJsonData($uri,$o);
+        return $res;
     }
 
     //获取模板id

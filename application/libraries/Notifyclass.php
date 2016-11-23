@@ -111,9 +111,15 @@ class Notifyclass
                     'color' => "#173177"
                 )
             );
+
             $companyToken=$this->CI->companytokenwx_model->get_row(array('company_code'=>$student['company_code']));
             $this->CI->load->library('wechat', $companyToken);
-            $res = $this->CI->wechat->templateSend($student['openid'], 'TM00186', $this->CI->config->item('base_url') . 'course/survey/' . $course['id'] . '.html', $wxdata);
+            //获取templateid
+            $objTempid=$this->CI->wechat->getTemplateId('TM00186');
+            if($objTempid->errcode=='0') {
+                $templateid = $objTempid->template_id;
+                $res = $this->CI->wechat->templateSend($student['openid'], $templateid, $link, $wxdata);
+            }
         }
 
     }
