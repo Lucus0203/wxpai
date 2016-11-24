@@ -188,10 +188,25 @@ class Wechat
 
     //获取模板id
     function getTemplateId($templateCode){
+        $tempkv=array('TM00186'=>'报名结果通知','TM00080'=>'课程开课通知','OPENTM213512088'=>'待办任务提醒');
+        $temps=$this->getAllTemplate();
+        foreach ($temps->template_list as $t){
+            if($t->title == $tempkv[$templateCode]){
+                $t->errcode='0';
+                return $t;
+            }
+        }
         $uri="https://api.weixin.qq.com/cgi-bin/template/api_add_template?access_token=".$this->_access_token;
         $obj=array('template_id_short'=>$templateCode);
         $o=json_encode($obj);
-        $res=$this->sendJsonData($uri,$o);
+        $res=$this->sendJsonData($uri,$o,1);
+        return $res;
+    }
+
+    //获取模板列表
+    function getAllTemplate(){
+        $uri="https://api.weixin.qq.com/cgi-bin/template/get_all_private_template?access_token=".$this->_access_token;
+        $res=$this->sendJsonData($uri);
         return $res;
     }
 
