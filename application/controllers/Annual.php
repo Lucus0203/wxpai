@@ -153,6 +153,8 @@ class Annual extends CI_Controller {
                 foreach ($courseids as $cid){
                     $this->annualanswercourse_model->create(array('company_code'=>$this->_logininfo['company_code'],'student_id'=>$this->_logininfo['id'],'annual_survey_id'=>$survey['id'],'annual_answer_id'=>$annualAnswerId,'annual_course_id'=>$cid));
                 }
+                $answer_content=$this->input->post('answer_content');
+                $this->annualanswer_model->update(array('content'=>$answer_content),$annualAnswerId);
             }
             //update step
             $this->annualanswer_model->update(array('step'=>$module+1),$annualAnswerId);

@@ -92,6 +92,9 @@
             <?php } ?>
         </ul>
         <?php } ?>
+        <p style="padding: 10px;">
+            <textarea name="answer_content" placeholder="您还想补充的培训需求" class="areaH150"></textarea>
+        </p>
         <ul class="btnList">
             <li class="wb100"><input type="submit" class="blueBtnH40 mb0" value="提交问卷"></li>
         </ul>
