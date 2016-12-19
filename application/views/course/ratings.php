@@ -65,7 +65,7 @@
                     <input name="qid[]" type="hidden" value="<?php echo $question[0]['id'] ?>" />
                     <input class="totalStar" name="star[]" type="hidden" value="<?php echo $question[0]['star'] ?>" /><input name="content[]" type="hidden" value="" />
                     <p class="aCenter f18">您对本次课程的总体评价是</p>
-                    <div class="starsList"><a href="javascript:;" <?php if($question[0]['star']>=1){?> class="starOn"<?php } ?>>★</a><a href="javascript:;" <?php if($question[0]['star']>=2){?> class="starOn"<?php } ?>>★</a><a href="javascript:;" <?php if($question[0]['star']>=3){?> class="starOn"<?php } ?>>★</a><a href="javascript:;" <?php if($question[0]['star']>=4){?> class="starOn"<?php } ?>>★</a><a href="javascript:;" <?php if($question[0]['star']>=5){?> class="starOn"<?php } ?>>★</a></div>
+                    <div class="starsList"><a href="javascript:;" <?php if($question[0]['star']>=1){?> class="starOn"<?php } ?>><i class="fa fa-star fa-1x"></i></a><a href="javascript:;" <?php if($question[0]['star']>=2){?> class="starOn"<?php } ?>><i class="fa fa-star fa-1x"></i></a><a href="javascript:;" <?php if($question[0]['star']>=3){?> class="starOn"<?php } ?>><i class="fa fa-star fa-1x"></i></a><a href="javascript:;" <?php if($question[0]['star']>=4){?> class="starOn"<?php } ?>><i class="fa fa-star fa-1x"></i></a><a href="javascript:;" <?php if($question[0]['star']>=5){?> class="starOn"<?php } ?>><i class="fa fa-star fa-1x"></i></a></div>
                     <p class="aCenter gray9">轻点星星来评分</p>
                     <p class="aCenter red mt10 msg1th" style="display: none;">请对本次课程评分</p>
             </div>
