@@ -6,7 +6,7 @@ class Ability extends CI_Controller {
         parent::__construct();
         $this->load->library(array('session'));
         $this->load->helper(array('form','url'));
-        $this->load->model(array('student_model','company_model','department_model','ability_model','abilityjob_model','companyabilityjob_model','annualsurvey_model','annualanswer_model'));
+        $this->load->model(array('student_model','company_model','department_model','companyabilityjob_model','companyabilitymodel_model','companyabilityjobevaluation_model','annualsurvey_model','annualanswer_model'));
 
         $this->_logininfo=$this->session->userdata('loginInfo');
         if(empty($this->_logininfo['id'])){
@@ -29,41 +29,66 @@ class Ability extends CI_Controller {
 
     public function index() {
         //complate_status 1待评估2评估完成
-        $sql = "select abilityjob.*,cajs.status as complate_status,cajs.point,cajs.updated as complate_time from " . $this->db->dbprefix('company_ability_job_student') . " cajs "
-            . "left join " .$this->db->dbprefix('ability_job')." abilityjob on cajs.ability_job_id = abilityjob.id "
-            . "left join " .$this->db->dbprefix('company_ability_job')." caj on caj.ability_job_id = abilityjob.id and caj.company_code='".$this->_logininfo['company_code']."' "
-            . "where cajs.student_id = ".$this->_logininfo['id']." and cajs.isdel=2 and caj.status=1 and cajs.company_code = '".$this->_logininfo['company_code']."'";
+        $sql = " select evaluation.id,abilityjob.name,abilityjoblevel.name as level,evaluation.time_end,cajs.status from " . $this->db->dbprefix('company_ability_job_evaluation_student') . " cajs "
+            . " left join " .$this->db->dbprefix('company_ability_job')." abilityjob on cajs.ability_job_id = abilityjob.id "
+            . " left join " .$this->db->dbprefix('company_ability_job_level')." abilityjoblevel on abilityjob.ability_job_level_id = abilityjoblevel.id "
+            . " left join " .$this->db->dbprefix('company_ability_job_evaluation')." evaluation on cajs.ability_job_evaluation_id = evaluation.id "
+            . " where cajs.student_id = ".$this->_logininfo['id']." and cajs.isdel=2 and cajs.company_code = '".$this->_logininfo['company_code']."' ";
+
+        $totalres = $this->db->query("select count(*) as num from ($sql) s ")->row_array();
+        $total = $totalres['num'];
+        $page_num = 6;
+        $sql .= " order by evaluation.id desc limit 0,$page_num ";
+
         $query = $this->db->query($sql);
         $jobs = $query->result_array();
 
         $this->load->view ( 'header' );
-        $this->load->view ( 'ability/index',array('jobs'=>$jobs) );
+        $this->load->view ( 'ability/index',array('jobs'=>$jobs,'total' => $total, 'current_num' => $page_num) );
         $this->load->view ( 'footer' );
     }
 
-    public function assess($abilityjob_id){
+    public function more(){
+        $num = $this->input->post('num');
+        //complate_status 1待评估2评估完成
+        $sql = " select evaluation.id,abilityjob.name,abilityjoblevel.name as level,evaluation.time_end,cajs.status from " . $this->db->dbprefix('company_ability_job_evaluation_student') . " cajs "
+            . " left join " .$this->db->dbprefix('company_ability_job')." abilityjob on cajs.ability_job_id = abilityjob.id "
+            . " left join " .$this->db->dbprefix('company_ability_job_level')." abilityjoblevel on abilityjob.ability_job_level_id = abilityjoblevel.id "
+            . " left join " .$this->db->dbprefix('company_ability_job_evaluation')." evaluation on cajs.ability_job_evaluation_id = evaluation.id "
+            . " where cajs.student_id = ".$this->_logininfo['id']." and cajs.isdel=2 and cajs.company_code = '".$this->_logininfo['company_code']."' ";
+        $page_num = 6;
+        $sql .= " order by evaluation.id desc limit $num,$page_num ";
+        $query = $this->db->query($sql);
+        $jobs = $query->result_array();
+        foreach ($jobs as $k => $j) {
+            $jobs[$k]['time_end'] = date('m-d H:i',strtotime($j['time_end']));
+        }
+        echo json_encode($jobs);
+    }
+
+    public function assess($evaluationid){
         //如果未发布则跳转
-        $this->ispublishJob($abilityjob_id);
+        $this->isAlowEvaluationid($evaluationid);
+        $evaluation=$this->companyabilityjobevaluation_model->get_row(array('id'=>$evaluationid));
         //type1专业能力2通用能力3领导力4个性5经验
-        $abilityjob=$this->abilityjob_model->get_row(array('id'=>$abilityjob_id));
-        $sql="select count(*) as num,type from ".$this->db->dbprefix('ability_job_model')." jobmodel 
-        left join ".$this->db->dbprefix('ability_model')." model on jobmodel.model_id=model.id 
-        where jobmodel.job_id = $abilityjob_id group by model.type order by model.type ";
+        $abilityjob=$this->companyabilityjob_model->get_row(array('id'=>$evaluation['ability_job_id']));
+        $sql="select count(*) as num,type from ".$this->db->dbprefix('company_ability_job_model')." jobmodel 
+        where jobmodel.ability_job_id = ".$evaluation['ability_job_id']." group by jobmodel.type order by jobmodel.type ";
         $query=$this->db->query($sql);
         $countarry=$query->result_array();
         $this->load->view ( 'header' );
-        $this->load->view ( 'ability/assess',compact('abilityjob','countarry') );
+        $this->load->view ( 'ability/assess',compact('evaluation','abilityjob','countarry') );
         $this->load->view ( 'footer' );
     }
 
-    public function evaluate($abilityjob_id){
+    public function evaluate($evaluationid){
         //如果未发布则跳转
-        $this->ispublishJob($abilityjob_id);
-        $abilityjob=$this->abilityjob_model->get_row(array('id'=>$abilityjob_id));
-        $sql = "select ability.*,if(cajm.model_name!='',cajm.model_name,ability.name) as model_name from " . $this->db->dbprefix('ability_job_model') . " job_model "
-            . "left join " . $this->db->dbprefix('ability_model') . " ability on ability.id = job_model.model_id "
-            . "left join " . $this->db->dbprefix('company_ability_job_model') . " cajm on cajm.model_id = job_model.model_id and cajm.job_id=$abilityjob_id and cajm.company_code='".$this->_logininfo['company_code']."' "
-            . "where job_model.job_id = $abilityjob_id ";
+        $this->isAlowEvaluationid($evaluationid);
+        $evaluation=$this->companyabilityjobevaluation_model->get_row(array('id'=>$evaluationid));
+        $abilityjob=$this->companyabilityjob_model->get_row(array('id'=>$evaluation['ability_job_id']));
+        $sql = "select ability.* from " . $this->db->dbprefix('company_ability_job_model') . " job_model "
+            . "left join " . $this->db->dbprefix('company_ability_model') . " ability on ability.id = job_model.ability_model_id "
+            . "where job_model.ability_job_id = ".$abilityjob['id']." and ability.company_code='".$this->_logininfo['company_code']."' ";
         $query = $this->db->query($sql . " order by ability.type asc,job_model.id asc ");
         $res = $query->result_array();
         $abilities=array();
@@ -71,33 +96,35 @@ class Ability extends CI_Controller {
             $abilities[$a['type']][]=$a;
         }
         $this->load->view ( 'header' );
-        $this->load->view ( 'ability/evaluate',compact('abilities','abilityjob') );
+        $this->load->view ( 'ability/evaluate',compact('evaluation','abilities','abilityjob') );
         $this->load->view ( 'footer' );
     }
 
     public function evaluatestore(){
         $company_code=$this->_logininfo['company_code'];
-        $abilityjob_id = $this->input->post('abilityjob_id');
+        $evaluationid = $this->input->post('evaluation_id');
         $modids = $this->input->post('modid');
         $modnames = $this->input->post('modname');
         //如果未发布则跳转
-        $this->ispublishJob($abilityjob_id);
-        $query=$this->db->get_where('company_ability_job_student',array('company_code'=>$company_code,'ability_job_id'=>$abilityjob_id,'student_id'=>$this->_logininfo['id']));
-        $cajs=$query->row_array();
-        if(count($modids)<=0||$cajs['status']!=1||$cajs['isdel']==1){//非待评估状态则跳转
+        $this->isAlowEvaluationid($evaluationid);
+        if(count($modids)<=0){//未填写数据则跳转
             redirect('ability','index');
             return false;
         }
-        $totalPoint=0;
+        $evaluation=$this->companyabilityjobevaluation_model->get_row(array('id'=>$evaluationid));
+        $totalPoint=$totalLevel=0;
+        $this->db->where (array('isothersevaluation'=>2,'ability_job_evaluation_id'=>$evaluationid,'student_id'=>$studentid));
+        $this->db->delete ( 'company_ability_job_student_assess' );
         foreach ($modids as $mid => $v){
             $abilityObj=array();
-            $m=$this->ability_model->get_row(array('id'=>$mid));
+            $m=$this->companyabilitymodel_model->get_row(array('id'=>$mid));
             $abilityObj['company_code']=$company_code;
-            $abilityObj['ability_job_id']=$abilityjob_id;
+            $abilityObj['ability_job_id']=$evaluation['ability_job_id'];
+            $abilityObj['ability_job_evaluation_id']=$evaluationid;
             $abilityObj['student_id']=$this->_logininfo['id'];
             $abilityObj['point']=$v;
             $abilityObj['type']=$m['type'];
-            $abilityObj['model_id']=$mid;
+            $abilityObj['ability_model_id']=$mid;
             $abilityObj['name']=$modnames[$mid];
             $abilityObj['info']=$m['info'];
             $abilityObj['level']=$m['level'];
@@ -112,30 +139,32 @@ class Ability extends CI_Controller {
             $abilityObj['level_info9']=$m['level_info9'];
             $abilityObj['level_info10']=$m['level_info10'];
             $this->db->insert ( 'company_ability_job_student_assess', $abilityObj );
-            $totalPoint+=$v/$abilityObj['level'];
+            $totalPoint+=$v;
+            $totalLevel+=$m['level']*1;
         }
-        $totalPoint=count($modids)>0?$totalPoint/count($modids)*5:0;//总分5
-        $this->db->where ( array('company_code'=>$company_code,'ability_job_id'=>$abilityjob_id,'student_id'=>$this->_logininfo['id']) );
-        $this->db->update ( 'company_ability_job_student', array('status'=>2,'point'=>$totalPoint) );
-        redirect(site_url('ability/result/'.$abilityjob_id));
+        $point=count($totalLevel)>0?$totalPoint/$totalLevel*5:0;//总分5
+        $this->db->where ( array('company_code'=>$company_code,'ability_job_evaluation_id'=>$evaluationid,'student_id'=>$this->_logininfo['id']) );
+        $this->db->update ( 'company_ability_job_evaluation_student', array('status'=>2,'point'=>$point) );
+        redirect(site_url('ability/result/'.$evaluationid));
     }
 
-    public function result($abilityjob_id){
+    public function result($evaluationid){
+        $this->isAlowEvaluationid($evaluationid);
+        $evaluation=$this->companyabilityjobevaluation_model->get_row(array('id'=>$evaluationid));
+        $abilityjob=$this->companyabilityjob_model->get_row(array('id'=>$evaluation['ability_job_id']));
+        $abilityjob_id=$abilityjob['id'];
         $sql = "select sum(point) as point,sum(level) as level,type from " . $this->db->dbprefix('company_ability_job_student_assess') . " assess "
-            . "where assess.company_code = '".$this->_logininfo['company_code']."' and assess.ability_job_id=$abilityjob_id and student_id=".$this->_logininfo['id'];
+            . "where assess.company_code = '".$this->_logininfo['company_code']."' and assess.ability_job_id=$abilityjob_id and assess.isothersevaluation=2 and student_id=".$this->_logininfo['id'];
         $query = $this->db->query($sql . " group by type order by assess.type asc,assess.id asc ");
         $res = $query->result_array();
         $abilities=array();
         foreach ($res as $a){
             $abilities[$a['type']]=$a;
         }
-        $abilityjob=$this->abilityjob_model->get_row(array('id'=>$abilityjob_id));
         //获取岗位评分标准
-        $sql = "select ability.type,if(cajm.level_standard!='',cajm.level_standard,job_model.level_standard) as level_standard from " . $this->db->dbprefix('ability_job_model') . " job_model "
-            . "left join " . $this->db->dbprefix('ability_model') . " ability on ability.id = job_model.model_id "
-            . "left join " . $this->db->dbprefix('company_ability_job_model') . " cajm on cajm.model_id = job_model.model_id and cajm.job_id=$abilityjob_id and cajm.company_code='".$this->_logininfo['company_code']."' "
-            . "where job_model.job_id = $abilityjob_id ";
-        $sql.=" order by ability.type asc,job_model.id asc";
+        $sql = "select type,level_standard from " . $this->db->dbprefix('company_ability_job_model') . " job_model "
+            . "where job_model.company_code='".$this->_logininfo['company_code']."' and job_model.ability_job_id = $abilityjob_id ";
+        $sql.=" order by job_model.type asc,job_model.id asc";
         $query = $this->db->query("select s.type,sum(level_standard) as point_standard from ($sql) s group by s.type ");
         $res = $query->result_array();
         $standard=array();
@@ -143,30 +172,32 @@ class Ability extends CI_Controller {
             $standard[$s['type']]=$s['point_standard'];
         }
         $this->load->view ( 'header' );
-        $this->load->view ( 'ability/result',compact('abilities','abilityjob','standard'));
+        $this->load->view ( 'ability/result',compact('evaluation','abilities','abilityjob','standard'));
         $this->load->view ( 'footer' );
     }
 
-    public function resultdetail($abilityjob_id){
-        $sql = "select assess.*,if(cajm.level_standard!='',cajm.level_standard,job_model.level_standard) as level_standard from " . $this->db->dbprefix('company_ability_job_student_assess') . " assess "
-            . "left join " . $this->db->dbprefix('ability_job_model') . " job_model on job_model.id = assess.model_id "
-            . "left join " . $this->db->dbprefix('company_ability_job_model') . " cajm on cajm.model_id = assess.model_id and cajm.job_id=$abilityjob_id and cajm.company_code='".$this->_logininfo['company_code']."' "
-            . "where assess.company_code = '".$this->_logininfo['company_code']."' and assess.ability_job_id=$abilityjob_id and student_id=".$this->_logininfo['id'];
+    public function resultdetail($evaluationid){
+        $this->isAlowEvaluationid($evaluationid);
+        $evaluation=$this->companyabilityjobevaluation_model->get_row(array('id'=>$evaluationid));
+        $abilityjob=$this->companyabilityjob_model->get_row(array('id'=>$evaluation['ability_job_id']));
+        $abilityjob_id=$abilityjob['id'];
+        $sql = "select assess.*,cajm.level_standard from " . $this->db->dbprefix('company_ability_job_student_assess') . " assess "
+            . "left join " . $this->db->dbprefix('company_ability_job_model') . " cajm on cajm.ability_model_id = assess.ability_model_id and cajm.ability_job_id=$abilityjob_id and cajm.company_code='".$this->_logininfo['company_code']."' "
+            . "where assess.company_code = '".$this->_logininfo['company_code']."' and assess.ability_job_id=$abilityjob_id and assess.isothersevaluation=2 and student_id=".$this->_logininfo['id'];
         $query = $this->db->query($sql . " order by assess.type asc,assess.id asc ");
         $res = $query->result_array();
         $abilities=array();
         foreach ($res as $a){
             $abilities[$a['type']][]=$a;
         }
-        $abilityjob=$this->abilityjob_model->get_row(array('id'=>$abilityjob_id));
         $this->load->view ( 'header' );
-        $this->load->view ( 'ability/resultdetail',compact('abilities','abilityjob'));
+        $this->load->view ( 'ability/resultdetail',compact('evaluation','abilities','abilityjob'));
         $this->load->view ( 'footer' );
     }
 
     public function resultrecommend($abilityjob_id){
         $sql = "select count(*) as num,sum(point) as point,sum(level) as level,type from " . $this->db->dbprefix('company_ability_job_student_assess') . " assess "
-            . "where assess.company_code = '".$this->_logininfo['company_code']."' and assess.ability_job_id=$abilityjob_id and student_id=".$this->_logininfo['id'];
+            . "where assess.company_code = '".$this->_logininfo['company_code']."' and assess.ability_job_id=$abilityjob_id and assess.isothersevaluation=2 and student_id=".$this->_logininfo['id'];
         $query = $this->db->query($sql . " group by type order by assess.type asc,assess.id asc ");
         $res = $query->result_array();
         $abilities=array();
@@ -179,19 +210,16 @@ class Ability extends CI_Controller {
         $this->load->view ( 'footer' );
     }
 
-    private function ispublishJob($abilityjob_id){
+    private function isAlowEvaluationid($evaluationid){
         //如果未发布则跳转
-        $companyjob=$this->companyabilityjob_model->get_row(array('company_code'=>$this->_logininfo['company_code'],'ability_job_id'=>$abilityjob_id));
-        $query=$this->db->get_where('company_ability_job_student',array('company_code'=>$this->_logininfo['company_code'],'ability_job_id'=>$abilityjob_id,'student_id'=>$this->_logininfo['id']));
-        $cajs=$query->row_array();
-        if(empty($companyjob)||$companyjob['status']!=1||empty($cajs)||$cajs['isdel']==1){
+        $where="company_code='".$this->_logininfo['company_code']."' and ability_job_evaluation_id=$evaluationid and student_id = ".$this->_logininfo['id'];
+        $query = $this->db->get_where ( 'company_ability_job_evaluation_student', $where );
+        $cajes=$query->row_array();
+        if($cajes['isdel']!=2){
             redirect('ability','index');
             return false;
         }
-        if($cajs['status']==2){
-            redirect(site_url('ability/result/'.$abilityjob_id));
-            return false;
-        }
+
     }
 
 }

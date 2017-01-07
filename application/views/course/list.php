@@ -75,22 +75,6 @@ $(document).ready(function(){
                         <div class="imgBox"><span class="helper"></span><a href="<?php echo site_url('course/info/'.$c['id']) ?>"><img src="<?php echo empty($c['page_img'])?$this->config->item('pc_url').'images/course_default_img.jpg':$this->config->item('pc_url').'uploads/course_img/'.$c['page_img'] ?>" alt="" width="160"></a></div>
                             <div class="listText">
                 <p class="titp"><a class="blue" href="<?php echo site_url('course/info/'.$c['id']) ?>"><?php echo $c['title'] ?></a></p>
-                    <!--<p><?php /*if($c['status']==1){//1报名中3进行中4结束2待开启报名9其他 */?>
-                        <?php /*if($c['apply_status']==3){ */?><span class="orangeH25">待审核</span>
-                        <?php /*}elseif($c['apply_status']==2){ */?><span class="redH25">报名被拒</span>
-                        <?php /*}elseif($c['apply_status']==1){ */?><span class="greenH25">报名成功</span>
-                        <?php /*}elseif($c['apply_num']>0&&$c['apply_count']>=$c['apply_num']){ */?><span class="redH25">报名满额</span>
-                        <?php /*}else{ */?><span class="greenH25">报名中</span><?php /*} */?>
-                    <?php /*}elseif($c['status']==3){ */?>
-                        <?php /*if($c['apply_status']==3){ */?><span class="orangeH25">待审核</span>
-                        <?php /*}elseif($c['apply_status']==2){ */?><span class="redH25">报名被拒</span>
-                        <?php /*}else{ */?><span class="greenH25">进行中</span><?php /*} */?>
-                    <?php /*}elseif($c['status']==4){ */?>
-                        <span class="grayH25">已结束</span>
-                    <?php /*}else{ */?>
-                        <span class="orangeH25">报名未开启</span>
-                    <?php /*} */?>
-                    </p>-->
                     <p><?php  if($c['status']==4){ ?>
                             <span class="grayH25">已结束</span>
                         <?php }else{ ?>

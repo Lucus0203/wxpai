@@ -1166,5 +1166,5 @@ textarea:after {
 
 .ulList li{ font-size:  17px; border-bottom:  1px solid #dcdcdc; text-align: left; padding: 15px 20px;}
 .ulList li a{ color: #666666; display:  block; position: relative;}
-.ulList li a:before{ content:"\f054"; position: absolute; right: 0; display: block; font-family: FontAwesome; color: #999;}
+.ulList li a:before{ content:"\f105"; position: absolute; right: 0; display: block; font-family: FontAwesome; color: #999;}
 

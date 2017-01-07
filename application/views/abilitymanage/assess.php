@@ -1,13 +1,13 @@
 <!--head-->
 <header class="clearfix mb0" id="gHeader">
     <div class="header">
-        <a href="<?php echo site_url('ability/index') ?>"><i class="iright">◇</i></a>能力评估
+        <a href="<?php echo site_url('abilitymanage/staffevaluation/'.$evaluation['id']) ?>"><i class="iright">◇</i></a><?php echo $student['name']?>能力评估
     </div>
 </header>
 <div class="mConts p0 clearfix">
     <div class="pinggu">
         <p class="aCenter f24 mb20"><?php echo $abilityjob['name'] ?></p>
-        <p>能力评估能够帮助你更好的了解自己的职业能力，发现自己欠缺的技能或经验</p>
+        <p>能力评估能够帮助员工更好的了解自己的职业能力，发现欠缺的技能或经验</p>
         <ul class="pinggulist">
             <?php foreach ($countarry as $a){ ?>
                 <?php if($a['type']==1){
@@ -26,7 +26,7 @@
     </div>
     <div class="bottomFix">
 
-        <a href="<?php echo site_url('ability/evaluate/'.$evaluation['id']) ?>" class="blueBtnH40">开始评估</a>
+        <a href="<?php echo site_url('abilitymanage/evaluate/'.$evaluation['id'].'/'.$student['id']) ?>" class="blueBtnH40">开始评估</a>
 
     </div>
 

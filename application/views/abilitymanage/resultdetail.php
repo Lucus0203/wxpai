@@ -12,12 +12,12 @@
 </script>
 <header class="clearfix mb0" id="gHeader">
     <div class="header">
-        <a href="<?php echo site_url('ability/index') ?>"><i class="iright">◇</i></a><?php echo $abilityjob['name'] ?>评估结果
+        <a href="<?php echo site_url('abilitymanage/staffevaluation/'.$evaluation['id']) ?>"><i class="iright">◇</i></a><?php echo $student['name'] ?><?php echo ($isother)?'他评结果':'自评结果' ?>
     </div>
 </header>
 <div class="mConts p0">
     <div class="pinggu">
-        <p class="mb20 aCenter"><a href="<?php echo site_url('ability/result/'.$evaluation['id']) ?>" class="gray3 f18"><i class="fa fa-chevron-up fa-lg gray9"></i><br>详细显示</a>
+        <p class="mb20 aCenter"><a href="<?php echo ($isother)?site_url('abilitymanage/resultother/'.$evaluation['id'].'/'.$student['id']):site_url('abilitymanage/result/'.$evaluation['id'].'/'.$student['id']) ?>" class="gray3 f18"><i class="fa fa-chevron-up fa-lg gray9"></i><br>详细显示</a>
         </p>
         <p class="mb20"><i class="fa fa-star fa-lg starColorBlue"></i><?php echo $abilityjob['name'] ?>&nbsp;<i class="fa fa-star fa-lg starColorYellow"></i><?php echo $loginInfo['name'] ?></p>
 
@@ -65,5 +65,5 @@
 
 </div>
 <div class="bottomFix">
-    <a href="<?php echo site_url('ability/index') ?>"><span class="blueBtnH40 mb0 noradius">完成</span></a>
+    <a href="<?php echo site_url('abilitymanage/staffevaluation/'.$evaluation['id']) ?>"><span class="blueBtnH40 mb0 noradius">完成</span></a>
 </div>

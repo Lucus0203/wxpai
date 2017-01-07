@@ -4,7 +4,7 @@
             var num=$('#current_num').val();
             $.ajax({
                 type:"post",
-                url:'<?php echo site_url('ability/more/') ?>',
+                url:'<?php echo site_url('abilitymanage/more/') ?>',
                 data:{'num':num},
                 datatype:'jsonp',
                 success:function(res){
@@ -13,21 +13,13 @@
                     var str='';
                     $.each(json_obj,function(i,item){
                         str+='<dt>'+item.name+'</dt>'+
-                            '<dd><p class="fLeft">岗位职级：'+item.level+'<br>'+
-                        '结束时间：'+item.time_end+'<br>'+
-                        '评估状态：';
-                        if(item.status==2){
-                            str+='<span class="green">已完成</span>';
-                        }else if(item.status==1){
-                            str+='<span class="red">未评估</span>';
-                        }
-                        str+='</p><p class="fRight pt10">';
-                        if(item.status==2){
-                            str+='<a href="<?php echo base_url() ?>ability/result/'+item.id+'" class="borBlue">查看结果</a>';
-                        }else if(item.status==1){
-                            str+='<a href="<?php echo base_url() ?>ability/assess/'+item.id+'" class="borBlue">开始评估</a>';
-                        }
-                        str+='</p></dd>';
+                            '<dd><p class="fLeft">能力模型：'+item.ability_name+'<br>'+
+                            '岗位职级：'+item.level+'<br>'+
+                            '结束时间：'+item.time_end+'<br>'+
+                            '评估员工：'+item.students+
+                            '</p><p class="fRight pt10">'+
+                            '<a href="<?php echo base_url() ?>abilitymanage/evaluation/'+item.ability_job_evaluation_id+'" class="borBlue">查看</a>'+
+                            '</p></dd>';
                         ++count;
                     });
                     $('.caiwuList').append(str);
@@ -43,7 +35,7 @@
 </script>
 <!--head-->
 <header class="clearfix mb0" id="gHeader">
-    <div class="header">能力评估</div>
+    <div class="header">员工能力评估</div>
 </header>
 <div class="mConts">
     <dl class="caiwuList">
@@ -53,10 +45,11 @@
             <?php foreach ($jobs as $c){ ?>
                 <dt><?php echo $c['name'] ?></dt>
                 <dd>
-                    <p class="fLeft">岗位职级：<?php echo $c['level'] ?><br>
+                    <p class="fLeft">能力模型：<?php echo $c['ability_name'] ?><br>
+                        岗位职级：<?php echo $c['level'] ?><br>
                         结束时间：<?php echo date("m-d H:i",strtotime($c['time_end'])) ?><br>
-                        评估状态：<?php echo ($c['status']=='2')?'<span class="green mr10">已完成</span>':'<span class="red mr10">未评估</span>'; ?></p>
-                    <p class="fRight pt10"><?php echo ($c['status']=='2')?'<a href="'. site_url('ability/result/'.$c['id']) .'" class="borBlue">查看结果</a>':'<a href="'. site_url('ability/assess/'.$c['id']) .'" class="borBlue">开始评估</a>'; ?></p>
+                        评估员工：<?php echo $c['students'] ?></p>
+                    <p class="fRight pt10"><a href="<?php echo site_url('abilitymanage/staffevaluation/'.$c['ability_job_evaluation_id']) ?>" class="borBlue">查看</a></p>
                 </dd>
             <?php } ?>
         <?php }else{ ?>

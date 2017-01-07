@@ -72,20 +72,19 @@
 </script>
 <header class="clearfix mb0" id="gHeader">
     <div class="header">
-        <a href="<?php echo site_url('ability/index') ?>"><i class="iright">◇</i></a><?php echo $abilityjob['name'] ?>评估结果
+        <a href="<?php echo site_url('abilitymanage/staffevaluation/'.$evaluation['id']) ?>"><i class="iright">◇</i></a><?php echo $abilityjob['name'] ?>评估结果
     </div>
 </header>
 <div class="mConts p0" style="overflow: hidden;">
     <div class="pinggu">
-        <p class="aCenter f24 mb20">恭喜你，评估完成</p>
-        <p class="gray9 f16 aCenter">自我评估结果</p>
+        <p class="aCenter f24 mb20"><?php echo $student['name']?><?php echo ($isother)?'他评结果':'自评结果' ?></p>
         <div id="canvas-wrap" style="width:100%;">
             <canvas id="canvas"></canvas>
         </div>
     </div>
     <div class="bottom">
 
-        <a href="<?php echo site_url('ability/resultdetail/'.$evaluation['id']) ?>" class="gray3 f18">查看详情<br><i class="fa fa-chevron-down fa-lg"></i></a>
+        <a href="<?php echo ($isother)?site_url('abilitymanage/resultdetailother/'.$evaluation['id'].'/'.$student['id']):site_url('abilitymanage/resultdetail/'.$evaluation['id'].'/'.$student['id']) ?>" class="gray3 f18">查看详情<br><i class="fa fa-chevron-down fa-lg gray9"></i></a>
 
     </div>
 
