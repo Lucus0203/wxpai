@@ -14,7 +14,7 @@
             data: {
                 labels: [<?php if(array_key_exists(1,$abilities)){?>"专业/技能",<?php } ?> <?php if(array_key_exists(3,$abilities)){?>"领导力",<?php } ?><?php if(array_key_exists(5,$abilities)){?>"经验",<?php } ?><?php if(array_key_exists(4,$abilities)){?>"个性",<?php } ?><?php if(array_key_exists(2,$abilities)){?>"通用",<?php } ?>],
                 datasets: [{
-                    label:'<?php echo $student['name'] ?>',
+                    label:'<?php echo $loginInfo['name'] ?>',
                     backgroundColor: "rgba(255, 206, 73,0.5)",
                     pointBackgroundColor: "rgba(255, 206, 73,1)",
                     data: [<?php if(array_key_exists(1,$abilities)){ echo round($abilities[1]['point']/$abilities[1]['level']*5,1) ?>,<?php } ?>
