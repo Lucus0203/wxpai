@@ -23,7 +23,7 @@
 </script>
 <header class="clearfix mb0" id="gHeader">
     <div class="header">
-        <a href="<?php echo site_url('abilitymanage/staffevaluation/'.$evaluation['id']) ?>"><i class="iright">◇</i></a><?php echo $abilityjob['name']?>能力评估
+        <a href="<?php echo site_url('abilitymanage/staffevaluation/'.$evaluation['id']) ?>"><i class="iright">◇</i></a><?php echo $student['name']?>能力评估
     </div>
 </header>
 <div class="mConts p0 mb0">
