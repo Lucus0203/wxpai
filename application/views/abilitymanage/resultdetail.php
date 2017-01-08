@@ -19,7 +19,7 @@
     <div class="pinggu">
         <p class="mb20 aCenter"><a href="<?php echo ($isother)?site_url('abilitymanage/resultother/'.$evaluation['id'].'/'.$student['id']):site_url('abilitymanage/result/'.$evaluation['id'].'/'.$student['id']) ?>" class="gray3 f18"><i class="fa fa-chevron-up fa-lg gray9"></i><br>详细显示</a>
         </p>
-        <p class="mb20"><i class="fa fa-star fa-lg starColorBlue"></i><?php echo $abilityjob['name'] ?>&nbsp;<i class="fa fa-star fa-lg starColorYellow"></i><?php echo $loginInfo['name'] ?></p>
+        <p class="mb20"><i class="fa fa-star fa-lg starColorBlue"></i><?php echo $abilityjob['name'] ?>&nbsp;<i class="fa fa-star fa-lg starColorYellow"></i><?php echo $student['name'] ?></p>
 
         <?php foreach ($abilities as $key=>$abilies) { ?>
             <div class="abilityBox">
