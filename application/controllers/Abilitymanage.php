@@ -184,7 +184,7 @@ class Abilitymanage extends CI_Controller {
         $point=count($totalLevel)>0?$totalPoint/$totalLevel*5:0;//总分5
         $this->db->where ( array('company_code'=>$company_code,'ability_job_evaluation_id'=>$evaluationid,'student_id'=>$studentid) );
         $this->db->update ( 'company_ability_job_evaluation_student', array('others_id'=>$this->_logininfo['id'],'others_status'=>2,'others_point'=>$point) );
-        redirect(site_url('abilitymanage/result/'.$evaluationid.'/'.$studentid));
+        redirect(site_url('abilitymanage/resultother/'.$evaluationid.'/'.$studentid));
     }
 
     public function result($evaluationid,$studentid){
