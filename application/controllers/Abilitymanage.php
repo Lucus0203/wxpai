@@ -122,7 +122,7 @@ class Abilitymanage extends CI_Controller {
         $student=$this->student_model->get_row(array('id'=>$studentid));
         $evaluation=$this->companyabilityjobevaluation_model->get_row(array('id'=>$evaluationid));
         $abilityjob=$this->companyabilityjob_model->get_row(array('id'=>$evaluation['ability_job_id']));
-        $sql = "select ability.* from " . $this->db->dbprefix('company_ability_job_model') . " job_model "
+        $sql = "select ability.*,job_model.level_standard from " . $this->db->dbprefix('company_ability_job_model') . " job_model "
             . "left join " . $this->db->dbprefix('company_ability_model') . " ability on ability.id = job_model.ability_model_id "
             . "where job_model.ability_job_id = ".$abilityjob['id']." and ability.company_code='".$this->_logininfo['company_code']."' ";
         $query = $this->db->query($sql . " order by ability.type asc,job_model.id asc ");

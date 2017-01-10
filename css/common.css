@@ -927,12 +927,12 @@ textarea:after {
 	font-size: 16px;
 }
 
-.starBox li.yellow a {
-	color: #ffce49;
+.starBox li.blue a {
+    color: #9de0e7;
 }
 
-.starBox li.blue a {
-	color: #9de0e7;
+.starBox li.yellow a {
+	color: #ffce49;
 }
 
 .starBox li.cur a {
