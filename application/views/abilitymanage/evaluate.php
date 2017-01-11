@@ -28,7 +28,7 @@
 </header>
 <div class="mConts p0 mb0">
     <div class="pinggu">
-        <p class="mb20"><i class="fa fa-star fa-lg starColorBlue"></i><?php echo $abilityjob['name'] ?>&nbsp;<i class="fa fa-star fa-lg starColorYellow"></i><?php echo $student['name'] ?></p>
+        <!--<p class="mb20"><i class="fa fa-star fa-lg starColorBlue"></i><?php echo $abilityjob['name'] ?>&nbsp;<i class="fa fa-star fa-lg starColorYellow"></i><?php echo $student['name'] ?></p>-->
         <form method="post" action="<?php echo site_url('abilitymanage/evaluatestore') ?>">
             <input type="hidden" name="evaluation_id" value="<?php echo $evaluation['id']?>" />
             <input type="hidden" name="student_id" value="<?php echo $student['id']?>" />
