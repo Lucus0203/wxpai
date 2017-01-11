@@ -57,7 +57,7 @@
                         <div class="starBox mt10">
                             <ul class="star">
                                 <?php for($i=1;$i<=$a['level'];$i++){?>
-                                    <li class="<?php if($a['level_standard']==$i){echo 'blue';} ?>">
+                                    <li class="<?php if($a['level_standard']==$i){//echo 'blue';} ?>">
                                         <a href="#"><i class="fa fa-star fa-3x"></i><span class="num"><?php echo $i ?></span></a>
                                     </li>
                                 <?php } ?>
